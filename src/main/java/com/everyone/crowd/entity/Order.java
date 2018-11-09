@@ -1,4 +1,4 @@
-package com.everyone.crowd.entitiy;
+package com.everyone.crowd.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
