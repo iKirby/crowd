@@ -16,6 +16,6 @@ public class User {
     private String email;
     private BigDecimal balance;
     private String twoFactor;
-    private String activeCode;
+    private String activateCode;
     private Boolean activated;
 }
