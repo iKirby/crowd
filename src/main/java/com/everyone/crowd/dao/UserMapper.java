@@ -9,11 +9,14 @@ import java.math.BigDecimal;
 @Repository
 public interface UserMapper {
 
-    @Select("SELECT * FROM t_users WHERE username = #{username}")
-    User findByUsername(String username);
+    @Select("SELECT * FROM t_users WHERE id = #{id}")
+    User findById(@Param("id") Integer id);
 
-    @Select("SELECT * FROM t_users WHERE cookie = #{value}")
-    User findByCookie(String cookie);
+    @Select("SELECT * FROM t_users WHERE username = #{username}")
+    User findByUsername(@Param("username") String username);
+
+    @Select("SELECT * FROM t_users WHERE cookie = #{cookie}")
+    User findByCookie(@Param("cookie") String cookie);
 
     @Insert("INSERT INTO t_users (username, password, email, activate_code) VALUES (#{username}, #{password}, #{email}, #{activateCode})")
     @Options(useGeneratedKeys = true)
@@ -39,4 +42,7 @@ public interface UserMapper {
 
     @Update("UPDATE t_users SET balance = #{balance} WHERE id = #{id}")
     Integer updateBalance(@Param("id") Integer id, @Param("balance") BigDecimal balance);
+
+    @Select("SELECT COUNT(id) FROM t_users WHERE username = #{username}")
+    Integer countExists(@Param("username") String username);
 }

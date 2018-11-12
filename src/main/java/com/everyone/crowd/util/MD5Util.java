@@ -14,7 +14,7 @@ public class MD5Util {
      * @param str input string
      * @return MD5 of the input string
      */
-    private static String encrypt(String str) {
+    public static String encrypt(String str) {
         return DigestUtils.md5DigestAsHex(str.getBytes(StandardCharsets.UTF_8));
     }
 
