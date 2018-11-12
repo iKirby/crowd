@@ -115,6 +115,6 @@ public class UserServiceImpl implements UserService {
         userPage.setCurrentPage(page);
         userPage.setPageSize(pageSize);
         userPage.setTotalPage(totalPage);
-        return null;
+        return userPage;
     }
 }
