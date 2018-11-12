@@ -1,5 +1,6 @@
 package com.everyone.crowd.service;
 
+import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.entity.User;
 
 public interface UserService {
@@ -27,4 +28,6 @@ public interface UserService {
     void updateTwoFactor(User user);
 
     void updateBalance(User user);
+
+    Page<User> findAllPaged(int pageSize, int page);
 }

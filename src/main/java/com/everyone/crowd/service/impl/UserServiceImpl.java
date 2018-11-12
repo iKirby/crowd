@@ -1,6 +1,7 @@
 package com.everyone.crowd.service.impl;
 
 import com.everyone.crowd.dao.UserMapper;
+import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.entity.User;
 import com.everyone.crowd.service.UserService;
 import com.everyone.crowd.util.MD5Util;
@@ -8,6 +9,7 @@ import com.warrenstrange.googleauth.GoogleAuthenticator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -97,5 +99,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateBalance(User user) {
         userMapper.updateBalance(user.getId(), user.getBalance());
+    }
+
+    @Override
+    public Page<User> findAllPaged(int pageSize, int page) {
+        int total = userMapper.getUserCount();
+        List<User> content = userMapper.findAllPaged(pageSize * (page - 1), pageSize);
+        int totalPage = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
+        Page<User> userPage = new Page<>();
+        userPage.setContent(content);
+        userPage.setCurrentPage(page);
+        userPage.setPageSize(pageSize);
+        userPage.setTotalPage(totalPage);
+        return null;
     }
 }
