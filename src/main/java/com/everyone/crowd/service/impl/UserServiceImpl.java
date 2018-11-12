@@ -57,6 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(User user) {
+        user.setPassword(MD5Util.encrypt(user.getPassword()));
         user.setActivateCode(MD5Util.encrypt(user.getUsername() + user.getEmail()));
         userMapper.insert(user);
     }
