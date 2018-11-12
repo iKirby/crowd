@@ -18,4 +18,5 @@ public class User {
     private String twoFactor;
     private String activateCode;
     private Boolean activated;
+    private String cookie;
 }
