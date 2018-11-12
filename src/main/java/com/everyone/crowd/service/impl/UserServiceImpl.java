@@ -48,6 +48,8 @@ public class UserServiceImpl implements UserService {
     public User twoFactorAuth(User userToLogin, Integer twoFACode) {
         User user = userMapper.findById(userToLogin.getId());
         if (ga.authorize(user.getTwoFactor(), twoFACode)) {
+            String cookie = user.getUsername() + UUID.randomUUID().toString();
+            user.setCookie(cookie);
             user.setPassword(null);
             user.setTwoFactor("");
             return user;
