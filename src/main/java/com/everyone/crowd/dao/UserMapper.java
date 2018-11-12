@@ -2,17 +2,18 @@ package com.everyone.crowd.dao;
 
 import com.everyone.crowd.entity.User;
 import org.apache.ibatis.annotations.*;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 
-@Mapper
+@Repository
 public interface UserMapper {
 
     @Select("SELECT * FROM t_users WHERE username = #{username}")
-    User getByUsername(User user);
+    User findByUsername(String username);
 
     @Select("SELECT * FROM t_users WHERE cookie = #{value}")
-    User getByCookie(String cookie);
+    User findByCookie(String cookie);
 
     @Insert("INSERT INTO t_users (username, password, email, activate_code) VALUES (#{username}, #{password}, #{email}, #{activateCode})")
     @Options(useGeneratedKeys = true)
