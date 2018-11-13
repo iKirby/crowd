@@ -27,4 +27,21 @@ public class Page<T> {
     public int getCurrentSize() {
         return content.size();
     }
+
+    public void setTotal(int total) {
+        this.total = total;
+        updatePageInfo();
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+        updatePageInfo();
+    }
+
+    private void updatePageInfo() {
+        if (total == 0 || pageSize == 0) {
+            return;
+        }
+        totalPage = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
+    }
 }

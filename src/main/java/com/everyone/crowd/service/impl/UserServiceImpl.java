@@ -109,12 +109,11 @@ public class UserServiceImpl implements UserService {
     public Page<User> findAllPaged(int pageSize, int page) {
         int total = userMapper.getUserCount();
         List<User> content = userMapper.findAllPaged(pageSize * (page - 1), pageSize);
-        int totalPage = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
         Page<User> userPage = new Page<>();
         userPage.setContent(content);
         userPage.setCurrentPage(page);
+        userPage.setTotal(total);
         userPage.setPageSize(pageSize);
-        userPage.setTotalPage(totalPage);
         return userPage;
     }
 }
