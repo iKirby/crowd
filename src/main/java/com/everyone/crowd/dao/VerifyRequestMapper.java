@@ -18,6 +18,7 @@ public interface VerifyRequestMapper {
     List<VerifyRequest> findByUserId(@Param("userId") Integer userId, @Param("offset") int offset, @Param("size") int size);
 
     @Insert("INSERT INTO t_verifyrequests (user_id, type, real_name, cert_type, cert_no, msg, attachment) VALUES (#{userId}, #{type}, #{realName}, #{certType}, #{certNo}, #{msg}, #{attachment})")
+    @Options(useGeneratedKeys = true)
     int insert(VerifyRequest verifyRequest);
 
     @Update("UPDATE t_verifyrequests SET processed = TRUE WHERE id = #{id}")
