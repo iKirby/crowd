@@ -11,7 +11,7 @@ public interface VerifyRequestService {
 
     Page<VerifyRequest> findByUserId(Integer userId, int pageSize, int page);
 
-    void request(VerifyRequest verifyRequest);
+    int request(VerifyRequest verifyRequest);
 
     void process(Integer id);
 

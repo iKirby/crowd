@@ -62,8 +62,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void place(Order order) {
-        orderMapper.insert(order);
+    public int place(Order order) {
+        return orderMapper.insert(order);
     }
 
     @Override

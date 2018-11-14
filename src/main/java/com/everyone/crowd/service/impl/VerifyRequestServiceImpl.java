@@ -48,8 +48,8 @@ public class VerifyRequestServiceImpl implements VerifyRequestService {
     }
 
     @Override
-    public void request(VerifyRequest verifyRequest) {
-        verifyRequestMapper.insert(verifyRequest);
+    public int request(VerifyRequest verifyRequest) {
+        return verifyRequestMapper.insert(verifyRequest);
     }
 
     @Override

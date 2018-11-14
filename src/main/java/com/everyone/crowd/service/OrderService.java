@@ -15,7 +15,7 @@ public interface OrderService {
 
     Page<Order> findByStatus(String status, int pageSize, int page);
 
-    void place(Order order);
+    int place(Order order);
 
     void updateStatus(Integer id, String status);
 

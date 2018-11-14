@@ -11,7 +11,7 @@ public interface UserService {
 
     User twoFactorAuth(User userToLogin, Integer twoFACode);
 
-    void register(User user);
+    int register(User user);
 
     void logout(User user);
 
