@@ -6,6 +6,7 @@ import com.everyone.crowd.entity.VerifyRequest;
 import com.everyone.crowd.service.VerifyRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -48,17 +49,20 @@ public class VerifyRequestServiceImpl implements VerifyRequestService {
     }
 
     @Override
+    @Transactional
     public int request(VerifyRequest verifyRequest) {
         return verifyRequestMapper.insert(verifyRequest);
     }
 
     @Override
+    @Transactional
     public void process(Integer id) {
         // TODO Add profile status modification
         verifyRequestMapper.process(id);
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
         verifyRequestMapper.deleteById(id);
     }

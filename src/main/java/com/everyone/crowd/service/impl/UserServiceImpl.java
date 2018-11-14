@@ -8,6 +8,7 @@ import com.everyone.crowd.util.MD5Util;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,12 +24,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User login(User userToLogin) {
         User user = userMapper.findByUsername(userToLogin.getUsername());
         if (user != null) {
             if (MD5Util.verifySaltedString(user.getPassword(), userToLogin.getPassword())) {
                 if (user.getTwoFactor() == null) {
                     String cookie = user.getUsername() + UUID.randomUUID().toString();
+                    userMapper.updateCookie(user.getId(), cookie);
                     user.setCookie(cookie);
                 }
                 user.setPassword(null);
@@ -45,10 +48,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User twoFactorAuth(User userToLogin, Integer twoFACode) {
         User user = userMapper.findById(userToLogin.getId());
         if (ga.authorize(user.getTwoFactor(), twoFACode)) {
             String cookie = user.getUsername() + UUID.randomUUID().toString();
+            userMapper.updateCookie(user.getId(), cookie);
             user.setCookie(cookie);
             user.setPassword(null);
             user.setTwoFactor("");
@@ -58,6 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public int register(User user) {
         user.setPassword(MD5Util.saltEncrypt(user.getPassword()));
         user.setActivateCode(MD5Util.encrypt(user.getUsername() + user.getEmail()));
@@ -65,11 +71,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void logout(User user) {
         userMapper.updateCookie(user.getId(), null);
     }
 
     @Override
+    @Transactional
     public void update(User user) {
         userMapper.update(user);
     }
@@ -80,27 +88,32 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean activate(String activateCode) {
         return userMapper.activate(activateCode) > 0;
     }
 
     @Override
+    @Transactional
     public void updateEmail(User user) {
         userMapper.updateEmail(user.getId(), user.getEmail());
     }
 
     @Override
+    @Transactional
     public void updatePassword(User user) {
         user.setPassword(MD5Util.saltEncrypt(user.getPassword()));
         userMapper.updatePassword(user.getId(), user.getPassword());
     }
 
     @Override
+    @Transactional
     public void updateTwoFactor(User user) {
         userMapper.updateTwoFactor(user.getId(), user.getTwoFactor());
     }
 
     @Override
+    @Transactional
     public void updateBalance(User user) {
         userMapper.updateBalance(user.getId(), user.getBalance());
     }

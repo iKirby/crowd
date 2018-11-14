@@ -4,6 +4,7 @@ import com.everyone.crowd.dao.SettingsMapper;
 import com.everyone.crowd.service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SettingsServiceImpl implements SettingsService {
@@ -22,11 +23,13 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     @Override
+    @Transactional
     public void delete(String key) {
         settingsMapper.delete(key);
     }
 
     @Override
+    @Transactional
     public void set(String key, String value) {
         if (settingsMapper.get(key) != null) {
             settingsMapper.set(key, value);
