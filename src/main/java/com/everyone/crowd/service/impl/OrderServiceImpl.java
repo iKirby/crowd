@@ -6,6 +6,7 @@ import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -62,21 +63,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public int place(Order order) {
         return orderMapper.insert(order);
     }
 
     @Override
+    @Transactional
     public void updateStatus(Integer id, String status) {
         orderMapper.updateStatus(id, status);
     }
 
     @Override
+    @Transactional
     public void completeOrder(Integer id, Date completeTime) {
         orderMapper.completeOrder(id, completeTime);
     }
 
     @Override
+    @Transactional
     public void delete(Integer id) {
         orderMapper.delete(id);
     }
