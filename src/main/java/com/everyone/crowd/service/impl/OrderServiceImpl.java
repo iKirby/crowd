@@ -2,6 +2,7 @@ package com.everyone.crowd.service.impl;
 
 import com.everyone.crowd.dao.OrderMapper;
 import com.everyone.crowd.entity.Order;
+import com.everyone.crowd.entity.OrderComment;
 import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<Order> findByDevId(Integer devId, int pageSize, int page) {
         int total = orderMapper.countByDevId(devId);
-        List<Order> content = orderMapper.findByDevId(devId, pageSize * (page - 1), page);
+        List<Order> content = orderMapper.findByDevId(devId, pageSize * (page - 1), pageSize);
         Page<Order> orderPage = new Page<>();
         orderPage.setContent(content);
         orderPage.setCurrentPage(page);
@@ -41,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<Order> findByCustomerId(Integer customerId, int pageSize, int page) {
         int total = orderMapper.countByCustomerId(customerId);
-        List<Order> content = orderMapper.findByCustomerId(customerId, pageSize * (page - 1), page);
+        List<Order> content = orderMapper.findByCustomerId(customerId, pageSize * (page - 1), pageSize);
         Page<Order> orderPage = new Page<>();
         orderPage.setContent(content);
         orderPage.setCurrentPage(page);
@@ -53,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Page<Order> findByStatus(String status, int pageSize, int page) {
         int total = orderMapper.countByStatus(status);
-        List<Order> content = orderMapper.findByStatus(status, pageSize * (page - 1), page);
+        List<Order> content = orderMapper.findByStatus(status, pageSize * (page - 1), pageSize);
         Page<Order> orderPage = new Page<>();
         orderPage.setContent(content);
         orderPage.setCurrentPage(page);
@@ -84,5 +85,36 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void delete(Integer id) {
         orderMapper.delete(id);
+    }
+
+    @Override
+    public OrderComment findCommentByOrderId(Integer orderId) {
+        return orderMapper.findCommentByOrderId(orderId);
+    }
+
+    @Override
+    @Transactional
+    public void devComment(Integer orderId, String comment) {
+        if (orderMapper.commentExists(orderId) > 0) {
+            orderMapper.updateDevComment(orderId, comment);
+        } else {
+            OrderComment orderComment = new OrderComment();
+            orderComment.setOrderId(orderId);
+            orderComment.setDevComment(comment);
+            orderMapper.insertDevComment(orderComment);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void customerComment(Integer orderId, String comment) {
+        if (orderMapper.commentExists(orderId) > 0) {
+            orderMapper.updateCustomerComment(orderId, comment);
+        } else {
+            OrderComment orderComment = new OrderComment();
+            orderComment.setOrderId(orderId);
+            orderComment.setCustomerComment(comment);
+            orderMapper.insertCustomerComment(orderComment);
+        }
     }
 }

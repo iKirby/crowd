@@ -1,6 +1,7 @@
 package com.everyone.crowd.service;
 
 import com.everyone.crowd.entity.Order;
+import com.everyone.crowd.entity.OrderComment;
 import com.everyone.crowd.entity.Page;
 
 import java.util.Date;
@@ -22,4 +23,10 @@ public interface OrderService {
     void completeOrder(Integer id, Date completeTime);
 
     void delete(Integer id);
+
+    OrderComment findCommentByOrderId(Integer orderId);
+
+    void devComment(Integer orderId, String comment);
+
+    void customerComment(Integer orderId, String comment);
 }

@@ -45,6 +45,12 @@ public interface OrderMapper {
     @Delete("DELETE FROM t_orders WHERE id = #{id}")
     int delete(@Param("id") Integer id);
 
+    @Select("SELECT * FROM t_ordercomments WHERE order_id = #{orderId}")
+    OrderComment findCommentByOrderId(@Param("orderId") Integer orderId);
+
+    @Select("SELECT COUNT(order_id) FROM t_ordercomments WHERE order_id = #{orderId}")
+    int commentExists(@Param("orderId") Integer orderId);
+
     @Insert("INSERT INTO t_ordercomments (order_id, dev_comment) VALUES (#{orderId}, #{devComment})")
     @Options(useGeneratedKeys = true)
     int insertDevComment(OrderComment orderComment);
