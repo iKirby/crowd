@@ -8,9 +8,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class Announcement {
-    private  Integer id;
-    private  String title;
-    private  String content;
+    private Integer id;
+    private String title;
+    private String content;
 
 
 }

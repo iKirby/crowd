@@ -10,10 +10,10 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 public class Bid {
-    private  Integer id;
-    private  Integer demandId;
-    private  Integer devId;
-    private  BigDecimal price;
-    private  String msg;
-    private  String attachment;
+    private Integer id;
+    private Integer demandId;
+    private Integer devId;
+    private BigDecimal price;
+    private String msg;
+    private String attachment;
 }

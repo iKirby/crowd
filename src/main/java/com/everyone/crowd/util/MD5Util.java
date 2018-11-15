@@ -11,6 +11,7 @@ public class MD5Util {
 
     /**
      * MD5 hash
+     *
      * @param str input string
      * @return MD5 of the input string
      */
@@ -20,6 +21,7 @@ public class MD5Util {
 
     /**
      * MD5 with salt
+     *
      * @param str input string
      * @return salted MD5 of input string
      */
@@ -31,8 +33,9 @@ public class MD5Util {
 
     /**
      * Verify salted string with original string
+     *
      * @param salted salted string
-     * @param orig original string
+     * @param orig   original string
      * @return true if salted string is corresponding to original string
      */
     public static boolean verifySaltedString(String salted, String orig) {
@@ -43,6 +46,7 @@ public class MD5Util {
 
     /**
      * Get random salt
+     *
      * @return salt string
      */
     private static String getSalt() {
