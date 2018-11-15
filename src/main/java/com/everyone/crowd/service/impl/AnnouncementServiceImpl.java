@@ -2,6 +2,7 @@ package com.everyone.crowd.service.impl;
 
 import com.everyone.crowd.dao.AnnouncementMapper;
 import com.everyone.crowd.entity.Announcement;
+import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.service.AnnouncementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,8 +39,31 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    @Transactional
-    public List<Announcement> findByTitle(String title) {
-        return announcementMapper.findByTitle(title);
+    public Announcement findById(Integer id) {
+        return announcementMapper.findById(id);
+    }
+
+    @Override
+    public Page<Announcement> findByTitle(String title, int pageSize, int page) {
+        int total = announcementMapper.countByTitle(title);
+        List<Announcement> content = announcementMapper.findByTitle(title, pageSize * (page - 1), pageSize);
+        Page<Announcement> announcementPage = new Page<>();
+        announcementPage.setContent(content);
+        announcementPage.setCurrentPage(page);
+        announcementPage.setTotal(total);
+        announcementPage.setPageSize(pageSize);
+        return announcementPage;
+    }
+
+    @Override
+    public Page<Announcement> findAll(int pageSize, int page) {
+        int total = announcementMapper.count();
+        List<Announcement> content = announcementMapper.findAll(pageSize * (page - 1), pageSize);
+        Page<Announcement> announcementPage = new Page<>();
+        announcementPage.setContent(content);
+        announcementPage.setCurrentPage(page);
+        announcementPage.setTotal(total);
+        announcementPage.setPageSize(pageSize);
+        return announcementPage;
     }
 }

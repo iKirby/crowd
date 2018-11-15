@@ -1,13 +1,18 @@
 package com.everyone.crowd.service;
 
 import com.everyone.crowd.entity.Announcement;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import com.everyone.crowd.entity.Page;
 
 public interface AnnouncementService {
     void insert(Announcement announcement);
+
     void delete(Integer id);
+
     void update(Announcement announcement);
-    List<Announcement> findByTitle(String title);
+
+    Announcement findById(Integer id);
+
+    Page<Announcement> findByTitle(String title, int pageSize, int page);
+
+    Page<Announcement> findAll(int pageSize, int page);
 }

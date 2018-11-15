@@ -18,6 +18,18 @@ public interface AnnouncementMapper {
     @Update("UPDATE t_announcements SET title = #{title}, content = #{content}")
     int update(Announcement announcement);
 
-    @Select("SELECT * FROM t_announcements WHERE title LIKE '%${title}%'")
-    List<Announcement> findByTitle(@Param("title") String title);
+    @Select("SELECT * FROM t_announcements WHERE id = #{id}")
+    Announcement findById(@Param("id") Integer id);
+
+    @Select("SELECT * FROM t_announcements WHERE title LIKE '%${title}%' LIMIT #{offset}, #{size}")
+    List<Announcement> findByTitle(@Param("title") String title, @Param("offset") int offset, @Param("size") int size);
+
+    @Select("SELECT * FROM t_announcements LIMIT #{offset}, #{size}")
+    List<Announcement> findAll(@Param("offset") int offset, @Param("size") int size);
+
+    @Select("SELECT COUNT(id) FROM t_announcements WHERE title LIKE '%${title}%'")
+    int countByTitle(@Param("title") String title);
+
+    @Select("SELECT COUNT(id) FROM t_announcements")
+    int count();
 }
