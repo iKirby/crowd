@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
+
 @Repository
 public interface AdminMapper {
     @Select("SELECT * FROM t_admins WHERE username = #{username}")
