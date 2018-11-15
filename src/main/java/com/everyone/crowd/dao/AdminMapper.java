@@ -11,7 +11,13 @@ public interface AdminMapper {
     @Select("SELECT * FROM t_admins WHERE username = #{username}")
     Admin findByUsername(@Param("username") String username);
 
+    @Select("SELECT * FROM t_admins WHERE id = #{id}")
+    Admin findById(@Param("id") Integer id);
+
     @Update("UPDATE t_admins SET password = #{password} WHERE id = #{id}")
     int updatePassword(@Param("id") Integer id, @Param("password") String password);
+
+    @Update("UPDATE t_admins SET cookie = #{cookie} WHERE id = #{id}")
+    int updateCookie(@Param("id") Integer id, @Param("cookie") String cookie);
 
 }

@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 public class AdminServiceImpl implements AdminService {
     private final AdminMapper adminMapper;
@@ -24,7 +26,13 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = adminMapper.findByUsername(adminToLogin.getUsername());
         if (admin != null) {
             if (MD5Util.verifySaltedString(admin.getPassword(), adminToLogin.getPassword())) {
-
+                if (admin.getTwoFactor() == null) {
+                    String cookie = admin.getUsername() + UUID.randomUUID().toString();
+                    adminMapper.updateCookie(admin.getId(), cookie);
+                    admin.setCookie(cookie);
+                }
+                admin.setTwoFactor(null);
+                admin.setPassword(null);
                 return admin;
             }
         }
@@ -32,7 +40,21 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Admin twoFactorAuth(Admin adminToLogin, int twoFACode) {
+        Admin admin = adminMapper.findById(adminToLogin.getId());
+        if (ga.authorize(admin.getTwoFactor(), twoFACode)) {
+            String cookie = admin.getUsername() + UUID.randomUUID().toString();
+            adminMapper.updateCookie(admin.getId(), cookie);
+            admin.setCookie(cookie);
+            admin.setTwoFactor("");
+            admin.setCookie(null);
+        }
+        return null;
+    }
+
+    @Override
     public void logout(Admin admin) {
+        adminMapper.updateCookie(admin.getId(), null);
     }
 
     @Override
