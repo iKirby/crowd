@@ -13,7 +13,7 @@ public interface CustomerProfileMapper {
     @Options(useGeneratedKeys = true)
     int insert(CustomerProfile customerProfile);
 
-    @Update("UPDATE t_customerprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, cert = #{cert}")
+    @Update("UPDATE t_customerprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, cert = #{cert} WHERE user_id = #{userId}")
     int update(CustomerProfile customerProfile);
 
     @Delete("DELETE  from t_customerprofiles where  user_id=#{user_id}")

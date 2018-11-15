@@ -13,7 +13,7 @@ public interface DevProfileMapper {
     @Options(useGeneratedKeys = true)
     int insert(DevProfile devProfile);
 
-    @Update("UPDATE t_devprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, cert = #{cert}")
+    @Update("UPDATE t_devprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, cert = #{cert} WHERE user_id = #{userId}")
     int update(DevProfile devProfile);
 
     @Delete("DELETE  from t_devprofiles where  user_id=#{user_id}")
