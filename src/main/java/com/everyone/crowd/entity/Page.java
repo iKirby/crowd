@@ -42,6 +42,10 @@ public class Page<T> {
         if (total == 0 || pageSize == 0) {
             return;
         }
-        totalPage = total % pageSize == 0 ? total / pageSize : total / pageSize + 1;
+        setTotalPage(total % pageSize == 0 ? total / pageSize : total / pageSize + 1);
+    }
+
+    private void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
     }
 }
