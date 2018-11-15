@@ -20,8 +20,8 @@ public interface CustomerProfileMapper {
     int delete(@Param("user_id") Integer user_id);
 
     @Update("UPDATE t_customerprofiles set status=#{status} where user_id = #{user_id}")
-    int updateStatus(@Param("status") String status, @Param("user_id") Integer user_id);
+    int updateStatus(@Param("user_id") Integer user_id, @Param("status") String status);
 
     @Update("UPDATE t_customerprofiles set level=#{level} where user_id = #{user_id}")
-    int updateLevel(@Param("level") int level, @Param("user_id") Integer user_id);
+    int updateLevel(@Param("user_id") Integer user_id, @Param("level") int level);
 }

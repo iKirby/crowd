@@ -41,13 +41,13 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     @Override
     @Transactional
-    public void updateStatus(String status, Integer user_id) {
-        customerProfileMapper.updateStatus(status, user_id);
+    public void updateStatus(Integer user_id, String status) {
+        customerProfileMapper.updateStatus(user_id, status);
     }
 
     @Override
     @Transactional
-    public void updateLevel(int level, Integer user_id) {
-        customerProfileMapper.updateLevel(level, user_id);
+    public void updateLevel(Integer user_id, int level) {
+        customerProfileMapper.updateLevel(user_id, level);
     }
 }

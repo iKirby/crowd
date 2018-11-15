@@ -15,7 +15,7 @@ public interface CustomerProfileService {
 
     void delete(Integer user_id);
 
-    void updateStatus(String status, Integer user_id);
+    void updateStatus(Integer user_id, String status);
 
-    void updateLevel(int level, Integer user_id);
+    void updateLevel(Integer user_id, int level);
 }
