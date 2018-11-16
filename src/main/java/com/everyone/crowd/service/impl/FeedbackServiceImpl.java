@@ -6,6 +6,7 @@ import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -60,11 +61,13 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
+    @Transactional
     public int submit(Feedback feedback) {
         return feedbackMapper.insert(feedback);
     }
 
     @Override
+    @Transactional
     public void reply(Integer id, String reply) {
         feedbackMapper.reply(id, reply);
     }
