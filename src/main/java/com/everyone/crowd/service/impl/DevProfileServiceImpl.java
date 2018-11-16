@@ -41,14 +41,14 @@ public class DevProfileServiceImpl implements DevProfileService {
 
     @Override
     @Transactional
-    public void updateStatus(String status, Integer user_id) {
-        devProfileMapper.updateStatus(status, user_id);
+    public void updateStatus(Integer user_id, String status) {
+        devProfileMapper.updateStatus(user_id, status);
     }
 
     @Override
     @Transactional
-    public void updateLevel(int level, Integer user_id) {
-        devProfileMapper.updateLevel(level, user_id);
+    public void updateLevel(Integer user_id, int level) {
+        devProfileMapper.updateLevel(user_id, level);
     }
 }
 

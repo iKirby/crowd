@@ -16,6 +16,8 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
+
+    // GoogleAuthenticator is for 2-factor authentication on login
     private final GoogleAuthenticator ga = new GoogleAuthenticator();
 
     @Autowired
