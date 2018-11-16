@@ -15,7 +15,7 @@ public interface AnnouncementMapper {
     @Delete("delete from t_announcements where id = #{id}")
     int delete(@Param("id") Integer id);
 
-    @Update("UPDATE t_announcements SET title = #{title}, content = #{content}")
+    @Update("UPDATE t_announcements SET title = #{title}, content = #{content} WHERE id = #{id}")
     int update(Announcement announcement);
 
     @Select("SELECT * FROM t_announcements WHERE id = #{id}")

@@ -23,7 +23,7 @@ public interface UserMapper {
     @Options(useGeneratedKeys = true)
     int insert(User user);
 
-    @Update("UPDATE t_users SET username = #{username}, password = #{password}, email = #{email}, balance = #{balance}, activated = #{activated}")
+    @Update("UPDATE t_users SET username = #{username}, password = #{password}, email = #{email}, balance = #{balance}, activated = #{activated} WHERE id = #{id}")
     int update(User user);
 
     @Update("UPDATE t_users SET activated = TRUE, activate_code = NULL WHERE activate_code = #{activateCode}")
