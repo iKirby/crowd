@@ -1,0 +1,79 @@
+body {
+    padding-top: 3.5rem;
+    font-weight: 400;
+}
+
+.container-main {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+}
+
+.jumbotron {
+    margin-bottom: 0;
+}
+
+.btn {
+    margin: 0;
+}
+
+.profile-info {
+    font-size: 1.25rem;
+    padding: .3rem 0;
+}
+
+.profile-info .mi {
+    vertical-align: middle;
+    margin: 0 .2rem 0 0;
+}
+
+code {
+    font-size: 1em;
+}
+
+.dropdown-divider {
+    margin: 0;
+}
+
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-list .card {
+    transition: .2s;
+}
+
+.card-list .card:hover {
+    background-color: rgba(0,0,0,.03);
+}
+
+.page-link {
+    margin: 0;
+    border: 1px solid #005cbf!important;
+    border-radius: 2px!important;
+    transition: .2s
+}
+
+.page-link:hover {
+    background-color: rgba(0,0,0,.1)!important;
+}
+
+.page-item.active .page-link {
+    background-color: #005cbf!important;
+    color: #fff!important;
+}
+
+.text-darkgray {
+    color: #333;
+}
+
+.qr-image {
+    padding: 1em;
+}
+
+.list-price {
+    margin: 0;
+}
+
+.order-id {
+    font-weight: bold;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('登录')">
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <div class="row">
+            <!-- Left column -->
+            <div class="col-md-8">
+                <ul class="nav nav-tabs fluent-tabs" id="loginTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab"
+                           aria-controls="login" aria-selected="true">登录</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab"
+                           aria-controls="register" aria-selected="false">注册</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="find-password-tab" data-toggle="tab" href="#find-password" role="tab"
+                           aria-controls="find-password" aria-selected="false">找回密码</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="loginTabContent">
+                    <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                        <form>
+                            <p>
+                                <label for="username">用户名</label>
+                                <input placeholder="用户名" type="text" id="username" name="username" class="form-control" required>
+                            </p>
+                            <p>
+                                <label for="password">密码</label>
+                                <input placeholder="密码" type="password" id="password" name="password" class="form-control" required>
+                            </p>
+                            <p>
+                                <input class="form-check-input" type="checkbox" id="remember-check" name="remember">
+                                <label class="form-check-label" for="remember-check">
+                                    记住登录状态
+                                </label>
+                            </p>
+                            <input id="btn-login" class="btn btn-primary" type="submit" value="登录">
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                        <form>
+                            <p>
+                                <label for="username-reg">用户名</label>
+                                <input placeholder="用户名" type="text" id="username-reg" name="username" class="form-control" required>
+                            </p>
+                            <p>
+                                <label for="email-reg">电子邮箱</label>
+                                <input placeholder="电子邮箱" type="email" id="email-reg" name="email" class="form-control" required>
+                            </p>
+                            <p>
+                                <label for="password-reg">密码</label>
+                                <input placeholder="密码" type="password" id="password-reg" name="password" class="form-control" required>
+                            </p>
+                            <p>
+                                <label for="confirm-password-reg">确认密码</label>
+                                <input placeholder="密码" type="password" id="confirm-password-reg" name="confirmPassword" class="form-control" required>
+                            </p>
+                            <input id="btn-register" class="btn btn-primary" type="submit" value="注册">
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="find-password" role="tabpanel" aria-labelledby="forgot-password-tab">
+                        <form>
+                            <p>
+                                <label for="username-find-password">用户名</label>
+                                <input placeholder="用户名" type="text" id="username-find-password" name="username" class="form-control" required>
+                            </p>
+                            <p>
+                                <label for="email-find-password">电子邮箱</label>
+                                <input placeholder="电子邮箱" type="email" id="email-find-password" name="email" class="form-control" required>
+                            </p>
+                            <input id="btn-find-password" class="btn btn-primary" type="submit" value="找回密码">
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- /Left column -->
+
+            <!-- Right column -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">公告</div>
+                    <div class="card-body">
+                        <p>系统公告</p>
+                        <p>系统公告</p>
+                        <p>系统公告</p>
+                        <p>系统公告</p>
+                        <p>系统公告</p>
+                    </div>
+                </div>
+            </div> <!-- /Right column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>
