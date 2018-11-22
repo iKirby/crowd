@@ -42,11 +42,11 @@ public interface DemandMapper {
     @Select("SELECT COUNT(title) FROM t_demands WHERE title LIKE '%${title}%'")
     int countByTitle(@Param("title") String title);
 
-    @Insert("INSERT INTO t_demands (customer_id, title, publish_time, category_id, region, price, detail, start_time, end_time, attachment) VALUES (#{customerId}, #{title}, #{publish_time}, #{categoryId}, #{region}, #{price}, #{detail}, #{startTime}, #{endTime}, #{attachment})")
+    @Insert("INSERT INTO t_demands (customer_id, title, publish_time, category_id, region, price, detail, start_date, end_date, attachment) VALUES (#{customerId}, #{title}, #{publish_time}, #{categoryId}, #{region}, #{price}, #{detail}, #{startDate}, #{endDate}, #{attachment})")
     @Options(useGeneratedKeys = true)
     int insert(Demand demand);
 
-    @Update("UPDATE t_demands SET customer_id = #{customerId},title = #{title},publish_time = #{publishTime},category_id = #{categoryId},region = #{region},price = #{price},detail = #{detail},start_time = #{startTime},end_time = #{endTime},attachment = #{attachment} WHERE id = #{id}")
+    @Update("UPDATE t_demands SET customer_id = #{customerId},title = #{title},publish_time = #{publishTime},category_id = #{categoryId},region = #{region},price = #{price},detail = #{detail},start_date = #{startDime},end_date = #{endDate},attachment = #{attachment} WHERE id = #{id}")
     int update(Demand demand);
 
     @Update("UPDATE t_demands SET status = #{status} WHERE id = #{id}")

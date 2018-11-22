@@ -14,12 +14,12 @@ public class Demand {
     private Integer id;
     private Integer customerId;
     private String title;
-    private Date publishtime;
+    private Date publishTime;
     private Integer categoryId;
     private String region;
     private BigDecimal price;
-    private Date starttime;
-    private Date endtime;
+    private Date startDate;
+    private Date endDate;
     private String attachment;
     private String status;
 }
