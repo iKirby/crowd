@@ -10,6 +10,11 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new UserLoginInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new UserLoginInterceptor())
+                .addPathPatterns("/**")
+                // static resources
+                .excludePathPatterns("/js/**", "/css/**", "/font/**", "/img/**")
+                // pages that can be accessed without logging in
+                .excludePathPatterns("/", "/error");
     }
 }

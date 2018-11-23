@@ -17,6 +17,6 @@ public class User {
     private BigDecimal balance;
     private String twoFactor;
     private String activateCode;
-    private Boolean activated;
+    private boolean activated;
     private String cookie;
 }

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: headFragment('登录')">
+<head th:replace="fragments/head :: headFragment('登录/注册')">
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>登录/注册</title>
 </head>
 <body>
 <nav th:replace="fragments/header :: navFragment"></nav>
@@ -14,28 +14,33 @@
             <div class="col-md-8">
                 <ul class="nav nav-tabs fluent-tabs" id="loginTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab"
-                           aria-controls="login" aria-selected="true">登录</a>
+                        <a class="nav-link" id="login-tab" data-toggle="tab" href="#login" role="tab"
+                           aria-controls="login" aria-selected="true"
+                           th:classappend="${(action != 'register' && action != 'findpassword') ? 'active' : ''}">登录</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab"
-                           aria-controls="register" aria-selected="false">注册</a>
+                           aria-controls="register" aria-selected="false"
+                           th:classappend="${action == 'register' ? 'active' : ''}">注册</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="find-password-tab" data-toggle="tab" href="#find-password" role="tab"
-                           aria-controls="find-password" aria-selected="false">找回密码</a>
+                           aria-controls="find-password" aria-selected="false"
+                           th:classappend="${action == 'findpassword' ? 'active' : ''}">找回密码</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="loginTabContent">
-                    <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                        <form>
+                    <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab"
+                         th:classappend="${(action != 'register' && action != 'findpassword') ? 'show active' : ''}">
+                        <div class="alert alert-danger" th:if="${messageLogin}" th:text="${messageLogin}"></div>
+                        <form method="post" action="/user/login" th:object="${user}">
                             <p>
                                 <label for="username">用户名</label>
-                                <input placeholder="用户名" type="text" id="username" name="username" class="form-control" required>
+                                <input placeholder="用户名" type="text" id="username" class="form-control" required th:field="*{username}">
                             </p>
                             <p>
                                 <label for="password">密码</label>
-                                <input placeholder="密码" type="password" id="password" name="password" class="form-control" required>
+                                <input placeholder="密码" type="password" id="password" class="form-control" required th:field="*{password}">
                             </p>
                             <p>
                                 <input class="form-check-input" type="checkbox" id="remember-check" name="remember">
@@ -46,19 +51,21 @@
                             <input id="btn-login" class="btn btn-primary" type="submit" value="登录">
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                        <form>
+                    <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab"
+                         th:classappend="${action == 'register' ? 'show active' : ''}">
+                        <div class="alert" th:classappend="${result == 'ok' ? 'alert-success' : 'alert-warning'}" th:if="${messageRegister}" th:text="${messageRegister}"></div>
+                        <form method="post" action="/user/register" th:object="${userRegister}">
                             <p>
                                 <label for="username-reg">用户名</label>
-                                <input placeholder="用户名" type="text" id="username-reg" name="username" class="form-control" required>
+                                <input placeholder="用户名" type="text" id="username-reg" class="form-control" required th:field="*{username}">
                             </p>
                             <p>
                                 <label for="email-reg">电子邮箱</label>
-                                <input placeholder="电子邮箱" type="email" id="email-reg" name="email" class="form-control" required>
+                                <input placeholder="电子邮箱" type="email" id="email-reg" class="form-control" required th:field="*{email}">
                             </p>
                             <p>
                                 <label for="password-reg">密码</label>
-                                <input placeholder="密码" type="password" id="password-reg" name="password" class="form-control" required>
+                                <input placeholder="密码" type="password" id="password-reg" class="form-control" required th:field="*{password}">
                             </p>
                             <p>
                                 <label for="confirm-password-reg">确认密码</label>
@@ -67,7 +74,8 @@
                             <input id="btn-register" class="btn btn-primary" type="submit" value="注册">
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="find-password" role="tabpanel" aria-labelledby="forgot-password-tab">
+                    <div class="tab-pane fade" id="find-password" role="tabpanel" aria-labelledby="forgot-password-tab"
+                         th:classappend="${action == 'findpassword' ? 'show active' : ''}">
                         <form>
                             <p>
                                 <label for="username-find-password">用户名</label>
@@ -88,11 +96,6 @@
                 <div class="card">
                     <div class="card-header">公告</div>
                     <div class="card-body">
-                        <p>系统公告</p>
-                        <p>系统公告</p>
-                        <p>系统公告</p>
-                        <p>系统公告</p>
-                        <p>系统公告</p>
                     </div>
                 </div>
             </div> <!-- /Right column -->
