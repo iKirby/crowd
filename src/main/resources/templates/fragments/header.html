@@ -14,10 +14,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar-top">
             <ul class="navbar-nav ml-auto">
-                <li th:if="${session.userLoggedIn} == null" class="nav-item">
+                <li th:if="${session.user} == null" class="nav-item">
                     <a class="nav-link active" href="#" th:href="@{/user/login}">登录</a>
                 </li>
-                <li th:if="${session.userLoggedIn} == true" class="nav-item dropdown">
+                <li th:if="${session.user} != null" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" id="user-dropdown" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false" th:text="${session.user.username}">Username</a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-dropdown">
