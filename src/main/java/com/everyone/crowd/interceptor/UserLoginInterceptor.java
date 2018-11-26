@@ -1,6 +1,5 @@
 package com.everyone.crowd.interceptor;
 
-import com.everyone.crowd.configuration.Constants;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
         boolean isLoginRelated = isLoginRelated(requestURI);
-        if (request.getSession().getAttribute(Constants.SESSION_USER_NAME) != null) {
+        if (request.getSession().getAttribute("user") != null) {
             if (isLoginRelated) {
                 String from = request.getParameter("from");
                 if (from != null && !isLoginRelated(from)) {
@@ -23,7 +22,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
                 return false;
             }
             return true;
-        } else if (request.getSession().getAttribute(Constants.SESSION_USER_2FA_NAME) != null) {
+        } else if (request.getSession().getAttribute("userTo2FA") != null) {
             if (isLoginRelated) {
                 response.sendRedirect("/user/2fa");
             } else {
@@ -40,6 +39,9 @@ public class UserLoginInterceptor implements HandlerInterceptor {
 
     private boolean isLoginRelated(String requestURI) {
         return requestURI.equals("/user/login")
-                || requestURI.equals("/user/2fa");
+                || requestURI.equals("/user/register")
+                || requestURI.equals("/user/findpassword")
+                || requestURI.equals("/user/2fa")
+                || requestURI.equals("/user/activate");
     }
 }

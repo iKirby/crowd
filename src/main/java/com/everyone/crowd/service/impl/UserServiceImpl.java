@@ -92,7 +92,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean activate(String activateCode) {
-        return userMapper.activate(activateCode) > 0;
+        if (!activateCode.isEmpty()) {
+            return userMapper.activate(activateCode) > 0;
+        } else {
+            return false;
+        }
     }
 
     @Override

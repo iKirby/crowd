@@ -1,6 +1,10 @@
 package com.everyone.crowd.service;
 
+import javax.mail.MessagingException;
+
 public interface MailService {
 
-    void sendSimpleMessage(String to, String subject, String text);
+    void sendHtmlMessage(String to, String subject, String text) throws MessagingException;
+
+    void sendActivateEmail(String to, String username, String activateCode) throws MessagingException;
 }
