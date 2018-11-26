@@ -39,7 +39,7 @@ public class MailServiceImpl implements MailService {
         Context context = new Context();
         context.setVariable("username", username);
         context.setVariable("link", link);
-        String content = thymeleafEngine.process("activate-mail", context);
+        String content = thymeleafEngine.process("mail/activate-mail", context);
         sendHtmlMessage(to, "账户激活 - CROWD 众包平台", content);
     }
 }
