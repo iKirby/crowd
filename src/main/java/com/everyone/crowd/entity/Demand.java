@@ -20,6 +20,7 @@ public class Demand {
     private BigDecimal price;
     private Date startDate;
     private Date endDate;
+    private String detail;
     private String attachment;
     private String status;
 }
