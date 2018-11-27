@@ -12,6 +12,9 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
         boolean isLoginRelated = isLoginRelated(requestURI);
         if (request.getSession().getAttribute("user") != null) {
+            if (requestURI.equals("/user/logout")) {
+                return true;
+            }
             if (isLoginRelated) {
                 String from = request.getParameter("from");
                 if (from != null && !isLoginRelated(from)) {
@@ -23,6 +26,9 @@ public class UserLoginInterceptor implements HandlerInterceptor {
             }
             return true;
         } else if (request.getSession().getAttribute("userTo2FA") != null) {
+            if (requestURI.equals("/user/2fa")) {
+                return true;
+            }
             if (isLoginRelated) {
                 response.sendRedirect("/user/2fa");
             } else {
@@ -41,7 +47,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
         return requestURI.equals("/user/login")
                 || requestURI.equals("/user/register")
                 || requestURI.equals("/user/findpassword")
-                || requestURI.equals("/user/2fa")
-                || requestURI.equals("/user/activate");
+                || requestURI.equals("/user/activate")
+                || requestURI.equals("/user/logout");
     }
 }

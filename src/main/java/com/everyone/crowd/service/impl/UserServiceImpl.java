@@ -35,9 +35,10 @@ public class UserServiceImpl implements UserService {
                     String cookie = user.getUsername() + UUID.randomUUID().toString();
                     userMapper.updateCookie(user.getId(), cookie);
                     user.setCookie(cookie);
+                } else {
+                    user.setTwoFactor("");
                 }
                 user.setPassword(null);
-                user.setTwoFactor(null);
                 return user;
             }
         }
@@ -110,6 +111,11 @@ public class UserServiceImpl implements UserService {
     public void updatePassword(User user) {
         user.setPassword(MD5Util.saltEncrypt(user.getPassword()));
         userMapper.updatePassword(user.getId(), user.getPassword());
+    }
+
+    @Override
+    public boolean checkTwoFactor(User user, Integer twoFACode) {
+        return ga.authorize(userMapper.findById(user.getId()).getTwoFactor(), twoFACode);
     }
 
     @Override

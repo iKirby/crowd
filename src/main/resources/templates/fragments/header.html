@@ -21,12 +21,12 @@
                     <a class="nav-link dropdown-toggle active" href="#" id="user-dropdown" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false" th:text="${session.user.username}">Username</a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="user-dropdown">
-                        <a class="dropdown-item" href="#">用户中心</a>
+                        <a class="dropdown-item" href="#" th:href="@{/user/profile}">用户中心</a>
                         <a class="dropdown-item" href="#">订单管理</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">发送关于此页的反馈</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">退出</a>
+                        <a class="dropdown-item" href="#" th:href="@{/user/logout}">退出</a>
                     </div>
                 </li>
             </ul>

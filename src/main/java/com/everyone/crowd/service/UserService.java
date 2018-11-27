@@ -25,6 +25,8 @@ public interface UserService {
 
     void updatePassword(User user);
 
+    boolean checkTwoFactor(User user, Integer twoFACode);
+
     void updateTwoFactor(User user);
 
     void updateBalance(User user);

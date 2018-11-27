@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('用户中心')">
+    <meta charset="UTF-8">
+    <title>用户中心</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="h2">用户中心</h2>
+                <ul class="nav nav-tabs fluent-tabs" id="userCenterTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="basic-info-tab" data-toggle="tab" href="#basic-info" role="tab"
+                           aria-controls="basic-info" aria-selected="true">基本信息</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="dev-profile-tab" data-toggle="tab" href="#dev-profile" role="tab"
+                           aria-controls="dev-profile" aria-selected="false">开发者资料</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="customer-profile-tab" data-toggle="tab" href="#customer-profile"
+                           role="tab"
+                           aria-controls="customer-profile" aria-selected="false">客户资料</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="userCenterTabContent">
+                    <!-- first tab -->
+                    <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="alert alert-default" th:if="${message}" th:text="${message}"></div>
+                                <div class="shadow-sm p-3 mb-3 bg-white">
+                                    <h4>修改电子邮箱</h4>
+                                    <div class="alert alert-info">
+                                        修改电子邮箱后，您需要重新激活账户并重新登录。账户中的其他信息不会有任何变化。
+                                    </div>
+                                    <form>
+                                        <p>
+                                            <input placeholder="电子邮箱" type="email" name="email" class="form-control" required>
+                                        </p>
+                                        <input class="btn btn-primary" type="submit" value="保存">
+                                    </form>
+                                </div>
+                                <div class="shadow-sm p-3 mb-3 bg-white">
+                                    <h4>修改密码</h4>
+                                    <form>
+                                        <p>
+                                            <label for="password">当前密码</label>
+                                            <input placeholder="密码" type="password" id="password" name="password" class="form-control"
+                                                   required>
+                                        </p>
+                                        <p>
+                                            <label for="new-password">新密码</label>
+                                            <input placeholder="新密码" type="password" id="new-password" name="newPassword" class="form-control"
+                                                   required>
+                                        </p>
+                                        <p>
+                                            <label for="new-password">确认密码</label>
+                                            <input placeholder="确认密码" type="password" id="confirm-password" name="confirmPassword"
+                                                   class="form-control" required>
+                                        </p>
+                                        <input class="btn btn-primary" type="submit" value="保存">
+                                    </form>
+                                </div>
+                                <div class="shadow-sm p-3 mb-3 bg-white">
+                                    <h4>两步验证</h4>
+                                    <div id="2fa-enable" th:if="${session.user.twoFactor == null}">
+                                        <div class="alert alert-info">
+                                            使用身份验证器应用扫描下方的二维码或输入代码添加账户，然后提交应用中生成的验证码以启用两步验证。启用后，在登录时将要求您输入两步验证代码。
+                                        </div>
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=2faKey"
+                                             class="qr-image" alt="两步验证二维码" th:src="${twoFactorTotpQRURL}">
+                                        <p>
+                                            KEY: <code th:text="${twoFactorKey}">2faKey</code>
+                                        </p>
+                                        <form method="post" th:action="@{/user/profile}">
+                                            <input type="hidden" name="action" value="enable2FA">
+                                            <input type="hidden" name="twoFactorKey" th:value="${twoFactorKey}">
+                                            <p>
+                                                <label for="2fa-code">两步验证代码</label>
+                                                <input placeholder="输入由身份验证器生成的验证码" type="text" id="2fa-code" name="twoFactorCode"
+                                                       class="form-control" required>
+                                            </p>
+                                            <input class="btn btn-primary" type="submit" value="启用两步验证">
+                                        </form>
+                                    </div>
+
+                                    <div id="2fa-disable" th:if="${session.user.twoFactor}">
+                                        <div class="alert alert-info">
+                                            您已启用两步验证，在下方输入两步验证代码可以将其停用。停用两步验证将会降低您账户的安全性。
+                                        </div>
+                                        <form method="post" th:action="@{/user/profile}">
+                                            <input type="hidden" name="action" value="disable2FA">
+                                            <p>
+                                                <label for="2fa-code-disable">两步验证代码</label>
+                                                <input placeholder="输入由身份验证器生成的验证码" type="text" id="2fa-code-disable" name="twoFactorCode"
+                                                       class="form-control" required>
+                                            </p>
+                                            <input class="btn btn-primary" type="submit" value="停用两步验证">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Right column -->
+                            <div class="col-md-4">
+                                <!--Card-->
+                                <div class="card">
+                                    <div class="card-header">用户信息</div>
+                                    <!-- Card body -->
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title pt-2 pb-0 mb-2" th:text="${session.user.username}">Username</h5>
+                                        <p class="card-subtitle" th:text="${session.user.email}">mail@example.com</p>
+                                        <!-- Text -->
+                                        <p class="card-text">
+                                            账户余额：<code th:text="${session.user.balance}">0</code>
+                                        </p>
+                                    </div>
+                                </div>
+                                <!--/.Card-->
+                            </div> <!-- /.Right column -->
+                        </div>
+                    </div>
+                    <!-- second tab -->
+                    <div class="tab-pane fade" id="dev-profile" role="tabpanel" aria-labelledby="dev-profile-tab">
+                        <div class="row">
+                            <div class="col-md-8 col-profile-form">
+                                <div class="alert alert-warning">
+                                    您的开发者认证正在审核中，暂时无法使用开发者相关功能。
+                                </div>
+                                <div class="shadow-sm p-3 mb-3 bg-white">
+                                    <form>
+                                        <p>
+                                            <label for="dev-name">名称</label>
+                                            <input placeholder="名称" type="text" id="dev-name" name="name" class="form-control" required>
+                                        </p>
+                                        <p>
+                                            <label for="dev-email">电子邮箱</label>
+                                            <input placeholder="电子邮箱" type="email" id="dev-email" name="email" class="form-control" required>
+                                        </p>
+                                        <p>
+                                            <label for="dev-phone">电话</label>
+                                            <input placeholder="电话" type="tel" id="dev-phone" name="phone" class="form-control" required>
+                                        </p>
+                                        <p>
+                                            <label for="dev-photo">照片</label>
+                                            <input type="file" accept=".jpg,.png" id="dev-photo" name="photo" class="form-control" required>
+                                        </p>
+                                        <p>
+                                            <label for="dev-bio">简介</label>
+                                            <input placeholder="简介" type="text" id="dev-bio" name="bio" class="form-control" required>
+                                        </p>
+                                        <p>
+                                            <label for="dev-alipay">支付宝账号</label>
+                                            <input placeholder="支付宝账号" type="text" id="dev-alipay" name="alipay" class="form-control"
+                                                   required>
+                                        </p>
+                                        <input class="btn btn-primary" type="submit" value="保存">
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Right column -->
+                            <div class="col-md-4">
+                                <!--Card-->
+                                <div class="card">
+                                    <div class="py-3 w-100 grey"></div>
+                                    <div class="position-relative h-100">
+                                        <div class="h-50 w-100 grey position-absolute text-white text-center">
+                                        </div>
+                                        <!-- Card image -->
+                                        <div class="w-50 mx-auto position-relative ">
+                                            <img class="card-img-top avatar" src="./img/avatar/default.png" alt="Card image">
+                                        </div>
+                                    </div>
+                                    <!-- Card body -->
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title pt-2 pb-0 mb-2">DeveloperName</h5>
+                                        <p class="card-subtitle"><span class="badge badge-default">Lv. 5</span></p>
+                                        <!-- Text -->
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, deserunt.
+                                        </p>
+                                        <ul class="mi-ul pl-4 text-left">
+                                            <li>
+                                                <i class="mi-li mi mi-Mail"></i>mail@example.com
+                                            </li>
+                                            <li>
+                                                <i class="mi-li mi mi-Phone"></i>15623333333
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!--/.Card-->
+                            </div> <!-- /Right column -->
+                        </div>
+                    </div>
+                    <!-- third tab -->
+                    <div class="tab-pane fade" id="customer-profile" role="tabpanel" aria-labelledby="customer-profile-tab">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="alert alert-info">
+                                    您还没有填写此角色资料，填写资料并申请认证后，才可以使用相关功能。
+                                </div>
+                                <div class="shadow-sm p-3 mb-3 bg-white">
+                                    <form>
+                                        <p>
+                                            <label for="customer-name">名称</label>
+                                            <input placeholder="名称" type="text" id="customer-name" name="name" class="form-control" required>
+                                        </p>
+                                        <p>
+                                            <label for="customer-email">电子邮箱</label>
+                                            <input placeholder="电子邮箱" type="email" id="customer-email" name="email" class="form-control"
+                                                   required>
+                                        </p>
+                                        <p>
+                                            <label for="customer-phone">电话</label>
+                                            <input placeholder="电话" type="tel" id="customer-phone" name="phone" class="form-control" required>
+                                        </p>
+                                        <p>
+                                            <label for="customer-photo">照片</label>
+                                            <input type="file" accept=".jpg,.png" id="customer-photo" name="photo" class="form-control"
+                                                   required>
+                                        </p>
+                                        <p>
+                                            <label for="customer-bio">简介</label>
+                                            <input placeholder="简介" type="text" id="customer-bio" name="bio" class="form-control" required>
+                                        </p>
+                                        <p>
+                                            <label for="customer-alipay">支付宝账号</label>
+                                            <input placeholder="支付宝账号" type="text" id="customer-alipay" name="alipay" class="form-control"
+                                                   required>
+                                        </p>
+                                        <input class="btn btn-primary" type="submit" value="保存">
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- Right column -->
+                            <div class="col-md-4">
+                                <!--Card-->
+                                <!--<div class="card">-->
+                                <!--<div class="py-3 w-100 grey"></div>-->
+                                <!--<div class="position-relative h-100">-->
+                                <!--<div class="h-50 w-100 grey position-absolute text-white text-center">-->
+                                <!--</div>-->
+                                <!--&lt;!&ndash; Card image &ndash;&gt;-->
+                                <!--<div class="w-50 mx-auto position-relative">-->
+                                <!--<img class="card-img-top avatar" src="./img/avatar/default.png"-->
+                                <!--alt="Card image">-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--&lt;!&ndash; Card body &ndash;&gt;-->
+                                <!--<div class="card-body text-center">-->
+                                <!--<h5 class="card-title pt-2 pb-0 mb-2">Username</h5>-->
+                                <!--<p class="card-subtitle">UX Designer</p>-->
+                                <!--&lt;!&ndash; Text &ndash;&gt;-->
+                                <!--<p class="card-text">-->
+                                <!--Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, deserunt.-->
+                                <!--</p>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--/.Card-->
+                            </div> <!-- /Right column -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>
