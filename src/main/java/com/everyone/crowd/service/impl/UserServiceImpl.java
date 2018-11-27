@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public int register(User user) {
         user.setPassword(MD5Util.saltEncrypt(user.getPassword()));
-        user.setActivateCode(MD5Util.encrypt(user.getUsername() + user.getEmail()));
+        user.setActivateCode(MD5Util.encrypt(user.getUsername()) + MD5Util.encrypt(user.getEmail()));
         return userMapper.insert(user);
     }
 
@@ -103,7 +103,13 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void updateEmail(User user) {
-        userMapper.updateEmail(user.getId(), user.getEmail());
+        user.setActivateCode(MD5Util.encrypt(user.getUsername()) + MD5Util.encrypt(user.getEmail()));
+        userMapper.updateEmail(user.getId(), user.getEmail(), user.getActivateCode());
+    }
+
+    @Override
+    public boolean checkPassword(User user, String password) {
+        return MD5Util.verifySaltedString(userMapper.findById(user.getId()).getPassword(), password);
     }
 
     @Override

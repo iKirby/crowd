@@ -42,4 +42,15 @@ public class MailServiceImpl implements MailService {
         String content = thymeleafEngine.process("mail/activate-mail", context);
         sendHtmlMessage(to, "账户激活 - CROWD 众包平台", content);
     }
+
+
+    @Override
+    public void sendValidationEmail(String to, String username, String validateCode) throws MessagingException {
+        String link = "http://localhost:8080/user/validateEmail?validateCode=" + validateCode;
+        Context context = new Context();
+        context.setVariable("username", username);
+        context.setVariable("link", link);
+        String content = thymeleafEngine.process("mail/change-mail", context);
+        sendHtmlMessage(to, "邮箱验证 - CROWD 众包平台", content);
+    }
 }

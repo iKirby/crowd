@@ -36,10 +36,11 @@
                                 <div class="alert alert-default" th:if="${message}" th:text="${message}"></div>
                                 <div class="shadow-sm p-3 mb-3 bg-white">
                                     <h4>修改电子邮箱</h4>
-                                    <div class="alert alert-info">
-                                        修改电子邮箱后，您需要重新激活账户并重新登录。账户中的其他信息不会有任何变化。
+                                    <div class="alert alert-warning" th:if="${session.user.activateCode != null}">
+                                        您的邮箱尚未验证，请尽快查收验证邮件并完成验证。
                                     </div>
-                                    <form>
+                                    <form method="post" th:action="@{/user/profile}">
+                                        <input type="hidden" name="action" value="changeEmail">
                                         <p>
                                             <input placeholder="电子邮箱" type="email" name="email" class="form-control" required>
                                         </p>
@@ -48,7 +49,8 @@
                                 </div>
                                 <div class="shadow-sm p-3 mb-3 bg-white">
                                     <h4>修改密码</h4>
-                                    <form>
+                                    <form method="post" th:action="@{/user/profile}">
+                                        <input type="hidden" name="action" value="changePassword">
                                         <p>
                                             <label for="password">当前密码</label>
                                             <input placeholder="密码" type="password" id="password" name="password" class="form-control"

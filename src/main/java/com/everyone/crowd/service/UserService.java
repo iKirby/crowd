@@ -23,6 +23,8 @@ public interface UserService {
 
     void updateEmail(User user);
 
+    boolean checkPassword(User user, String password);
+
     void updatePassword(User user);
 
     boolean checkTwoFactor(User user, Integer twoFACode);

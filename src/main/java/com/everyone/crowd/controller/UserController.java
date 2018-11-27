@@ -143,7 +143,7 @@ public class UserController {
         } else {
             model.addAttribute("messageRegister", "用户名已被占用，请更换后重试");
         }
-        user.setPassword("");
+        user.setPassword(null);
         model.addAttribute("userRegister", user);
         model.addAttribute("userLogin", new User());
         model.addAttribute("action", "register");
@@ -180,20 +180,35 @@ public class UserController {
                              @RequestParam(value = "newPassword", required = false) String newPassword,
                              @RequestParam(value = "confirmPassword", required = false) String confirmPassword,
                              @RequestParam(value = "twoFactorKey", required = false) String twoFactorToken,
-                             @RequestParam(value = "twoFactorCode", required = false) int twoFactorCode) {
+                             @RequestParam(value = "twoFactorCode", required = false) Integer twoFactorCode) throws MessagingException {
         User user = (User) session.getAttribute("user");
 
         switch (action) {
             case "changeEmail":
+                user.setEmail(email);
+                userService.updateEmail(user);
+                mailService.sendValidationEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
+                model.addAttribute("message", "邮箱已经更改，请尽快查收验证邮件并完成验证");
                 break;
             case "changePassword":
+                if (userService.checkPassword(user, password)) {
+                    if (newPassword.equals(confirmPassword)) {
+                        user.setPassword(newPassword);
+                        userService.updatePassword(user);
+                        model.addAttribute("message", "密码已更改");
+                        user.setPassword(null);
+                    } else {
+                        model.addAttribute("message", "密码和确认密码不一致，请重试");
+                    }
+                } else {
+                    model.addAttribute("message", "原密码不正确，请重试");
+                }
                 break;
             case "enable2FA":
                 if (ga.authorize(twoFactorToken, twoFactorCode)) {
                     user.setTwoFactor(twoFactorToken);
                     userService.updateTwoFactor(user);
                     user.setTwoFactor("");
-                    session.setAttribute("user", user);
                     model.addAttribute("message", "两步验证已启用");
                 } else {
                     model.addAttribute("message", "两步验证验证码错误，请重新添加");
@@ -203,7 +218,6 @@ public class UserController {
                 if (userService.checkTwoFactor(user, twoFactorCode)) {
                     user.setTwoFactor(null);
                     userService.updateTwoFactor(user);
-                    session.setAttribute("user", user);
                     model.addAttribute("message", "两步验证已停用");
                 } else {
                     model.addAttribute("message", "两步验证验证码错误，请重试");
@@ -212,8 +226,18 @@ public class UserController {
         }
 
         generate2FAKey(model, user);
-
+        session.setAttribute("user", user);
         return "usercenter";
+    }
+
+    @GetMapping("/user/validateEmail")
+    public String validateEmail(Model model, @RequestParam("validateCode") String validateCode) {
+        if (userService.activate(validateCode)) {
+            model.addAttribute("message", "您的邮箱已经成功验证");
+        } else {
+            model.addAttribute("message", "邮箱验证失败，验证码无效");
+        }
+        return "validateemail";
     }
 
     private void generate2FAKey(Model model, User user) {

@@ -29,8 +29,8 @@ public interface UserMapper {
     @Update("UPDATE t_users SET activated = TRUE, activate_code = NULL WHERE activate_code = #{activateCode}")
     int activate(@Param("activateCode") String activateCode);
 
-    @Update("UPDATE t_users SET email = #{email} WHERE id = #{id}")
-    int updateEmail(@Param("id") Integer id, @Param("email") String email);
+    @Update("UPDATE t_users SET email = #{email}, activate_code = #{activateCode} WHERE id = #{id}")
+    int updateEmail(@Param("id") Integer id, @Param("email") String email, @Param("activateCode") String activateCode);
 
     @Update("UPDATE t_users SET password = #{password} WHERE id = #{id}")
     int updatePassword(@Param("id") Integer id, @Param("password") String password);
