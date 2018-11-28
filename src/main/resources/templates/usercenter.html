@@ -15,22 +15,25 @@
                 <h2 class="h2">用户中心</h2>
                 <ul class="nav nav-tabs fluent-tabs" id="userCenterTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="basic-info-tab" data-toggle="tab" href="#basic-info" role="tab"
-                           aria-controls="basic-info" aria-selected="true">基本信息</a>
+                        <a class="nav-link" id="basic-info-tab" data-toggle="tab" href="#basic-info" role="tab"
+                           aria-controls="basic-info" aria-selected="true"
+                           th:classappend="${(page != 'dev' && page != 'customer') ? 'active' : ''}">基本信息</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="dev-profile-tab" data-toggle="tab" href="#dev-profile" role="tab"
-                           aria-controls="dev-profile" aria-selected="false">开发者资料</a>
+                           aria-controls="dev-profile" aria-selected="false"
+                           th:classappend="${page == 'dev' ? 'active' : ''}">开发者资料</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="customer-profile-tab" data-toggle="tab" href="#customer-profile"
-                           role="tab"
-                           aria-controls="customer-profile" aria-selected="false">客户资料</a>
+                           role="tab" aria-controls="customer-profile" aria-selected="false"
+                           th:classappend="${page == 'customer' ? 'active' : ''}">需求方资料</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="userCenterTabContent">
                     <!-- first tab -->
-                    <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
+                    <div class="tab-pane fade" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab"
+                         th:classappend="${(page != 'dev' && page != 'customer') ? 'show active' : ''}">
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="alert alert-default" th:if="${message}" th:text="${message}"></div>
@@ -115,7 +118,8 @@
                                     <div class="card-header">用户信息</div>
                                     <!-- Card body -->
                                     <div class="card-body text-center">
-                                        <h5 class="card-title pt-2 pb-0 mb-2" th:text="${session.user.username}">Username</h5>
+                                        <h5 class="card-title pt-2 pb-0 mb-2" th:text="${session.user.username}">
+                                            Username</h5>
                                         <p class="card-subtitle" th:text="${session.user.email}">mail@example.com</p>
                                         <!-- Text -->
                                         <p class="card-text">
@@ -128,38 +132,51 @@
                         </div>
                     </div>
                     <!-- second tab -->
-                    <div class="tab-pane fade" id="dev-profile" role="tabpanel" aria-labelledby="dev-profile-tab">
+                    <div class="tab-pane fade" id="dev-profile" role="tabpanel" aria-labelledby="dev-profile-tab"
+                         th:classappend="${page == 'dev' ? 'show active' : ''}">
                         <div class="row">
                             <div class="col-md-8 col-profile-form">
-                                <div class="alert alert-warning">
-                                    您的开发者认证正在审核中，暂时无法使用开发者相关功能。
+                                <div class="alert alert-warning" th:if="${devProfile.status == 'PENDING'}">
+                                    您的开发者认证正在审核中，暂时无法使用相关功能。
+                                </div>
+                                <div class="alert alert-info" th:if="${devProfile.status == null}">
+                                    您还未填写开发者资料，填写并申请认证后才可使用相关功能。
+                                </div>
+                                <div class="alert alert-info" th:if="${devProfile.status == 'UNVERIFIED'}">
+                                    您还未申请开发者认证，认证后才可使用相关功能。
+                                    <a href="#" class="alert-link float-right">申请认证</a>
                                 </div>
                                 <div class="shadow-sm p-3 mb-3 bg-white">
-                                    <form>
+                                    <form method="post" th:action="@{/user/profile/updateDev}" th:object="${devProfile}">
                                         <p>
                                             <label for="dev-name">名称</label>
-                                            <input placeholder="名称" type="text" id="dev-name" name="name" class="form-control" required>
+                                            <input placeholder="名称" type="text" id="dev-name" class="form-control" required
+                                                   th:field="*{name}">
                                         </p>
                                         <p>
                                             <label for="dev-email">电子邮箱</label>
-                                            <input placeholder="电子邮箱" type="email" id="dev-email" name="email" class="form-control" required>
+                                            <input placeholder="电子邮箱" type="email" id="dev-email" class="form-control" required
+                                                   th:field="*{email}">
                                         </p>
                                         <p>
                                             <label for="dev-phone">电话</label>
-                                            <input placeholder="电话" type="tel" id="dev-phone" name="phone" class="form-control" required>
+                                            <input placeholder="电话" type="tel" id="dev-phone" class="form-control" required
+                                                   th:field="*{phone}">
                                         </p>
                                         <p>
                                             <label for="dev-photo">照片</label>
-                                            <input type="file" accept=".jpg,.png" id="dev-photo" name="photo" class="form-control" required>
+                                            <input type="file" accept=".jpg,.png" id="dev-photo" class="form-control" required
+                                                   th:field="*{photo}">
                                         </p>
                                         <p>
                                             <label for="dev-bio">简介</label>
-                                            <input placeholder="简介" type="text" id="dev-bio" name="bio" class="form-control" required>
+                                            <input placeholder="简介" type="text" id="dev-bio" class="form-control" required
+                                                   th:field="*{bio}">
                                         </p>
                                         <p>
                                             <label for="dev-alipay">支付宝账号</label>
-                                            <input placeholder="支付宝账号" type="text" id="dev-alipay" name="alipay" class="form-control"
-                                                   required>
+                                            <input placeholder="支付宝账号" type="text" id="dev-alipay" class="form-control" required
+                                                   th:field="*{alipay}">
                                         </p>
                                         <input class="btn btn-primary" type="submit" value="保存">
                                     </form>
@@ -167,74 +184,83 @@
                             </div>
                             <!-- Right column -->
                             <div class="col-md-4">
-                                <!--Card-->
-                                <div class="card">
+                                <div class="card" th:if="${devProfile.status != null}">
                                     <div class="py-3 w-100 grey"></div>
                                     <div class="position-relative h-100">
                                         <div class="h-50 w-100 grey position-absolute text-white text-center">
                                         </div>
                                         <!-- Card image -->
-                                        <div class="w-50 mx-auto position-relative ">
-                                            <img class="card-img-top avatar" src="./img/avatar/default.png" alt="Card image">
+                                        <div class="w-50 mx-auto position-relative">
+                                            <img class="card-img-top avatar" th:src="@{/img/avatar/default.png}" alt="userAvatar">
                                         </div>
                                     </div>
                                     <!-- Card body -->
                                     <div class="card-body text-center">
-                                        <h5 class="card-title pt-2 pb-0 mb-2">DeveloperName</h5>
-                                        <p class="card-subtitle"><span class="badge badge-default">Lv. 5</span></p>
+                                        <h5 class="card-title pt-2 pb-0 mb-2" th:text="${devProfile.name}">devName</h5>
+                                        <p class="card-subtitle"><span class="badge badge-default" th:text="${'Lv. ' + devProfile.level}">Lv. 5</span></p>
                                         <!-- Text -->
-                                        <p class="card-text">
+                                        <p class="card-text" th:text="${devProfile.bio}">
                                             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, deserunt.
                                         </p>
                                         <ul class="mi-ul pl-4 text-left">
                                             <li>
-                                                <i class="mi-li mi mi-Mail"></i>mail@example.com
+                                                <i class="mi-li mi mi-Mail"></i><span th:text="${devProfile.email}">mail@example.com</span>
                                             </li>
                                             <li>
-                                                <i class="mi-li mi mi-Phone"></i>15623333333
+                                                <i class="mi-li mi mi-Phone"></i><span th:text="${devProfile.phone}">15623333333</span>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <!--/.Card-->
                             </div> <!-- /Right column -->
                         </div>
                     </div>
                     <!-- third tab -->
-                    <div class="tab-pane fade" id="customer-profile" role="tabpanel" aria-labelledby="customer-profile-tab">
+                    <div class="tab-pane fade" id="customer-profile" role="tabpanel" aria-labelledby="customer-profile-tab"
+                         th:classappend="${page == 'customer' ? 'show active' : ''}">
                         <div class="row">
                             <div class="col-md-8">
-                                <div class="alert alert-info">
-                                    您还没有填写此角色资料，填写资料并申请认证后，才可以使用相关功能。
+                                <div class="alert alert-warning" th:if="${customerProfile.status == 'PENDING'}">
+                                    您的需求方认证正在审核中，暂时无法使用相关功能。
+                                </div>
+                                <div class="alert alert-info" th:if="${customerProfile.status == null}">
+                                    您还未填写需求方资料，填写并申请认证后才可使用相关功能。
+                                </div>
+                                <div class="alert alert-info" th:if="${customerProfile.status == 'UNVERIFIED'}">
+                                    您还未申请需求方认证，认证后才可使用相关功能。
+                                    <a href="#" class="alert-link float-right">申请认证</a>
                                 </div>
                                 <div class="shadow-sm p-3 mb-3 bg-white">
-                                    <form>
+                                    <form method="post" th:action="@{/user/profile/updateCustomer}" th:object="${customerProfile}">
                                         <p>
                                             <label for="customer-name">名称</label>
-                                            <input placeholder="名称" type="text" id="customer-name" name="name" class="form-control" required>
+                                            <input placeholder="名称" type="text" id="customer-name" class="form-control" required
+                                                   th:field="*{name}">
                                         </p>
                                         <p>
                                             <label for="customer-email">电子邮箱</label>
-                                            <input placeholder="电子邮箱" type="email" id="customer-email" name="email" class="form-control"
-                                                   required>
+                                            <input placeholder="电子邮箱" type="email" id="customer-email" class="form-control" required
+                                                   th:field="*{email}">
                                         </p>
                                         <p>
                                             <label for="customer-phone">电话</label>
-                                            <input placeholder="电话" type="tel" id="customer-phone" name="phone" class="form-control" required>
+                                            <input placeholder="电话" type="tel" id="customer-phone" class="form-control" required
+                                                   th:field="*{phone}">
                                         </p>
                                         <p>
                                             <label for="customer-photo">照片</label>
-                                            <input type="file" accept=".jpg,.png" id="customer-photo" name="photo" class="form-control"
-                                                   required>
+                                            <input type="file" accept=".jpg,.png" id="customer-photo" class="form-control" required
+                                                   th:field="*{photo}">
                                         </p>
                                         <p>
                                             <label for="customer-bio">简介</label>
-                                            <input placeholder="简介" type="text" id="customer-bio" name="bio" class="form-control" required>
+                                            <input placeholder="简介" type="text" id="customer-bio" class="form-control" required
+                                                   th:field="*{bio}">
                                         </p>
                                         <p>
                                             <label for="customer-alipay">支付宝账号</label>
-                                            <input placeholder="支付宝账号" type="text" id="customer-alipay" name="alipay" class="form-control"
-                                                   required>
+                                            <input placeholder="支付宝账号" type="text" id="customer-alipay" class="form-control" required
+                                                   th:field="*{alipay}">
                                         </p>
                                         <input class="btn btn-primary" type="submit" value="保存">
                                     </form>
@@ -242,29 +268,34 @@
                             </div>
                             <!-- Right column -->
                             <div class="col-md-4">
-                                <!--Card-->
-                                <!--<div class="card">-->
-                                <!--<div class="py-3 w-100 grey"></div>-->
-                                <!--<div class="position-relative h-100">-->
-                                <!--<div class="h-50 w-100 grey position-absolute text-white text-center">-->
-                                <!--</div>-->
-                                <!--&lt;!&ndash; Card image &ndash;&gt;-->
-                                <!--<div class="w-50 mx-auto position-relative">-->
-                                <!--<img class="card-img-top avatar" src="./img/avatar/default.png"-->
-                                <!--alt="Card image">-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--&lt;!&ndash; Card body &ndash;&gt;-->
-                                <!--<div class="card-body text-center">-->
-                                <!--<h5 class="card-title pt-2 pb-0 mb-2">Username</h5>-->
-                                <!--<p class="card-subtitle">UX Designer</p>-->
-                                <!--&lt;!&ndash; Text &ndash;&gt;-->
-                                <!--<p class="card-text">-->
-                                <!--Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, deserunt.-->
-                                <!--</p>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--/.Card-->
+                                <div class="card" th:if="${customerProfile.status != null}">
+                                    <div class="py-3 w-100 grey"></div>
+                                    <div class="position-relative h-100">
+                                        <div class="h-50 w-100 grey position-absolute text-white text-center">
+                                        </div>
+                                        <!-- Card image -->
+                                        <div class="w-50 mx-auto position-relative">
+                                            <img class="card-img-top avatar" th:src="@{/img/avatar/default.png}" alt="userAvatar">
+                                        </div>
+                                    </div>
+                                    <!-- Card body -->
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title pt-2 pb-0 mb-2" th:text="${customerProfile.name}">CustomerName</h5>
+                                        <p class="card-subtitle"><span class="badge badge-default" th:text="${'Lv. ' + customerProfile.level}">Lv. 5</span></p>
+                                        <!-- Text -->
+                                        <p class="card-text" th:text="${customerProfile.bio}">
+                                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, deserunt.
+                                        </p>
+                                        <ul class="mi-ul pl-4 text-left">
+                                            <li>
+                                                <i class="mi-li mi mi-Mail"></i><span th:text="${customerProfile.email}">mail@example.com</span>
+                                            </li>
+                                            <li>
+                                                <i class="mi-li mi mi-Phone"></i><span th:text="${customerProfile.phone}">15623333333</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div> <!-- /Right column -->
                         </div>
                     </div>

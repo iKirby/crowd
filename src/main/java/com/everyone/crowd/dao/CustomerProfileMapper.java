@@ -9,8 +9,7 @@ public interface CustomerProfileMapper {
     @Select("SELECT * FROM t_customerprofiles WHERE user_id = #{user_id}")
     CustomerProfile findById(@Param("user_id") Integer user_id);
 
-    @Insert("INSERT INTO t_customerprofiles (name, email, phone, photo, addr, alipay, bio, cert) VALUES (#{name}, #{email}, #{phone}, #{photo},#{addr},#{alipay},#{bio},#{cert})")
-    @Options(useGeneratedKeys = true)
+    @Insert("INSERT INTO t_customerprofiles (user_id, name, email, phone, photo, addr, alipay, bio, cert, status) VALUES (#{userId}, #{name}, #{email}, #{phone}, #{photo},#{addr},#{alipay},#{bio},#{cert}, #{status})")
     int insert(CustomerProfile customerProfile);
 
     @Update("UPDATE t_customerprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, cert = #{cert} WHERE user_id = #{userId}")

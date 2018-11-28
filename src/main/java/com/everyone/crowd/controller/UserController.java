@@ -1,7 +1,11 @@
 package com.everyone.crowd.controller;
 
 import com.everyone.crowd.configuration.Constants;
+import com.everyone.crowd.entity.CustomerProfile;
+import com.everyone.crowd.entity.DevProfile;
 import com.everyone.crowd.entity.User;
+import com.everyone.crowd.service.CustomerProfileService;
+import com.everyone.crowd.service.DevProfileService;
 import com.everyone.crowd.service.MailService;
 import com.everyone.crowd.service.UserService;
 import com.everyone.crowd.util.CookieUtil;
@@ -26,11 +30,16 @@ public class UserController {
 
     private final UserService userService;
     private final MailService mailService;
+    private final DevProfileService devProfileService;
+    private final CustomerProfileService customerProfileService;
     private final GoogleAuthenticator ga = new GoogleAuthenticator();
 
     @Autowired
-    public UserController(UserService userService, MailService mailService) {
+    public UserController(UserService userService, DevProfileService devProfileService,
+                          CustomerProfileService customerProfileService, MailService mailService) {
         this.userService = userService;
+        this.devProfileService = devProfileService;
+        this.customerProfileService = customerProfileService;
         this.mailService = mailService;
     }
 
@@ -165,9 +174,18 @@ public class UserController {
     public String userCenter(Model model, HttpSession session,
                              @RequestParam(value = "page", defaultValue = "") String page) {
         User user = (User) session.getAttribute("user");
-
         generate2FAKey(model, user);
         model.addAttribute("page", page);
+        DevProfile devProfile = devProfileService.findById(user.getId());
+        CustomerProfile customerProfile = customerProfileService.findById(user.getId());
+        if (devProfile == null) {
+            devProfile = new DevProfile();
+        }
+        if (customerProfile == null) {
+            customerProfile = new CustomerProfile();
+        }
+        model.addAttribute("devProfile", devProfile);
+        model.addAttribute("customerProfile", customerProfile);
         return "usercenter";
     }
 
@@ -227,6 +245,7 @@ public class UserController {
 
         generate2FAKey(model, user);
         session.setAttribute("user", user);
+        model.addAttribute("page", page);
         return "usercenter";
     }
 

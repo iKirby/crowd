@@ -9,8 +9,7 @@ public interface DevProfileMapper {
     @Select("SELECT * FROM t_devprofiles WHERE user_id = #{user_id}")
     DevProfile findById(@Param("user_id") Integer user_id);
 
-    @Insert("INSERT INTO t_devprofiles (name, email, phone, photo, addr, alipay, bio, cert) VALUES (#{name}, #{email}, #{phone}, #{photo},#{addr},#{alipay},#{bio},#{cert})")
-    @Options(useGeneratedKeys = true)
+    @Insert("INSERT INTO t_devprofiles (user_id, name, email, phone, photo, addr, alipay, bio, cert, status) VALUES (#{userId}, #{name}, #{email}, #{phone}, #{photo},#{addr},#{alipay},#{bio},#{cert},#{status})")
     int insert(DevProfile devProfile);
 
     @Update("UPDATE t_devprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, cert = #{cert} WHERE user_id = #{userId}")
