@@ -21,7 +21,11 @@ public class Page<T> {
     }
 
     public boolean isLast() {
-        return currentPage == totalPage;
+        if (totalPage > 0) {
+            return currentPage == totalPage;
+        } else {
+            return true;
+        }
     }
 
     public int getCurrentSize() {

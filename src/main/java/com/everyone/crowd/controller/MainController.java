@@ -2,6 +2,7 @@ package com.everyone.crowd.controller;
 
 import com.everyone.crowd.entity.Demand;
 import com.everyone.crowd.entity.User;
+import com.everyone.crowd.service.CategoryService;
 import com.everyone.crowd.service.DemandService;
 import com.everyone.crowd.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import java.util.Date;
 @Controller
 public class MainController {
     private final DemandService demandService;
+    private final CategoryService categoryService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -26,12 +28,14 @@ public class MainController {
     }
 
     @Autowired
-    public MainController(DemandService demandService) {
+    public MainController(DemandService demandService, CategoryService categoryService) {
         this.demandService = demandService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/")
     public String indexPage(Model model, HttpServletRequest request, HttpSession session,
+                            @RequestParam(value = "categoryId", defaultValue = "0") int category,
                             @RequestParam(value = "page", defaultValue = "1") int page) {
         if (session.getAttribute("user") == null) {
             String loginCookie = CookieUtil.getCookieValue("USR_LOGIN", request.getCookies());
@@ -39,6 +43,8 @@ public class MainController {
                 return "redirect:/user/login";
             }
         }
+        model.addAttribute("categoryId", category);
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("demands", demandService.findAll(10, page));
         return "index";
     }
