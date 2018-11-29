@@ -615,7 +615,6 @@ input[type=search],
 input[type=file],
 select.form-control,
 textarea.form-control {
-  -webkit-appearance: none;
   border: 1px solid #a9a9a9;
   -webkit-border-radius: 0;
   border-radius: 0;

@@ -43,23 +43,23 @@ code {
 }
 
 .card-list .card:hover {
-    background-color: rgba(0,0,0,.03);
+    background-color: rgba(0, 0, 0, .03);
 }
 
 .page-link {
     margin: 0;
-    border: 1px solid #005cbf!important;
-    border-radius: 2px!important;
+    border: 1px solid #005cbf !important;
+    border-radius: 2px !important;
     transition: .2s
 }
 
 .page-link:hover {
-    background-color: rgba(0,0,0,.1)!important;
+    background-color: rgba(0, 0, 0, .1) !important;
 }
 
 .page-item.active .page-link {
-    background-color: #005cbf!important;
-    color: #fff!important;
+    background-color: #005cbf !important;
+    color: #fff !important;
 }
 
 .text-darkgray {
