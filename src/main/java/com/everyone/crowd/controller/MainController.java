@@ -3,6 +3,7 @@ package com.everyone.crowd.controller;
 import com.everyone.crowd.entity.Demand;
 import com.everyone.crowd.entity.User;
 import com.everyone.crowd.service.DemandService;
+import com.everyone.crowd.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,7 +21,7 @@ public class MainController {
     private final DemandService demandService;
 
     @InitBinder
-    public void initBinder(WebDataBinder binder) throws Exception {
+    public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
     }
 
@@ -29,7 +31,14 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String indexPage(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+    public String indexPage(Model model, HttpServletRequest request, HttpSession session,
+                            @RequestParam(value = "page", defaultValue = "1") int page) {
+        if (session.getAttribute("user") == null) {
+            String loginCookie = CookieUtil.getCookieValue("USR_LOGIN", request.getCookies());
+            if (!loginCookie.isEmpty()) {
+                return "redirect:/user/login";
+            }
+        }
         model.addAttribute("demands", demandService.findAll(10, page));
         return "index";
     }
