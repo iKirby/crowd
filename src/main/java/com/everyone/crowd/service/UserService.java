@@ -34,4 +34,6 @@ public interface UserService {
     void updateBalance(User user);
 
     Page<User> findAllPaged(int pageSize, int page);
+
+    User findById(Integer id);
 }

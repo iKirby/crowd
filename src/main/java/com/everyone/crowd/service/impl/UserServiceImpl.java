@@ -147,4 +147,9 @@ public class UserServiceImpl implements UserService {
         userPage.setPageSize(pageSize);
         return userPage;
     }
+
+    @Override
+    public User findById(Integer id) {
+        return userMapper.findById(id);
+    }
 }
