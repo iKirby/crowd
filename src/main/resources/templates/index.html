@@ -9,7 +9,7 @@
 
 <main role="main">
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
+    <div class="jumbotron" th:if="${session.user != null}">
         <div class="container">
             <h1 class="display-4">欢迎来到 CROWD 众包平台</h1>
             <p>CROWD开发信息资源平台是我方承接开发的一个大型互联网开发平台项目 开创式地为人才与雇主搭建起双边市场 通过线上线下资源整合与大数据服务 实现人才与雇主精准无缝对接。让雇主可以在平台上“找专业人做专业事”
