@@ -15,7 +15,7 @@
             <div class="col-md-8">
                 <div class="alert alert-info">需求提交后，还需要通过审核才可以显示在列表中。</div>
                 <div class="shadow-sm p-3 mb-3 bg-white">
-                    <form method="post" th:action="@{'/editsetdemand/'+ ${demand.id}}" th:object="${demand}">
+                    <form method="post" th:action="@{/newsetdemand}" th:object="${demand}">
                         <p>
                             <label for="demand-title">标题</label>
                             <input placeholder="标题" type="text" id="demand-title" class="form-control" required
@@ -43,23 +43,24 @@
                         <p>
                             <label for="demand-detail">介绍</label>
                             <textarea placeholder="介绍" type="text" id="demand-detail" class="form-control"
-                                      required th:field="*{detail}"></textarea>
+                                      th:field="*{detail}"></textarea>
                         </p>
                         <p>
                             <label for="demand-starttime">项目开始日期</label>
-                            <input placeholder="项目开始时间" type="date" id="demand-starttime" class="form-control"
-                                   required th:field="*{startDate}">
+                            <input placeholder="项目开始时间" type="date" id="demand-starttime" class="form-control" required
+                                   th:field="*{startDate}">
                         </p>
                         <p>
                             <label for="demand-endtime">项目结束日期</label>
-                            <input placeholder="项目结束时间" type="date" id="demand-endtime" class="form-control"
-                                   required th:field="*{endDate}">
+                            <input placeholder="项目结束时间" type="date" id="demand-endtime" class="form-control" required
+                                   th:field="*{endDate}">
                         </p>
                         <p>
                             <label for="demand-attachment">附件</label>
-                            <input type="file" id="demand-attachment" name="attachment" class="form-control" >
+                            <input type="file" id="demand-attachment" name="attachment" class="form-control"
+                                   th:field="*{attachment}">
                         </p>
-                        <input class="btn btn-primary" type="submit" value="提交">
+                        <input id="submit" class="btn btn-primary" type="submit" onclick="alert('添加成功!')" value="提交">
                     </form>
                 </div>
             </div>
@@ -92,7 +93,9 @@
                 </div>
                 <div class="modal-body" id="tipMessage">...</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-success" data-dismiss="modal">确定</button>
+                    <button type="button" class="btn btn-sm btn-success" data-dismiss="modal">
+                        确定
+                    </button>
                 </div>
             </div>
         </div>

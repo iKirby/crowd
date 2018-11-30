@@ -89,7 +89,6 @@ public class DemandServiceImpl implements DemandService {
     @Override
     @Transactional
     public int insert(Demand demand) {
-        demand.setPublishTime(new Date());
         return demandMapper.insert(demand);
     }
 
