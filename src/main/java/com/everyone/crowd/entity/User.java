@@ -19,4 +19,6 @@ public class User {
     private String activateCode;
     private boolean activated;
     private String cookie;
+    private boolean isCustomer;
+    private boolean isDeveloper;
 }

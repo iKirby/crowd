@@ -16,5 +16,5 @@ public class VerifyRequest {
     private String certNo;
     private String msg;
     private String attachment;
-    private Boolean processed;
+    private boolean processed;
 }
