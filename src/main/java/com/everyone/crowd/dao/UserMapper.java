@@ -29,10 +29,10 @@ public interface UserMapper {
     @Update("UPDATE t_users SET activated = TRUE, activate_code = NULL WHERE activate_code = #{activateCode}")
     int activate(@Param("activateCode") String activateCode);
 
-    @Update("UPDATE t_users SET iscustomer = TRUE WHERE id = #{id}")
+    @Update("UPDATE t_users SET is_customer = TRUE WHERE id = #{id}")
     int isCustomer(@Param("id") Integer id);
 
-    @Update("UPDATE t_users SET isdeveloper = TRUE WHERE id = #{id}")
+    @Update("UPDATE t_users SET is_developer = TRUE WHERE id = #{id}")
     int isDeveloper(@Param("id") Integer id);
 
     @Update("UPDATE t_users SET email = #{email}, activate_code = #{activateCode} WHERE id = #{id}")

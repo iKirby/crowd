@@ -26,7 +26,7 @@
                 <p>
                     <a href="/" class="btn" role="button" th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
                     <th:block th:each="category : ${categories}">
-                        <a href="#" class="btn" role="button" th:text="${category.name}" th:href="@{'?categoryId=' + ${category.id}}"
+                        <a href="#" class="btn" role="button" th:text="${category.name}" th:href="@{'?category=' + ${category.id}}"
                            th:classappend="${categoryId == category.id ? 'btn-info' : 'btn-outline-info'}">分类</a>
                     </th:block>
                 </p>
@@ -35,8 +35,7 @@
                     <div class="card mb-3" th:each="demand : ${demands.content}">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <span class="badge badge-danger">NEW</span>
-                                <span class="badge badge-info">教育</span>
+                                <span class="badge badge-info" th:text="${categoryMap.get(demand.categoryId)}">教育</span>
                                 <a th:href="@{'/demand/'+ ${demand.id}}"> <span th:text="${demand.title}">XXX 网络教学平台网络教学平台网络教学平台网络教学平台</span></a>
                             </h5>
                             <div class=" card-text">

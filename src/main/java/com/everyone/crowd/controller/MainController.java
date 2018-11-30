@@ -19,6 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MainController {
@@ -40,7 +43,7 @@ public class MainController {
 
     @GetMapping("/")
     public String indexPage(Model model, HttpServletRequest request, HttpSession session,
-                            @RequestParam(value = "categoryId", defaultValue = "0") int category,
+                            @RequestParam(value = "category", defaultValue = "0") int category,
                             @RequestParam(value = "page", defaultValue = "1") int page) {
         if (session.getAttribute("user") == null) {
             String loginCookie = CookieUtil.getCookieValue("USR_LOGIN", request.getCookies());
@@ -48,9 +51,21 @@ public class MainController {
                 return "redirect:/user/login";
             }
         }
+
+        List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryId", category);
-        model.addAttribute("categories", categoryService.findAll());
-        model.addAttribute("demands", demandService.findAll(10, page));
+        model.addAttribute("categories", categoryList);
+        Map<Integer, String> categoryMap = new HashMap<>();
+        for (Category aCategory : categoryList) {
+            categoryMap.put(aCategory.getId(), aCategory.getName());
+        }
+        model.addAttribute("categoryMap", categoryMap);
+
+        if (category == 0) {
+            model.addAttribute("demands", demandService.findAll(10, page));
+        } else {
+            // TODO 添加条件查询
+        }
         return "index";
     }
 
