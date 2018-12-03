@@ -13,4 +13,6 @@ public interface CategoryService {
     int insert(Category category);
 
     void delete(Integer id);
+
+    Category findById(Integer id);
 }
