@@ -84,6 +84,7 @@ public class MainController {
     public String newDemand(Model model) {
         model.addAttribute("title", "发布需求");
         model.addAttribute("demand", new Demand());
+        model.addAttribute("categories", categoryService.findAll());
         return "newdemand";
     }
 

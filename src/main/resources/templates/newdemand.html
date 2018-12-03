@@ -24,8 +24,7 @@
                         <p>
                             <label for="demand-category">分类</label>
                             <select id="demand-category" class="form-control" required th:field="*{categoryId}">
-                                <option value="0">未分类</option>
-
+                                <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}">分类</option>
                             </select>
                         </p>
                         <p>

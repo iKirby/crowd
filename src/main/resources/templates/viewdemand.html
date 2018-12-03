@@ -23,7 +23,7 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 <span class="badge badge-info" th:text="${categoryMap.get(demand.categoryId)}">教育</span>
-                                <a th:href="@{'/demand/'+ ${demand.id}}"> <span th:text="${demand.title}">XXX 网络教学平台网络教学平台网络教学平台网络教学平台</span>
+                                <a th:href="@{'/demand/view/'+ ${demand.id}}"> <span th:text="${demand.title}">XXX 网络教学平台网络教学平台网络教学平台网络教学平台</span>
                                     <span class="text-danger float-right list-price h5"
                                           th:text="'状态：' + ${statusMap.get(demand.status)}">审核中</span>
                                 </a>
