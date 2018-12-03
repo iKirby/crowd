@@ -62,9 +62,11 @@ public class MainController {
         model.addAttribute("categoryMap", categoryMap);
 
         if (category == 0) {
-            model.addAttribute("demands", demandService.findAll(10, page));
+            model.addAttribute("demands", demandService.findByStatus(DemandStatus.PASS.name(), 10, page));
         } else {
             // TODO 添加条件查询
+            model.addAttribute("demands", demandService.findByCategoryIdAndStatus(category, DemandStatus.PASS.name(), 10, page));
+
         }
         return "index";
     }
@@ -120,15 +122,29 @@ public class MainController {
     }
 
     @GetMapping("/viewdemandbyeducation")
-    public String viewDemandByEducation(Model model,@RequestParam(value = "page", defaultValue = "1") int page) {
-        model.addAttribute("demands", demandService.findByCategoryId(1,10, page));
+    public String viewDemandByEducation(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
+        model.addAttribute("demands", demandService.findByCategoryId(1, 10, page));
         return "index";
     }
 
     @GetMapping("/viewdemand")
-    public String viewDemand(Model model, HttpSession session, @RequestParam(value = "page", defaultValue = "1") int page) {
+    public String viewDemand(Model model, HttpSession session, @RequestParam(value = "category", defaultValue = "0") int category, @RequestParam(value = "page", defaultValue = "1") int page) {
         User user = (User) session.getAttribute("user");
         model.addAttribute("demands", demandService.findByCustomerId(user.getId(), 10, page));
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("categoryId", category);
+        model.addAttribute("categories", categoryList);
+        Map<Integer, String> categoryMap = new HashMap<>();
+        for (Category aCategory : categoryList) {
+            categoryMap.put(aCategory.getId(), aCategory.getName());
+        }
+        Map<String, String> statusMap = new HashMap<>();
+        statusMap.put(DemandStatus.PENDING.name(), "审核中");
+        statusMap.put(DemandStatus.PASS.name(), "审核通过");
+        statusMap.put(DemandStatus.FAIL.name(), "审核未通过");
+        statusMap.put(DemandStatus.CONTRACTED.name(), "竞标中");
+        model.addAttribute("categoryMap", categoryMap);
+        model.addAttribute("statusMap", statusMap);
         return "viewdemand";
     }
 

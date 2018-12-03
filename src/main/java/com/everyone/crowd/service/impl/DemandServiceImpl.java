@@ -87,6 +87,18 @@ public class DemandServiceImpl implements DemandService {
     }
 
     @Override
+    public Page<Demand> findByCategoryIdAndStatus(Integer categoryId, String status, int pageSize, int page) {
+        int total = demandMapper.countByStatus(status);
+        List<Demand> content = demandMapper.findByCategoryIdAndStatus(categoryId, status, pageSize * (page - 1), pageSize);
+        Page<Demand> demandPage = new Page<>();
+        demandPage.setContent(content);
+        demandPage.setCurrentPage(page);
+        demandPage.setTotal(total);
+        demandPage.setPageSize(pageSize);
+        return demandPage;
+    }
+
+    @Override
     @Transactional
     public int insert(Demand demand) {
         return demandMapper.insert(demand);

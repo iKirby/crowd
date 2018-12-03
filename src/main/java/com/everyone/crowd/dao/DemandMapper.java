@@ -27,6 +27,9 @@ public interface DemandMapper {
     @Select("SELECT * FROM t_demands WHERE status = #{status} LIMIT #{offset}, #{size}")
     List<Demand> findByStatus(@Param("status") String status, @Param("offset") int offset, @Param("size") int size);
 
+    @Select("SELECT * FROM t_demands WHERE category_id = #{categoryId} and status = #{status} LIMIT #{offset}, #{size}")
+    List<Demand> findByCategoryIdAndStatus(@Param("categoryId") Integer categoryId, @Param("status") String status, @Param("offset") int offset, @Param("size") int size);
+
     @Select("SELECT COUNT(id) FROM t_demands WHERE status = #{status}")
     int countByStatus(@Param("status") String status);
 
@@ -44,7 +47,7 @@ public interface DemandMapper {
 
     @Insert("INSERT INTO t_demands (customer_id, title, publish_time, category_id, region, price, detail, start_date, end_date, attachment,status) VALUES (#{demand.customerId}, #{demand.title}, #{demand.publishTime}, #{demand.categoryId}, #{demand.region}, #{demand.price}, #{demand.detail}, #{demand.startDate}, #{demand.endDate}, #{demand.attachment},#{demand.status})")
     @Options(useGeneratedKeys = true)
-    int insert(@Param("demand")Demand demand);
+    int insert(@Param("demand") Demand demand);
 
     @Update("UPDATE t_demands SET title = #{demand.title},publish_time = #{demand.publishTime},category_id = #{demand.categoryId},region = #{demand.region},price = #{demand.price},detail = #{demand.detail},start_date = #{demand.startDate},end_date = #{demand.endDate},attachment = #{demand.attachment} WHERE id = #{id}")
     int update(@Param("id") Integer id, @Param("demand") Demand demand);
