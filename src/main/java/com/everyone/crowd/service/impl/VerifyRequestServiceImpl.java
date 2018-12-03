@@ -68,10 +68,11 @@ public class VerifyRequestServiceImpl implements VerifyRequestService {
     @Transactional
     public void process(Integer id, boolean passed) {
         VerifyRequest request = verifyRequestMapper.findById(id);
+        String status = passed ? ProfileStatus.VERIFIED.name() : ProfileStatus.FAILED.name();
         if (request.getType().equals(UserType.DEVELOPER.name())) {
-            devProfileMapper.updateStatus(request.getUserId(), ProfileStatus.VERIFIED.name());
+            devProfileMapper.updateStatus(request.getUserId(), status);
         } else {
-            customerProfileMapper.updateStatus(request.getUserId(), ProfileStatus.VERIFIED.name());
+            customerProfileMapper.updateStatus(request.getUserId(), status);
         }
         verifyRequestMapper.process(id);
     }
