@@ -16,7 +16,7 @@
         <div class="row">
             <!-- Left column -->
             <div class="col-md-8">
-                <div class="alert alert-info">
+                <div class="alert alert-info" th:if="${demand.status == 'CONTRACTED'}">
                     此需求已被承包，再找找其他需求吧。
                 </div>
                 <div class="shadow-sm p-3 mb-3 bg-white">
@@ -26,24 +26,23 @@
                 <div class="shadow-sm p-3 mb-3 bg-white">
                     <div class="text-black-50">介绍</div>
                     <div class="sh4" th:text="${demand.detail}">
-                        网络教学平台作为传统教学的有效辅助手段，是现在各个高校研究与探讨教学模式改革的热点，得到越来越多的关注，已经逐步成为教学活动的一个重点发展模式。本项目基于校园网，以培养学生自主学习和创造性学习为核心，结合传统教学过程中的关键环节，充分发挥教师、学生的交互作用，为学生、教师提供一个开放式的教、学、管三合一的综合教学环境，实现校园内的教学资源共享和跨时空的师生互动，建成一个功能完整、高效稳定、安全可靠的基于网络的教学平台。本平台可以实现教师课程资源上传、成绩管理、在线答疑，学生下载课程资源、在线测试、实训练习等功能。该网络教学平台的建成将为我校今后的数字化校园建设打下扎实基础，同时，我校师生通过该平台能够进行积极的教学交流，激发学生的学习潜能，提高学生的学习效率，促进我校教育教学结构的改革，提高教育教学信息化的水平。
+                        网络教学平台作为传统教学的有效辅助手段...
                     </div>
                 </div>
                 <div class="shadow-sm p-3 mb-3 bg-white">
                     <div class="text-black-50">期限</div>
                     <div class="sh4"
-                         th:text="${#dates.format(demand.startDate,'yyyy-MM-dd')}+'~'+ ${#dates.format(demand.endDate,'yyyy-MM-dd')}">
-                        2018-11-20 09:36 ~ 2018-11-31
-                        09:36
+                         th:text="${#dates.format(demand.startDate,'yyyy-MM-dd')} +' ~ '+ ${#dates.format(demand.endDate,'yyyy-MM-dd')}">
+                        2018-11-20 ~ 2018-11-31
                     </div>
                 </div>
                 <div class="shadow-sm p-3 mb-3 bg-white">
                     <div class="text-black-50">附件</div>
-                    <div class="sh4"><a href="#" th:text="${demand.attachment}">下载附件</a></div>
+                    <div class="sh4"><a href="#" th:href="${demand.attachment}">下载附件</a></div>
                 </div>
                 <div class="p-3 mb-3 bg-white">
                     <div class="text-black-50">对此需求感兴趣？参与竞标即有机会承包项目。</div>
-                    <a href="#" class="btn btn-primary disabled">参与竞标</a>
+                    <a href="#" class="btn btn-primary" th:classappend="${if (demand.status == 'CONTRACTED') ? 'disabled' : ''}">参与竞标</a>
                 </div>
             </div> <!-- /Left column -->
 
@@ -55,20 +54,18 @@
                         <div class="text-black-50">发布者</div>
                         <p class="sh4" th:text="${user.username}">CUSTOMER1</p>
                         <div class="text-black-50">发布时间</div>
-                        <p class="sh4" th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}">2018-11-20
-                            09:36</p>
+                        <p class="sh4" th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}"></p>
                         <div class="text-black-50">地区</div>
                         <p class="sh4" th:text="${demand.region}">天津</p>
                         <div class="text-black-50">分类</div>
                         <p class="sh4" th:text="${category.name}">教育</p>
-                        <a href="bid.html" class="text-primary">查看竞标<i class="mi mi-ChevronRight"></i></a><br/>
-                        <a id="update" th:if="${session.user.id==demand.customerId}"
-                           th:href="@{'/editdemand/'+ ${demand.id}}">修改需求信息<i
+                        <a href="bid.html" class="text-primary" th:href="@{'/bid/view/' + ${demand.id}}">查看竞标<i class="mi mi-ChevronRight"></i></a><br/>
+                        <a id="update" th:if="${session.user.id == demand.customerId}"
+                           th:href="@{'/demand/edit/'+ ${demand.id}}">修改需求信息<i
                                 class="mi mi-ChevronRight"></i></a><br/>
-                        <a id="delete" th:if="${session.user.id==demand.customerId}"
-                           th:href="@{'/deletedemand/'+ ${demand.id}}" onclick="alert('操作成功!')">删除此需求信息</a>
+                        <a id="delete" th:if="${session.user.id == demand.customerId}"
+                           th:href="@{'/demand/delete/'+ ${demand.id}}">删除此需求信息</a>
                     </div>
-
                 </div>
             </div> <!-- /Right column -->
         </div>

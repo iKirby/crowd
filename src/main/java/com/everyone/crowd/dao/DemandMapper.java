@@ -49,8 +49,8 @@ public interface DemandMapper {
     @Options(useGeneratedKeys = true)
     int insert(@Param("demand") Demand demand);
 
-    @Update("UPDATE t_demands SET title = #{demand.title},publish_time = #{demand.publishTime},category_id = #{demand.categoryId},region = #{demand.region},price = #{demand.price},detail = #{demand.detail},start_date = #{demand.startDate},end_date = #{demand.endDate},attachment = #{demand.attachment} WHERE id = #{id}")
-    int update(@Param("id") Integer id, @Param("demand") Demand demand);
+    @Update("UPDATE t_demands SET title = #{demand.title},publish_time = #{demand.publishTime},category_id = #{demand.categoryId},region = #{demand.region},price = #{demand.price},detail = #{demand.detail},start_date = #{demand.startDate},end_date = #{demand.endDate},attachment = #{demand.attachment} WHERE id = #{demand.id}")
+    int update(@Param("demand") Demand demand);
 
     @Update("UPDATE t_demands SET status = #{status} WHERE id = #{id}")
     int updateStatus(@Param("id") Integer id, @Param("status") String status);

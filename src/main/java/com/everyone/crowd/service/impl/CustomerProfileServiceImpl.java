@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class CustomerProfileServiceImpl implements CustomerProfileService {
     private final CustomerProfileMapper customerProfileMapper;
@@ -49,5 +53,15 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     @Transactional
     public void updateLevel(Integer user_id, int level) {
         customerProfileMapper.updateLevel(user_id, level);
+    }
+
+    @Override
+    public Map<Integer, String> getIdNameMap(List<Integer> ids) {
+        List<CustomerProfile> customerProfiles = customerProfileMapper.findByIds(ids);
+        Map<Integer, String> map = new HashMap<>();
+        for (CustomerProfile customerProfile : customerProfiles) {
+            map.put(customerProfile.getUserId(), customerProfile.getName());
+        }
+        return map;
     }
 }

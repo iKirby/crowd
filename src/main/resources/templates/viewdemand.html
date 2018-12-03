@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: headFragment('登录')">
+<head th:replace="fragments/head :: headFragment('我的需求')">
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>我的需求</title>
 </head>
 <body>
 <nav th:replace="fragments/header :: navFragment"></nav>
@@ -14,7 +14,7 @@
             <!-- Left column -->
             <div class="col-md-8">
                 <p>
-                    <a href="#" class="btn btn-outline-info" th:href="@{'/newdemand/'}" role="button"
+                    <a href="#" class="btn btn-outline-info" th:href="@{'/demand/new'}" role="button"
                        aria-pressed="false">新增需求</a>
                 </p>
                 <hr>

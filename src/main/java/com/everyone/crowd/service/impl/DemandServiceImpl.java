@@ -106,9 +106,9 @@ public class DemandServiceImpl implements DemandService {
 
     @Override
     @Transactional
-    public void update(Integer id, Demand demand) {
+    public void update(Demand demand) {
         demand.setPublishTime(new Date());
-        demandMapper.update(id, demand);
+        demandMapper.update(demand);
     }
 
     @Override

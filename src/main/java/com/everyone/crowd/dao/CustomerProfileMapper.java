@@ -1,8 +1,11 @@
 package com.everyone.crowd.dao;
 
+import com.everyone.crowd.dao.sqlprovider.CustomerProfileSQLProvider;
 import com.everyone.crowd.entity.CustomerProfile;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface CustomerProfileMapper {
@@ -23,4 +26,7 @@ public interface CustomerProfileMapper {
 
     @Update("UPDATE t_customerprofiles set level=#{level} where user_id = #{user_id}")
     int updateLevel(@Param("user_id") Integer user_id, @Param("level") int level);
+
+    @SelectProvider(type = CustomerProfileSQLProvider.class, method = "findByIds")
+    List<CustomerProfile> findByIds(@Param("ids") List<Integer> ids);
 }
