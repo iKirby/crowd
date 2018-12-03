@@ -14,13 +14,13 @@ public interface CategoryMapper {
     @Select("SELECT * FROM t_category WHERE id = #{id}")
     Category findById(@Param("id") Integer id);
 
-    @Update("UPDATE t_category SET name=#{name},description=#{description} WHERE id=#{id}")
+    @Update("UPDATE t_category SET name=#{name},description=#{description} WHERE id = #{id}")
     int update(@Param("id") Integer id, @Param("name") String name, @Param("description") String description);
 
     @Insert("INSERT INTO t_category(name, description) VALUES (#{name}, #{description})")
     int insert(Category category);
 
-    @Delete("DELETE FROM t_category WHERE id=#{id}")
+    @Delete("DELETE FROM t_category WHERE id = #{id}")
     int delete(@Param("id") Integer id);
 
 

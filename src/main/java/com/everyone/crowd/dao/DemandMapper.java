@@ -42,9 +42,9 @@ public interface DemandMapper {
     @Select("SELECT COUNT(title) FROM t_demands WHERE title LIKE '%${title}%'")
     int countByTitle(@Param("title") String title);
 
-    @Insert("INSERT INTO t_demands (customer_id, title, publish_time, category_id, region, price, detail, start_date, end_date, attachment) VALUES (#{customerId}, #{title}, #{publish_time}, #{categoryId}, #{region}, #{price}, #{detail}, #{startDate}, #{endDate}, #{attachment})")
+    @Insert("INSERT INTO t_demands (customer_id, title, publish_time, category_id, region, price, detail, start_date, end_date, attachment,status) VALUES (#{demand.customerId}, #{demand.title}, #{demand.publishTime}, #{demand.categoryId}, #{demand.region}, #{demand.price}, #{demand.detail}, #{demand.startDate}, #{demand.endDate}, #{demand.attachment},#{demand.status})")
     @Options(useGeneratedKeys = true)
-    int insert(Demand demand);
+    int insert(@Param("demand")Demand demand);
 
     @Update("UPDATE t_demands SET title = #{demand.title},publish_time = #{demand.publishTime},category_id = #{demand.categoryId},region = #{demand.region},price = #{demand.price},detail = #{demand.detail},start_date = #{demand.startDate},end_date = #{demand.endDate},attachment = #{demand.attachment} WHERE id = #{id}")
     int update(@Param("id") Integer id, @Param("demand") Demand demand);

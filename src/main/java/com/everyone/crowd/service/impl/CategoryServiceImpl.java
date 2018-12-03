@@ -23,6 +23,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Category findById(Integer id) {
+        return categoryMapper.findById(id);
+    }
+
+    @Override
     @Transactional
     public void update(Integer id, String name, String description) {
         categoryMapper.update(id, name, description);
