@@ -3,6 +3,9 @@ package com.everyone.crowd.service;
 import com.everyone.crowd.entity.DevProfile;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 public interface DevProfileService {
     DevProfile findById(Integer user_id);
 
@@ -15,4 +18,6 @@ public interface DevProfileService {
     void updateStatus(Integer user_id, String status);
 
     void updateLevel(Integer user_id, int level);
+
+    Map<Integer, String> getIdNameMap(List<Integer> ids);
 }

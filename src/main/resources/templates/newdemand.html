@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: headFragment(${title})">
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>提交需求</title>
 </head>
 <body>
 <nav th:replace="fragments/header :: navFragment"></nav>
@@ -15,7 +15,7 @@
             <div class="col-md-8">
                 <div class="alert alert-info">需求提交后，还需要通过审核才可以显示在列表中。</div>
                 <div class="shadow-sm p-3 mb-3 bg-white">
-                    <form method="post" th:action="@{/newsetdemand}" th:object="${demand}">
+                    <form method="post" th:action="@{/demand/new}" th:object="${demand}">
                         <p>
                             <label for="demand-title">标题</label>
                             <input placeholder="标题" type="text" id="demand-title" class="form-control" required
@@ -25,9 +25,7 @@
                             <label for="demand-category">分类</label>
                             <select id="demand-category" class="form-control" required th:field="*{categoryId}">
                                 <option value="0">未分类</option>
-                                <option value="1">教育</option>
-                                <option value="2">医疗</option>
-                                <option value="3">金融</option>
+
                             </select>
                         </p>
                         <p>
@@ -60,7 +58,7 @@
                             <input type="file" id="demand-attachment" name="attachment" class="form-control"
                                    th:field="*{attachment}">
                         </p>
-                        <input id="submit" class="btn btn-primary" type="submit" onclick="alert('添加成功!')" value="提交">
+                        <input id="submit" class="btn btn-primary" type="submit" value="提交">
                     </form>
                 </div>
             </div>
@@ -80,26 +78,6 @@
             </div> <!-- /Right column -->
         </div>
     </div> <!-- /container -->
-
-    <div class="modal fade" id="tipModal" tabindex="-1" role="dialog" aria-labelledby="tipModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="tipModalLabel">信息</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="关闭">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="tipMessage">...</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-success" data-dismiss="modal">
-                        确定
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
 </main>
 
 <footer th:replace="fragments/footer :: footerFragment"></footer>

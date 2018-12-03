@@ -1,9 +1,9 @@
 package com.everyone.crowd.service;
 
 import com.everyone.crowd.entity.CustomerProfile;
-import com.everyone.crowd.entity.DevProfile;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 
 public interface CustomerProfileService {
@@ -18,4 +18,6 @@ public interface CustomerProfileService {
     void updateStatus(Integer user_id, String status);
 
     void updateLevel(Integer user_id, int level);
+
+    Map<Integer, String> getIdNameMap(List<Integer> ids);
 }

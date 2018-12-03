@@ -21,7 +21,7 @@ public interface DemandService {
 
     int insert(Demand demand);
 
-    void update(Integer id, Demand demand);
+    void update(Demand demand);
 
     void updateStatus(Integer id, String status);
 

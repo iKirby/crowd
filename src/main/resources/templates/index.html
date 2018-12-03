@@ -36,7 +36,7 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 <span class="badge badge-info" th:text="${categoryMap.get(demand.categoryId)}">教育</span>
-                                <a th:href="@{'/demand/'+ ${demand.id}}"> <span th:text="${demand.title}">XXX 网络教学平台网络教学平台网络教学平台网络教学平台</span></a>
+                                <a th:href="@{'/demand/view/'+ ${demand.id}}"> <span th:text="${demand.title}">XXX 网络教学平台网络教学平台网络教学平台网络教学平台</span></a>
                             </h5>
                             <div class=" card-text">
                                 <div class="card-text-item">
@@ -56,8 +56,8 @@
                 </div>
 
                 <!-- pagination -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination" th:if="${categoryId == 0}">
                         <li class="page-item" th:if="${!demands.isFirst()}">
                             <a class="page-link" href="#" aria-label="Previous" th:href="@{'?page=' + ${demands.currentPage - 1}}">
                                 <span aria-hidden="true">
@@ -72,6 +72,28 @@
                         </li>
                         <li class="page-item" th:if="${!demands.isLast()}">
                             <a class="page-link" href="#" aria-label="Next" th:href="@{'?page=' + ${demands.currentPage + 1}}">
+                                <span aria-hidden="true">Next
+                                    <i class="mi mi-ChevronRight"></i>
+                                </span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="pagination" th:if="${categoryId != 0}">
+                        <li class="page-item" th:if="${!demands.isFirst()}">
+                            <a class="page-link" href="#" aria-label="Previous" th:href="@{'?category=' + ${categoryId} + '&page=' + ${demands.currentPage - 1}}">
+                                <span aria-hidden="true">
+                                    <i class="mi mi-ChevronLeft"></i> Prev
+                                </span>
+                                <span class="sr-only">Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:if="${demands.totalPage > 0}" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
+                            th:classappend="${demands.currentPage == i ? 'active' : ''}">
+                            <a class="page-link" th:href="@{'?category=' + ${categoryId} + '&page=' + ${i}}" th:text="${i}">1</a>
+                        </li>
+                        <li class="page-item" th:if="${!demands.isLast()}">
+                            <a class="page-link" href="#" aria-label="Next" th:href="@{'?category=' + ${categoryId} + '&page=' + ${demands.currentPage + 1}}">
                                 <span aria-hidden="true">Next
                                     <i class="mi mi-ChevronRight"></i>
                                 </span>

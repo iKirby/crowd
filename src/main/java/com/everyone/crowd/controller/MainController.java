@@ -43,7 +43,7 @@ public class MainController {
 
     @GetMapping("/")
     public String indexPage(Model model, HttpServletRequest request, HttpSession session,
-                            @RequestParam(value = "category", defaultValue = "0") int category,
+                            @RequestParam(value = "category", defaultValue = "0") int categoryId,
                             @RequestParam(value = "page", defaultValue = "1") int page) {
         if (session.getAttribute("user") == null) {
             String loginCookie = CookieUtil.getCookieValue("USR_LOGIN", request.getCookies());
@@ -53,7 +53,7 @@ public class MainController {
         }
 
         List<Category> categoryList = categoryService.findAll();
-        model.addAttribute("categoryId", category);
+        model.addAttribute("categoryId", categoryId);
         model.addAttribute("categories", categoryList);
         Map<Integer, String> categoryMap = new HashMap<>();
         for (Category aCategory : categoryList) {
@@ -61,7 +61,7 @@ public class MainController {
         }
         model.addAttribute("categoryMap", categoryMap);
 
-        if (category == 0) {
+        if (categoryId == 0) {
             model.addAttribute("demands", demandService.findAll(10, page));
         } else {
             // TODO 添加条件查询
@@ -69,7 +69,7 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/demand/{id}")
+    @GetMapping("/demand/view/{id}")
     public String demandPage(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("demand", demandService.findById(id));
         Category category = categoryService.findById(demandService.findById(id).getCategoryId());
@@ -79,56 +79,56 @@ public class MainController {
         return "demand";
     }
 
-    @GetMapping("/newdemand")
+    @GetMapping("/demand/new")
     public String newDemand(Model model) {
         model.addAttribute("title", "发布需求");
         model.addAttribute("demand", new Demand());
         return "newdemand";
     }
 
-    @PostMapping("/newsetdemand")
-    public String newSetDemand(Model model, Demand demand, HttpSession session, @RequestParam(value = "page", defaultValue = "1") int page) {
+    @PostMapping("/demand/new")
+    public String newSetDemand(Demand demand, HttpSession session) {
         User user = (User) session.getAttribute("user");
         demand.setCustomerId(user.getId());
         demand.setPublishTime(new Date());
         demand.setStatus(DemandStatus.PENDING.name());
         demandService.insert(demand);
-        model.addAttribute("demands", demandService.findAll(10, page));
-        return "index";
+        return "redirect:/demand/view/" + demand.getId();
     }
 
-    @GetMapping("/editdemand/{id}")
+    @GetMapping("/demand/edit/{id}")
     public String editDemand(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("title", "修改需求");
         model.addAttribute("demand", demandService.findById(id));
         return "updatedemand";
     }
 
-    @PostMapping("/editsetdemand/{id}")
-    public String editSetDemand(Model model, Demand demand, @PathVariable("id") Integer id) {
-        model.addAttribute("title", "修改需求");
-        demandService.update(id, demand);
-        model.addAttribute("demand", demandService.findById(id));
-        return "demand";
+    @PostMapping("/demand/edit")
+    public String editSetDemand(Demand demand) {
+        demandService.update(demand);
+        return "redirect:/demand/view/" + demand.getId();
     }
 
-    @GetMapping("/deletedemand/{id}")
-    public String deleteDemand(Model model, @PathVariable("id") Integer id, @RequestParam(value = "page", defaultValue = "1") int page) {
-        model.addAttribute("demands", demandService.findAll(10, page));
+    @GetMapping("/demand/delete/{id}")
+    public String deleteDemand(@PathVariable("id") Integer id) {
         demandService.delete(id);
         return "redirect:/";
     }
 
-    @GetMapping("/viewdemandbyeducation")
-    public String viewDemandByEducation(Model model,@RequestParam(value = "page", defaultValue = "1") int page) {
-        model.addAttribute("demands", demandService.findByCategoryId(1,10, page));
-        return "index";
-    }
-
-    @GetMapping("/viewdemand")
-    public String viewDemand(Model model, HttpSession session, @RequestParam(value = "page", defaultValue = "1") int page) {
+    @GetMapping("/demand/my")
+    public String viewDemand(Model model, HttpSession session,
+                             @RequestParam(value = "category", defaultValue = "0") Integer categoryId,
+                             @RequestParam(value = "page", defaultValue = "1") int page) {
         User user = (User) session.getAttribute("user");
         model.addAttribute("demands", demandService.findByCustomerId(user.getId(), 10, page));
+        model.addAttribute("categoryId", categoryId);
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("categories", categoryList);
+        Map<Integer, String> categoryMap = new HashMap<>();
+        for (Category aCategory : categoryList) {
+            categoryMap.put(aCategory.getId(), aCategory.getName());
+        }
+        model.addAttribute("categoryMap", categoryMap);
         return "viewdemand";
     }
 

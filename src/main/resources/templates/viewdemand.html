@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: headFragment('登录')">
+<head th:replace="fragments/head :: headFragment('我的需求')">
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>我的需求</title>
 </head>
 <body>
 <nav th:replace="fragments/header :: navFragment"></nav>
@@ -14,10 +14,11 @@
             <!-- Left column -->
             <div class="col-md-8">
                 <p>
-                    <a href="#" class="btn btn-info" role="button" aria-pressed="true">全部</a>
-                    <a href="#" class="btn btn-outline-info" role="button" aria-pressed="false">教育</a>
-                    <a href="#" class="btn btn-outline-info" role="button" aria-pressed="false">医疗</a>
-                    <a href="#" class="btn btn-outline-info" role="button" aria-pressed="false">金融</a>
+                    <a href="/" class="btn" role="button" th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
+                    <th:block th:each="category : ${categories}">
+                        <a href="#" class="btn" role="button" th:text="${category.name}" th:href="@{'?category=' + ${category.id}}"
+                           th:classappend="${categoryId == category.id ? 'btn-info' : 'btn-outline-info'}">分类</a>
+                    </th:block>
                     <a href="#" class="btn btn-outline-default" th:href="@{'/newdemand/'}" style="float: right"
                        role="button" aria-pressed="false">新增需求</a>
                 </p>
