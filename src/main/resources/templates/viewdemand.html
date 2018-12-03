@@ -82,11 +82,11 @@
                         <a href="#" class="text-primary float-right">高级</a>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form method="post" th:action="@{/demand/search/customer}">
                             <p>
                                 <input placeholder="输入关键词并按下 Enter ..." type="text" id="inputSearch"
                                        class="form-control"
-                                       name="s">
+                                       name="key1">
                             </p>
                             <input type="submit" class="btn btn-primary" value="搜索">
                         </form>

@@ -21,6 +21,8 @@ public interface DemandService {
 
     Page<Demand> findByCategoryIdAndStatus(Integer categoryId, String status, int pageSize, int page);
 
+    Page<Demand> findByCustomerIdAndTitle(Integer customerId, String title, int pageSize, int page);
+
     int insert(Demand demand);
 
     void update(Integer id, Demand demand);

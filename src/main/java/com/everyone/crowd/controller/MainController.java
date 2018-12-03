@@ -71,6 +71,7 @@ public class MainController {
         return "index";
     }
 
+
     @GetMapping("/demand/{id}")
     public String demandPage(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("demand", demandService.findById(id));
@@ -99,14 +100,57 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/editdemand/{id}")
+    @GetMapping("/demand/search")
+    public String searchDemand(Model model, @RequestParam("key") String title, @RequestParam(value = "category", defaultValue = "0") int category, @RequestParam(value = "page", defaultValue = "1") int page) {
+        if (title.isEmpty()) {
+            model.addAttribute("demands", demandService.findByStatus(DemandStatus.PASS.name(), 10, page));
+        } else {
+            model.addAttribute("demands", demandService.findByTitle(title, 10, page));
+        }
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("categoryId", category);
+        model.addAttribute("categories", categoryList);
+        Map<Integer, String> categoryMap = new HashMap<>();
+        for (Category aCategory : categoryList) {
+            categoryMap.put(aCategory.getId(), aCategory.getName());
+        }
+        model.addAttribute("categoryMap", categoryMap);
+        return "index1";
+    }
+
+    @GetMapping("/demand/search/customer")
+    public String searchCustomerDemand(Model model, HttpSession session, @RequestParam("key1") String title, @RequestParam(value = "category", defaultValue = "0") int category, @RequestParam(value = "page", defaultValue = "1") int page) {
+        User user = (User) session.getAttribute("user");
+        if (title.isEmpty()) {
+            model.addAttribute("demands", demandService.findByCustomerId(user.getId(), 10, page));
+        } else {
+            model.addAttribute("demands", demandService.findByCustomerIdAndTitle(user.getId(), title, 10, page));
+        }
+        List<Category> categoryList = categoryService.findAll();
+        model.addAttribute("categoryId", category);
+        model.addAttribute("categories", categoryList);
+        Map<Integer, String> categoryMap = new HashMap<>();
+        for (Category aCategory : categoryList) {
+            categoryMap.put(aCategory.getId(), aCategory.getName());
+        }
+        Map<String, String> statusMap = new HashMap<>();
+        statusMap.put(DemandStatus.PENDING.name(), "审核中");
+        statusMap.put(DemandStatus.PASS.name(), "审核通过");
+        statusMap.put(DemandStatus.FAIL.name(), "审核未通过");
+        statusMap.put(DemandStatus.CONTRACTED.name(), "竞标中");
+        model.addAttribute("categoryMap", categoryMap);
+        model.addAttribute("statusMap", statusMap);
+        return "viewdemand";
+    }
+
+    @GetMapping("/demand/edit/{id}")
     public String editDemand(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("title", "修改需求");
         model.addAttribute("demand", demandService.findById(id));
         return "updatedemand";
     }
 
-    @PostMapping("/editsetdemand/{id}")
+    @PostMapping("/demand/edit/set/{id}")
     public String editSetDemand(Model model, Demand demand, @PathVariable("id") Integer id) {
         model.addAttribute("title", "修改需求");
         demandService.update(id, demand);
