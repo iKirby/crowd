@@ -13,7 +13,7 @@ public interface VerifyRequestService {
 
     int request(VerifyRequest verifyRequest);
 
-    void process(Integer id);
+    void process(Integer id, boolean passed);
 
     void delete(Integer id);
 }

@@ -1,8 +1,12 @@
 package com.everyone.crowd.service.impl;
 
+import com.everyone.crowd.dao.CustomerProfileMapper;
+import com.everyone.crowd.dao.DevProfileMapper;
 import com.everyone.crowd.dao.VerifyRequestMapper;
 import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.entity.VerifyRequest;
+import com.everyone.crowd.entity.status.ProfileStatus;
+import com.everyone.crowd.entity.status.UserType;
 import com.everyone.crowd.service.VerifyRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +17,16 @@ import java.util.List;
 @Service
 public class VerifyRequestServiceImpl implements VerifyRequestService {
     private final VerifyRequestMapper verifyRequestMapper;
+    private final DevProfileMapper devProfileMapper;
+    private final CustomerProfileMapper customerProfileMapper;
 
     @Autowired
-    public VerifyRequestServiceImpl(VerifyRequestMapper verifyRequestMapper) {
+    public VerifyRequestServiceImpl(VerifyRequestMapper verifyRequestMapper,
+                                    DevProfileMapper devProfileMapper,
+                                    CustomerProfileMapper customerProfileMapper) {
         this.verifyRequestMapper = verifyRequestMapper;
+        this.devProfileMapper = devProfileMapper;
+        this.customerProfileMapper = customerProfileMapper;
     }
 
     @Override
@@ -56,8 +66,13 @@ public class VerifyRequestServiceImpl implements VerifyRequestService {
 
     @Override
     @Transactional
-    public void process(Integer id) {
-        // TODO Add profile status modification
+    public void process(Integer id, boolean passed) {
+        VerifyRequest request = verifyRequestMapper.findById(id);
+        if (request.getType().equals(UserType.DEVELOPER.name())) {
+            devProfileMapper.updateStatus(request.getUserId(), ProfileStatus.VERIFIED.name());
+        } else {
+            customerProfileMapper.updateStatus(request.getUserId(), ProfileStatus.VERIFIED.name());
+        }
         verifyRequestMapper.process(id);
     }
 
