@@ -118,12 +118,10 @@ public class MainController {
 
     @GetMapping("/demand/my")
     public String viewDemand(Model model, HttpSession session,
-                             @RequestParam(value = "category", defaultValue = "0") Integer categoryId,
                              @RequestParam(value = "page", defaultValue = "1") int page) {
         User user = (User) session.getAttribute("user");
         model.addAttribute("demands", demandService.findByCustomerId(user.getId(), 10, page));
         List<Category> categoryList = categoryService.findAll();
-        model.addAttribute("categoryId", category);
         model.addAttribute("categories", categoryList);
         Map<Integer, String> categoryMap = new HashMap<>();
         for (Category aCategory : categoryList) {
