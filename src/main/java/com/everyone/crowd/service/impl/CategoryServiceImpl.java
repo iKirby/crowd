@@ -44,9 +44,4 @@ public class CategoryServiceImpl implements CategoryService {
     public void delete(Integer id) {
         categoryMapper.delete(id);
     }
-
-    @Override
-    public Category findById(Integer id) {
-        return categoryMapper.findById(id);
-    }
 }
