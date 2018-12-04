@@ -24,7 +24,7 @@ public class FileController {
             } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")){
                 builder.contentType(MediaType.IMAGE_JPEG);
             } else {
-                builder.contentType(MediaType.APPLICATION_OCTET_STREAM);
+                builder.header("Content-Disposition", "attachment; filename=" + fileName);
             }
             return builder.body(file);
         }

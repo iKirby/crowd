@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: headFragment(${title})">
+<head th:replace="fragments/head :: headFragment('修改需求')">
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>修改需求</title>
 </head>
 <body>
 <nav th:replace="fragments/header :: navFragment"></nav>
@@ -10,12 +10,13 @@
 <main role="main">
     <div class="container container-main">
         <!-- Example row of columns -->
-        <h2 class="h2">提交需求</h2>
+        <h2 class="h2">修改需求</h2>
         <div class="row">
             <div class="col-md-8">
-                <div class="alert alert-info">需求提交后，还需要通过审核才可以显示在列表中。</div>
                 <div class="shadow-sm p-3 mb-3 bg-white">
-                    <form method="post" th:action="@{'/demand/edit/'+ ${demand.id}}" th:object="${demand}">
+                    <form method="post" enctype="multipart/form-data"
+                          th:action="@{/demand/edit}" th:object="${demand}">
+                        <input type="hidden" th:field="*{id}">
                         <p>
                             <label for="demand-title">标题</label>
                             <input placeholder="标题" type="text" id="demand-title" class="form-control" required
@@ -24,10 +25,7 @@
                         <p>
                             <label for="demand-category">分类</label>
                             <select id="demand-category" class="form-control" required th:field="*{categoryId}">
-                                <option value="0">未分类</option>
-                                <option value="1">教育</option>
-                                <option value="2">医疗</option>
-                                <option value="3">金融</option>
+                                <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}">分类</option>
                             </select>
                         </p>
                         <p>
@@ -56,10 +54,10 @@
                                    required th:field="*{endDate}">
                         </p>
                         <p>
-                            <label for="demand-attachment">附件</label>
+                            <label for="demand-attachment">附件（需求说明文档等，不需要修改则不上传）</label>
                             <input type="file" id="demand-attachment" name="attachment" class="form-control">
                         </p>
-                        <input id="submit" class="btn btn-primary" type="submit" onclick="alert('操作成功!')" value="提交">
+                        <input id="submit" class="btn btn-primary" type="submit" value="提交">
                     </form>
                 </div>
             </div>

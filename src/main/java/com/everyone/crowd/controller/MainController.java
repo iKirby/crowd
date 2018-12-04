@@ -8,7 +8,9 @@ import com.everyone.crowd.entity.status.DemandStatus;
 import com.everyone.crowd.service.DemandService;
 import com.everyone.crowd.util.CookieUtil;
 import com.everyone.crowd.service.UserService;
+import com.everyone.crowd.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,9 @@ import java.util.Map;
 
 @Controller
 public class MainController {
+    @Value("${com.everyone.crowd.upload.path}")
+    private String uploadPath;
+
     private final DemandService demandService;
     private final CategoryService categoryService;
     private final UserService userService;
@@ -82,7 +87,6 @@ public class MainController {
 
     @GetMapping("/demand/new")
     public String newDemand(Model model) {
-        model.addAttribute("title", "发布需求");
         model.addAttribute("demand", new Demand());
         model.addAttribute("categories", categoryService.findAll());
         return "newdemand";
@@ -100,13 +104,21 @@ public class MainController {
 
     @GetMapping("/demand/edit/{id}")
     public String editDemand(Model model, @PathVariable("id") Integer id) {
-        model.addAttribute("title", "修改需求");
         model.addAttribute("demand", demandService.findById(id));
+        model.addAttribute("categories", categoryService.findAll());
         return "updatedemand";
     }
 
     @PostMapping("/demand/edit")
-    public String editSetDemand(Demand demand) {
+    public String editSetDemand(Demand demand, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        demand.setCustomerId(user.getId());
+        Demand current = demandService.findById(demand.getId());
+        if (demand.getAttachment() == null) {
+            demand.setAttachment(current.getAttachment());
+        } else {
+            FileUtil.deleteFile(uploadPath, current.getAttachment());
+        }
         demandService.update(demand);
         return "redirect:/demand/view/" + demand.getId();
     }

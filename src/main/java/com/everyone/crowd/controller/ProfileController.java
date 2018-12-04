@@ -8,7 +8,9 @@ import com.everyone.crowd.entity.status.ProfileStatus;
 import com.everyone.crowd.service.CustomerProfileService;
 import com.everyone.crowd.service.DevProfileService;
 import com.everyone.crowd.service.VerifyRequestService;
+import com.everyone.crowd.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,9 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class ProfileController {
+    @Value("${com.everyone.crowd.upload.path}")
+    private String uploadPath;
+
     private final DevProfileService devProfileService;
     private final CustomerProfileService customerProfileService;
     private final VerifyRequestService verifyRequestService;
@@ -35,7 +40,13 @@ public class ProfileController {
     public String updateDevProfile(HttpSession session, DevProfile devProfile) {
         User user = (User) session.getAttribute("user");
         devProfile.setUserId(user.getId());
-        if (devProfileService.findById(user.getId()) != null) {
+        DevProfile current = devProfileService.findById(user.getId());
+        if (current != null) {
+            if (devProfile.getPhoto() == null) {
+                devProfile.setPhoto(current.getPhoto());
+            } else {
+                FileUtil.deleteFile(uploadPath, current.getPhoto());
+            }
             devProfileService.update(devProfile);
         } else {
             devProfile.setStatus(ProfileStatus.UNVERIFIED.name());
@@ -48,7 +59,13 @@ public class ProfileController {
     public String updateCustomerProfile(HttpSession session, CustomerProfile customerProfile) {
         User user = (User) session.getAttribute("user");
         customerProfile.setUserId(user.getId());
-        if (customerProfileService.findById(user.getId()) != null) {
+        CustomerProfile current = customerProfileService.findById(user.getId());
+        if (current != null) {
+            if (customerProfile.getPhoto() == null) {
+                customerProfile.setPhoto(current.getPhoto());
+            } else {
+                FileUtil.deleteFile(uploadPath, current.getPhoto());
+            }
             customerProfileService.update(customerProfile);
         } else {
             customerProfile.setStatus(ProfileStatus.UNVERIFIED.name());

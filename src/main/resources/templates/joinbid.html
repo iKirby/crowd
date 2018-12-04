@@ -19,7 +19,7 @@
                     参与竞标后，您在开发者资料中填写的<span class="font-weight-bold">电子邮件地址</span>将可以被需求方查看。
                 </div>
                 <div class="shadow-sm p-3 mb-5 bg-white">
-                    <form method="post" th:action="@{/bid/join}" th:object="${bid}">
+                    <form method="post" enctype="multipart/form-data" th:action="@{/bid/join}" th:object="${bid}">
                         <input type="hidden" th:field="*{demandId}">
                         <p>
                             <label for="bid-price">竞标价格</label>
@@ -33,7 +33,7 @@
                         </p>
                         <p>
                             <label for="customer-photo">提交有利于您在竞标中被选中的附件（可选）</label>
-                            <input type="file" id="customer-photo" class="form-control" th:field="*{attachment}">
+                            <input type="file" id="customer-photo" class="form-control" name="attachment">
                         </p>
                         <input class="btn btn-primary" type="submit" value="参与竞标">
                     </form>

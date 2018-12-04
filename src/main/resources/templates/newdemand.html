@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: headFragment(${title})">
+<head th:replace="fragments/head :: headFragment('发布需求')">
     <meta charset="UTF-8">
     <title>提交需求</title>
 </head>
@@ -10,12 +10,12 @@
 <main role="main">
     <div class="container container-main">
         <!-- Example row of columns -->
-        <h2 class="h2">提交需求</h2>
+        <h2 class="h2">发布需求</h2>
         <div class="row">
             <div class="col-md-8">
                 <div class="alert alert-info">需求提交后，还需要通过审核才可以显示在列表中。</div>
                 <div class="shadow-sm p-3 mb-3 bg-white">
-                    <form method="post" th:action="@{/demand/new}" th:object="${demand}">
+                    <form method="post" enctype="multipart/form-data" th:action="@{/demand/new}" th:object="${demand}">
                         <p>
                             <label for="demand-title">标题</label>
                             <input placeholder="标题" type="text" id="demand-title" class="form-control" required
@@ -53,9 +53,8 @@
                                    th:field="*{endDate}">
                         </p>
                         <p>
-                            <label for="demand-attachment">附件</label>
-                            <input type="file" id="demand-attachment" name="attachment" class="form-control"
-                                   th:field="*{attachment}">
+                            <label for="demand-attachment">附件（需求说明文档等）</label>
+                            <input type="file" id="demand-attachment" name="attachment" class="form-control" required>
                         </p>
                         <input id="submit" class="btn btn-primary" type="submit" value="提交">
                     </form>

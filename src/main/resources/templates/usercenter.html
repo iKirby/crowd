@@ -147,7 +147,8 @@
                                     <a href="#" class="alert-link float-right">申请认证</a>
                                 </div>
                                 <div class="shadow-sm p-3 mb-3 bg-white">
-                                    <form method="post" th:action="@{/user/profile/updateDev}" th:object="${devProfile}">
+                                    <form method="post" enctype="multipart/form-data"
+                                          th:action="@{/user/profile/updateDev}" th:object="${devProfile}">
                                         <p>
                                             <label for="dev-name">名称</label>
                                             <input placeholder="名称" type="text" id="dev-name" class="form-control" required
@@ -164,9 +165,9 @@
                                                    th:field="*{phone}">
                                         </p>
                                         <p>
-                                            <label for="dev-photo">照片</label>
-                                            <input type="file" accept=".jpg,.png" id="dev-photo" class="form-control" required
-                                                   th:field="*{photo}">
+                                            <label for="dev-photo">照片（创建资料时必须上传，修改资料时不更改则无需上传）</label>
+                                            <input type="file" accept=".jpg,.png" id="dev-photo" class="form-control" name="photo"
+                                                   th:required="${devProfile.status == null}">
                                         </p>
                                         <p>
                                             <label for="dev-bio">简介</label>
@@ -191,13 +192,15 @@
                                         </div>
                                         <!-- Card image -->
                                         <div class="w-50 mx-auto position-relative">
-                                            <img class="card-img-top avatar" th:src="@{/img/avatar/default.png}" alt="userAvatar">
+                                            <img class="card-img-top avatar" th:src="@{'/uploads/' + ${devProfile.photo}}" alt="userAvatar">
                                         </div>
                                     </div>
                                     <!-- Card body -->
                                     <div class="card-body text-center">
                                         <h5 class="card-title pt-2 pb-0 mb-2" th:text="${devProfile.name}">devName</h5>
-                                        <p class="card-subtitle"><span class="badge badge-default" th:text="${'Lv. ' + devProfile.level}">Lv. 5</span></p>
+                                        <p class="card-subtitle">
+                                            <span class="badge badge-default" th:text="${'Lv. ' + devProfile.level}">Lv. 5</span>
+                                        </p>
                                         <!-- Text -->
                                         <p class="card-text" th:text="${devProfile.bio}">
                                             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, deserunt.
@@ -231,7 +234,8 @@
                                     <a href="#" class="alert-link float-right">申请认证</a>
                                 </div>
                                 <div class="shadow-sm p-3 mb-3 bg-white">
-                                    <form method="post" th:action="@{/user/profile/updateCustomer}" th:object="${customerProfile}">
+                                    <form method="post" enctype="multipart/form-data"
+                                          th:action="@{/user/profile/updateCustomer}" th:object="${customerProfile}">
                                         <p>
                                             <label for="customer-name">名称</label>
                                             <input placeholder="名称" type="text" id="customer-name" class="form-control" required
@@ -248,9 +252,9 @@
                                                    th:field="*{phone}">
                                         </p>
                                         <p>
-                                            <label for="customer-photo">照片</label>
-                                            <input type="file" accept=".jpg,.png" id="customer-photo" class="form-control" required
-                                                   th:field="*{photo}">
+                                            <label for="customer-photo">照片（创建资料时必须上传，修改资料时不更改则无需上传）</label>
+                                            <input type="file" accept=".jpg,.png" id="customer-photo" class="form-control" name="photo"
+                                                   th:required="${customerProfile.status == null}">
                                         </p>
                                         <p>
                                             <label for="customer-bio">简介</label>
@@ -275,13 +279,16 @@
                                         </div>
                                         <!-- Card image -->
                                         <div class="w-50 mx-auto position-relative">
-                                            <img class="card-img-top avatar" th:src="@{/img/avatar/default.png}" alt="userAvatar">
+                                            <img class="card-img-top avatar" th:src="@{'/uploads/' + ${customerProfile.photo}}" alt="userAvatar">
                                         </div>
                                     </div>
                                     <!-- Card body -->
                                     <div class="card-body text-center">
-                                        <h5 class="card-title pt-2 pb-0 mb-2" th:text="${customerProfile.name}">CustomerName</h5>
-                                        <p class="card-subtitle"><span class="badge badge-default" th:text="${'Lv. ' + customerProfile.level}">Lv. 5</span></p>
+                                        <h5 class="card-title pt-2 pb-0 mb-2" th:text="${customerProfile.name}">
+                                            CustomerName</h5>
+                                        <p class="card-subtitle">
+                                            <span class="badge badge-default" th:text="${'Lv. ' + customerProfile.level}">Lv. 5</span>
+                                        </p>
                                         <!-- Text -->
                                         <p class="card-text" th:text="${customerProfile.bio}">
                                             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est, deserunt.
