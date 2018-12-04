@@ -129,27 +129,6 @@ public class MainController {
         return "redirect:/";
     }
 
-    @GetMapping("/demand/my")
-    public String viewDemand(Model model, HttpSession session,
-                             @RequestParam(value = "page", defaultValue = "1") int page) {
-        User user = (User) session.getAttribute("user");
-        model.addAttribute("demands", demandService.findByCustomerId(user.getId(), 10, page));
-        List<Category> categoryList = categoryService.findAll();
-        model.addAttribute("categories", categoryList);
-        Map<Integer, String> categoryMap = new HashMap<>();
-        for (Category aCategory : categoryList) {
-            categoryMap.put(aCategory.getId(), aCategory.getName());
-        }
-        Map<String, String> statusMap = new HashMap<>();
-        statusMap.put(DemandStatus.PENDING.name(), "审核中");
-        statusMap.put(DemandStatus.PASS.name(), "审核通过");
-        statusMap.put(DemandStatus.FAIL.name(), "审核未通过");
-        statusMap.put(DemandStatus.CONTRACTED.name(), "竞标中");
-        model.addAttribute("categoryMap", categoryMap);
-        model.addAttribute("statusMap", statusMap);
-        return "viewdemand";
-    }
-
     @GetMapping("/demand/search")
     public String searchDemand(Model model, @RequestParam("key") String title, @RequestParam(value = "category", defaultValue = "0") int category, @RequestParam(value = "page", defaultValue = "1") int page) {
         if (title.isEmpty()) {
@@ -168,16 +147,18 @@ public class MainController {
         return "index1";
     }
 
-    @GetMapping("/demand/search/customer")
-    public String searchCustomerDemand(Model model, HttpSession session, @RequestParam("key1") String title, @RequestParam(value = "category", defaultValue = "0") int category, @RequestParam(value = "page", defaultValue = "1") int page) {
+    @GetMapping("/demand/my")
+    public String searchCustomerDemand(Model model, HttpSession session,
+                                       @RequestParam(value = "category", defaultValue = "0") int categoryId,
+                                       @RequestParam(value = "page", defaultValue = "1") int page) {
         User user = (User) session.getAttribute("user");
-        if (title.isEmpty()) {
+        if (categoryId == 0) {
             model.addAttribute("demands", demandService.findByCustomerId(user.getId(), 10, page));
         } else {
-            model.addAttribute("demands", demandService.findByCustomerIdAndTitle(user.getId(), title, 10, page));
+            model.addAttribute("demands", demandService.findByCustomerIdAndCategoryId(user.getId(), categoryId, 10, page));
         }
         List<Category> categoryList = categoryService.findAll();
-        model.addAttribute("categoryId", category);
+        model.addAttribute("categoryId", categoryId);
         model.addAttribute("categories", categoryList);
         Map<Integer, String> categoryMap = new HashMap<>();
         for (Category aCategory : categoryList) {

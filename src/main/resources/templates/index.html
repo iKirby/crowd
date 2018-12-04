@@ -24,7 +24,7 @@
             <!-- Left column -->
             <div class="col-md-8">
                 <p>
-                    <a href="/" class="btn" role="button"
+                    <a class="btn" role="button" th:href="@{/}"
                        th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
                     <th:block th:each="category : ${categories}">
                         <a href="#" class="btn" role="button" th:text="${category.name}"
@@ -33,23 +33,24 @@
                     </th:block>
                 </p>
                 <hr>
+                <div class="alert alert-info" th:if="${demands.content.isEmpty()}">没有找到任何需求</div>
                 <div class="card-list">
                     <div class="card mb-3" th:each="demand : ${demands.content}">
                         <div class="card-body">
                             <h5 class="card-title">
                                 <span class="badge badge-info" th:text="${categoryMap.get(demand.categoryId)}">教育</span>
-                                <a th:href="@{'/demand/view/'+ ${demand.id}}"> <span th:text="${demand.title}">XXX 网络教学平台网络教学平台网络教学平台网络教学平台</span></a>
+                                <a th:href="@{'/demand/view/'+ ${demand.id}}" th:text="${demand.title}">XXX</a>
                             </h5>
                             <div class=" card-text">
                                 <div class="card-text-item">
-                                    起始时间： <span
+                                    期限: <span
                                         th:text="${#dates.format(demand.startDate,'yyyy-MM-dd')} + '~' + ${#dates.format(demand.endDate,'yyyy-MM-dd')}"></span>
                                 </div>
                                 <div class="card-text-item">
-                                    地区： <span th:text="${demand.region}"></span>
+                                    地区: <span th:text="${demand.region}"></span>
                                 </div>
                                 <div class="card-text-item">
-                                    发布日期：<span th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}"></span>
+                                    发布日期: <span th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}"></span>
                                     <span class="text-danger float-right list-price h5" th:text="'￥' + ${demand.price}">5600.00</span>
                                 </div>
                             </div>
@@ -58,7 +59,7 @@
                 </div>
 
                 <!-- pagination -->
-                <nav aria-label="Page navigation">
+                <nav aria-label="Page navigation" th:if="${demands.totalPage > 1}">
                     <ul class="pagination" th:if="${categoryId == 0}">
                         <li class="page-item" th:if="${!demands.isFirst()}">
                             <a class="page-link" href="#" aria-label="Previous"

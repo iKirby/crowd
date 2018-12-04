@@ -27,8 +27,8 @@ public interface DemandMapper {
     @Select("SELECT * FROM t_demands WHERE status = #{status} LIMIT #{offset}, #{size}")
     List<Demand> findByStatus(@Param("status") String status, @Param("offset") int offset, @Param("size") int size);
 
-    @Select("SELECT * FROM t_demands WHERE customer_id = #{customerId} and title LIKE '%${title}%' LIMIT #{offset}, #{size}")
-    List<Demand> findByCustomerIdAndTitle(@Param("customerId") Integer customerId, @Param("title") String title, @Param("offset") int offset, @Param("size") int size);
+    @Select("SELECT * FROM t_demands WHERE customer_id = #{customerId} AND category_id = #{categoryId} LIMIT #{offset}, #{size}")
+    List<Demand> findByCustomerIdAndCategoryId(@Param("customerId") Integer customerId, @Param("categoryId") Integer categoryId, @Param("offset") int offset, @Param("size") int size);
 
     @Select("SELECT * FROM t_demands WHERE category_id = #{categoryId} and status = #{status} LIMIT #{offset}, #{size}")
     List<Demand> findByCategoryIdAndStatus(@Param("categoryId") Integer categoryId, @Param("status") String status, @Param("offset") int offset, @Param("size") int size);
@@ -36,11 +36,17 @@ public interface DemandMapper {
     @Select("SELECT COUNT(id) FROM t_demands WHERE status = #{status}")
     int countByStatus(@Param("status") String status);
 
-    @Select("SELECT COUNT(customer_id) FROM t_demands WHERE customer_id = #{customerId}")
+    @Select("SELECT COUNT(id) FROM t_demands WHERE customer_id = #{customerId}")
     int countByCustomerId(@Param("customerId") Integer customerId);
 
-    @Select("SELECT COUNT(category_id) FROM t_demands WHERE category_id = #{categoryId}")
+    @Select("SELECT COUNT(id) FROM t_demands WHERE category_id = #{categoryId}")
     int countByCategoryId(@Param("categoryId") Integer categoryId);
+
+    @Select("SELECT COUNT(category_id) FROM t_demands WHERE category_id = #{categoryId} AND status = ${status}")
+    int countByCategoryIdAndStatus(@Param("categoryId") Integer categoryId, @Param("status") String status);
+
+    @Select("SELECT COUNT(category_id) FROM t_demands WHERE customer_id = #{customerId} AND category_id = #{categoryId}")
+    int countByCustomerIdAndCategoryId(@Param("customerId") Integer customerId, @Param("categoryId") Integer categoryId);
 
     @Select("SELECT COUNT(*) FROM t_demands")
     int countAll();

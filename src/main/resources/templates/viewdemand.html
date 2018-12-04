@@ -14,30 +14,35 @@
             <!-- Left column -->
             <div class="col-md-8">
                 <p>
-                    <a href="#" class="btn btn-outline-info" th:href="@{'/demand/new'}" role="button"
-                       aria-pressed="false">新增需求</a>
+                    <a class="btn" role="button" th:href="@{/demand/my}"
+                       th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
+                    <th:block th:each="category : ${categories}">
+                        <a href="#" class="btn" role="button" th:text="${category.name}"
+                           th:href="@{'?category=' + ${category.id}}"
+                           th:classappend="${categoryId == category.id ? 'btn-info' : 'btn-outline-info'}">分类</a>
+                    </th:block>
                 </p>
                 <hr>
+                <div class="alert alert-info" th:if="${demands.content.isEmpty()}">没有找到任何需求</div>
                 <div class="card-list">
                     <div class="card mb-3" th:each="demand : ${demands.content}">
                         <div class="card-body">
                             <h5 class="card-title">
                                 <span class="badge badge-info" th:text="${categoryMap.get(demand.categoryId)}">教育</span>
-                                <a th:href="@{'/demand/view/'+ ${demand.id}}"> <span th:text="${demand.title}">XXX 网络教学平台网络教学平台网络教学平台网络教学平台</span>
-                                    <span class="text-danger float-right list-price h5"
-                                          th:text="'状态：' + ${statusMap.get(demand.status)}">审核中</span>
-                                </a>
+                                <a th:href="@{'/demand/view/'+ ${demand.id}}" th:text="${demand.title}">XXX</a>
+                                <span class="text-danger float-right list-price" th:text="${statusMap.get(demand.status)}">审核中</span>
                             </h5>
                             <div class=" card-text">
                                 <div class="card-text-item">
-                                    起始时间： <span
+                                    期限: <span
                                         th:text="${#dates.format(demand.startDate,'yyyy-MM-dd')} + '~' + ${#dates.format(demand.endDate,'yyyy-MM-dd')}"></span>
                                 </div>
                                 <div class="card-text-item">
-                                    地区： <span th:text="${demand.region}"></span>
+                                    地区: <span th:text="${demand.region}"></span>
                                 </div>
                                 <div class="card-text-item">
-                                    发布日期：<span th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}"></span>
+                                    发布日期:
+                                    <span th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}"></span>
                                     <span class="text-danger float-right list-price h5" th:text="'￥' + ${demand.price}">5600.00</span>
                                 </div>
                             </div>
@@ -45,8 +50,8 @@
                     </div>
                 </div>
 
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
+                <nav aria-label="Page navigation" th:if="${demands.totalPage > 1}">
+                    <ul class="pagination" th:if="${categoryId == 0}">
                         <li class="page-item" th:if="${!demands.isFirst()}">
                             <a class="page-link" href="#" aria-label="Previous"
                                th:href="@{'?page=' + ${demands.currentPage - 1}}">
@@ -71,6 +76,28 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="pagination" th:if="${categoryId != 0}">
+                        <li class="page-item" th:if="${!demands.isFirst()}">
+                            <a class="page-link" href="#" aria-label="Previous" th:href="@{'?category=' + ${categoryId} + '&page=' + ${demands.currentPage - 1}}">
+                                <span aria-hidden="true">
+                                    <i class="mi mi-ChevronLeft"></i> Prev
+                                </span>
+                                <span class="sr-only">Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:if="${demands.totalPage > 0}" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
+                            th:classappend="${demands.currentPage == i ? 'active' : ''}">
+                            <a class="page-link" th:href="@{'?category=' + ${categoryId} + '&page=' + ${i}}" th:text="${i}">1</a>
+                        </li>
+                        <li class="page-item" th:if="${!demands.isLast()}">
+                            <a class="page-link" href="#" aria-label="Next" th:href="@{'?category=' + ${categoryId} + '&page=' + ${demands.currentPage + 1}}">
+                                <span aria-hidden="true">Next
+                                    <i class="mi mi-ChevronRight"></i>
+                                </span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
                 </nav>
             </div> <!-- /Left column -->
 
@@ -78,30 +105,12 @@
             <div class="col-md-4">
                 <div class="card mb-3">
                     <div class="card-header">
-                        搜索需求
-                        <a href="#" class="text-primary float-right">高级</a>
+                        发布需求
                     </div>
                     <div class="card-body">
-                        <form method="post" th:action="@{/demand/search/customer}">
-                            <p>
-                                <input placeholder="输入关键词并按下 Enter ..." type="text" id="inputSearch"
-                                       class="form-control"
-                                       name="key1">
-                            </p>
-                            <input type="submit" class="btn btn-primary" value="搜索">
-                        </form>
+                        <a href="#" class="btn btn-outline-default" th:href="@{/demand/new}">发布需求</a>
                     </div>
                 </div>
-                <!--<div class="card">
-                    <div class="card-header">公告</div>
-                    <div class="card-body">
-                        <p>系统公告</p>
-                        <p>系统公告</p>
-                        <p>系统公告</p>
-                        <p>系统公告</p>
-                        <p>系统公告</p>
-                    </div>
-                </div>-->
             </div> <!-- /Right column -->
         </div>
     </div> <!-- /container -->
