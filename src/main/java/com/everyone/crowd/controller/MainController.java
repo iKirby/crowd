@@ -43,7 +43,7 @@ public class MainController {
 
     @GetMapping("/")
     public String indexPage(Model model, HttpServletRequest request, HttpSession session,
-                            @RequestParam(value = "category", defaultValue = "0") int category,
+                            @RequestParam(value = "category", defaultValue = "0") int categoryId,
                             @RequestParam(value = "page", defaultValue = "1") int page) {
         if (session.getAttribute("user") == null) {
             String loginCookie = CookieUtil.getCookieValue("USR_LOGIN", request.getCookies());
@@ -53,7 +53,7 @@ public class MainController {
         }
 
         List<Category> categoryList = categoryService.findAll();
-        model.addAttribute("categoryId", category);
+        model.addAttribute("categoryId", categoryId);
         model.addAttribute("categories", categoryList);
         Map<Integer, String> categoryMap = new HashMap<>();
         for (Category aCategory : categoryList) {
@@ -61,11 +61,11 @@ public class MainController {
         }
         model.addAttribute("categoryMap", categoryMap);
 
-        if (category == 0) {
+        if (categoryId == 0) {
             model.addAttribute("demands", demandService.findByStatus(DemandStatus.PASS.name(), 10, page));
         } else {
             // TODO 添加条件查询
-            model.addAttribute("demands", demandService.findByCategoryIdAndStatus(category, DemandStatus.PASS.name(), 10, page));
+            model.addAttribute("demands", demandService.findByCategoryIdAndStatus(categoryId, DemandStatus.PASS.name(), 10, page));
         }
         return "index";
     }
