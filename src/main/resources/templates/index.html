@@ -24,9 +24,11 @@
             <!-- Left column -->
             <div class="col-md-8">
                 <p>
-                    <a href="/" class="btn" role="button" th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
+                    <a href="/" class="btn" role="button"
+                       th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
                     <th:block th:each="category : ${categories}">
-                        <a href="#" class="btn" role="button" th:text="${category.name}" th:href="@{'?category=' + ${category.id}}"
+                        <a href="#" class="btn" role="button" th:text="${category.name}"
+                           th:href="@{'?category=' + ${category.id}}"
                            th:classappend="${categoryId == category.id ? 'btn-info' : 'btn-outline-info'}">分类</a>
                     </th:block>
                 </p>
@@ -59,19 +61,22 @@
                 <nav aria-label="Page navigation">
                     <ul class="pagination" th:if="${categoryId == 0}">
                         <li class="page-item" th:if="${!demands.isFirst()}">
-                            <a class="page-link" href="#" aria-label="Previous" th:href="@{'?page=' + ${demands.currentPage - 1}}">
+                            <a class="page-link" href="#" aria-label="Previous"
+                               th:href="@{'?page=' + ${demands.currentPage - 1}}">
                                 <span aria-hidden="true">
                                     <i class="mi mi-ChevronLeft"></i> Prev
                                 </span>
                                 <span class="sr-only">Prev</span>
                             </a>
                         </li>
-                        <li class="page-item" th:if="${demands.totalPage > 0}" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
+                        <li class="page-item" th:if="${demands.totalPage > 0}"
+                            th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
                             th:classappend="${demands.currentPage == i ? 'active' : ''}">
                             <a class="page-link" th:href="@{'?page=' + ${i}}" th:text="${i}">1</a>
                         </li>
                         <li class="page-item" th:if="${!demands.isLast()}">
-                            <a class="page-link" href="#" aria-label="Next" th:href="@{'?page=' + ${demands.currentPage + 1}}">
+                            <a class="page-link" href="#" aria-label="Next"
+                               th:href="@{'?page=' + ${demands.currentPage + 1}}">
                                 <span aria-hidden="true">Next
                                     <i class="mi mi-ChevronRight"></i>
                                 </span>
@@ -112,11 +117,11 @@
                         <a href="#" class="text-primary float-right">高级</a>
                     </div>
                     <div class="card-body">
-                        <form>
+                        <form method="post" th:action="@{/demand/search}">
                             <p>
                                 <input placeholder="输入关键词并按下 Enter ..." type="text" id="inputSearch"
                                        class="form-control"
-                                       name="s">
+                                       name="key">
                             </p>
                             <input type="submit" class="btn btn-primary" value="搜索">
                         </form>
