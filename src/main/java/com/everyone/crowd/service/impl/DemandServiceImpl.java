@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -133,5 +134,21 @@ public class DemandServiceImpl implements DemandService {
     @Transactional
     public void delete(Integer id) {
         demandMapper.delete(id);
+    }
+
+    @Override
+    public Page<Demand> findByMultipleConditions(String keyword, Integer categoryId, String region, BigDecimal lowPrice, BigDecimal highPrice,
+                                                 Date startDateFrom, Date startDateTo, Date endDateFrom, Date endDateTo,
+                                                 String status, int pageSize, int page) {
+        int total = demandMapper.countByMultipleConditions(keyword, categoryId, region, lowPrice, highPrice,
+                startDateFrom, startDateTo, endDateFrom, endDateTo, status);
+        List<Demand> content = demandMapper.findByMultipleConditions(keyword, categoryId, region, lowPrice,
+                highPrice, startDateFrom, startDateTo, endDateFrom, endDateTo, status, pageSize * (page - 1), pageSize);
+        Page<Demand> demandPage = new Page<>();
+        demandPage.setContent(content);
+        demandPage.setCurrentPage(page);
+        demandPage.setTotal(total);
+        demandPage.setPageSize(pageSize);
+        return demandPage;
     }
 }

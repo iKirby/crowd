@@ -3,7 +3,8 @@ package com.everyone.crowd.service;
 import com.everyone.crowd.entity.Demand;
 import com.everyone.crowd.entity.Page;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Date;
 
 public interface DemandService {
 
@@ -30,4 +31,17 @@ public interface DemandService {
     void updateStatus(Integer id, String status);
 
     void delete(Integer id);
+
+    Page<Demand> findByMultipleConditions(String keyword,
+                                          Integer categoryId,
+                                          String region,
+                                          BigDecimal lowPrice,
+                                          BigDecimal highPrice,
+                                          Date startDateFrom,
+                                          Date startDateTo,
+                                          Date endDateFrom,
+                                          Date endDateTo,
+                                          String status,
+                                          int pageSize,
+                                          int page);
 }

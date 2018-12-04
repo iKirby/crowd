@@ -3,11 +3,11 @@ package com.everyone.crowd.controller;
 import com.everyone.crowd.entity.Category;
 import com.everyone.crowd.entity.Demand;
 import com.everyone.crowd.entity.User;
-import com.everyone.crowd.service.CategoryService;
 import com.everyone.crowd.entity.status.DemandStatus;
+import com.everyone.crowd.service.CategoryService;
 import com.everyone.crowd.service.DemandService;
-import com.everyone.crowd.util.CookieUtil;
 import com.everyone.crowd.service.UserService;
+import com.everyone.crowd.util.CookieUtil;
 import com.everyone.crowd.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -69,9 +70,9 @@ public class MainController {
         if (categoryId == 0) {
             model.addAttribute("demands", demandService.findByStatus(DemandStatus.PASS.name(), 10, page));
         } else {
-            // TODO 添加条件查询
             model.addAttribute("demands", demandService.findByCategoryIdAndStatus(categoryId, DemandStatus.PASS.name(), 10, page));
         }
+        model.addAttribute("isSearch", false);
         return "index";
     }
 
@@ -129,24 +130,6 @@ public class MainController {
         return "redirect:/";
     }
 
-    @GetMapping("/demand/search")
-    public String searchDemand(Model model, @RequestParam("key") String title, @RequestParam(value = "category", defaultValue = "0") int category, @RequestParam(value = "page", defaultValue = "1") int page) {
-        if (title.isEmpty()) {
-            model.addAttribute("demands", demandService.findByStatus(DemandStatus.PASS.name(), 10, page));
-        } else {
-            model.addAttribute("demands", demandService.findByTitle(title, 10, page));
-        }
-        List<Category> categoryList = categoryService.findAll();
-        model.addAttribute("categoryId", category);
-        model.addAttribute("categories", categoryList);
-        Map<Integer, String> categoryMap = new HashMap<>();
-        for (Category aCategory : categoryList) {
-            categoryMap.put(aCategory.getId(), aCategory.getName());
-        }
-        model.addAttribute("categoryMap", categoryMap);
-        return "index1";
-    }
-
     @GetMapping("/demand/my")
     public String searchCustomerDemand(Model model, HttpSession session,
                                        @RequestParam(value = "category", defaultValue = "0") int categoryId,
@@ -172,6 +155,39 @@ public class MainController {
         model.addAttribute("categoryMap", categoryMap);
         model.addAttribute("statusMap", statusMap);
         return "viewdemand";
+    }
+
+    @GetMapping("/demand/search")
+    public String searchDemand(Model model,
+                               @RequestParam(value = "keyword", required = false) String keyword,
+                               @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                               @RequestParam(value = "region", required = false) String region,
+                               @RequestParam(value = "lowPrice", required = false) BigDecimal lowPrice,
+                               @RequestParam(value = "highPrice", required = false) BigDecimal highPrice,
+                               @RequestParam(value = "startDateFrom", required = false) Date startDateFrom,
+                               @RequestParam(value = "startDateTo", required = false) Date startDateTo,
+                               @RequestParam(value = "endDateFrom", required = false) Date endDateFrom,
+                               @RequestParam(value = "endDateTo", required = false) Date endDateTo,
+                               @RequestParam(value = "page", defaultValue = "1") int page) {
+        if (keyword == null && categoryId == null && region == null && lowPrice == null && highPrice == null
+                && startDateFrom == null && startDateTo == null && endDateFrom == null && endDateTo == null) {
+            model.addAttribute("categories", categoryService.findAll());
+            return "search";
+        }
+        if (categoryId != null && categoryId == 0) {
+            categoryId = null;
+        }
+        model.addAttribute("demands", demandService.findByMultipleConditions(keyword,
+                categoryId, region, lowPrice, highPrice, startDateFrom, startDateTo, endDateFrom, endDateTo,
+                DemandStatus.PASS.name(), 10, page));
+        List<Category> categoryList = categoryService.findAll();
+        Map<Integer, String> categoryMap = new HashMap<>();
+        for (Category aCategory : categoryList) {
+            categoryMap.put(aCategory.getId(), aCategory.getName());
+        }
+        model.addAttribute("categoryMap", categoryMap);
+        model.addAttribute("isSearch", true);
+        return "index";
     }
 
 }

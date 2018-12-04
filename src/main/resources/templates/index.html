@@ -23,7 +23,7 @@
         <div class="row">
             <!-- Left column -->
             <div class="col-md-8">
-                <p>
+                <p th:if="${!isSearch}">
                     <a class="btn" role="button" th:href="@{/}"
                        th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
                     <th:block th:each="category : ${categories}">
@@ -32,6 +32,7 @@
                            th:classappend="${categoryId == category.id ? 'btn-info' : 'btn-outline-info'}">分类</a>
                     </th:block>
                 </p>
+                <h2 class="h2" th:if="${isSearch}">搜索结果</h2>
                 <hr>
                 <div class="alert alert-info" th:if="${demands.content.isEmpty()}">没有找到任何需求</div>
                 <div class="card-list">
@@ -118,11 +119,10 @@
                         <a href="#" class="text-primary float-right">高级</a>
                     </div>
                     <div class="card-body">
-                        <form method="post" th:action="@{/demand/search}">
+                        <form th:action="@{/demand/search}">
                             <p>
                                 <input placeholder="输入关键词并按下 Enter ..." type="text" id="inputSearch"
-                                       class="form-control"
-                                       name="key">
+                                       class="form-control" name="keyword">
                             </p>
                             <input type="submit" class="btn btn-primary" value="搜索">
                         </form>

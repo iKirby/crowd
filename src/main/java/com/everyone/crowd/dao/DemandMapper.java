@@ -1,9 +1,12 @@
 package com.everyone.crowd.dao;
 
+import com.everyone.crowd.dao.sqlprovider.DemandSQLProvider;
 import com.everyone.crowd.entity.Demand;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -42,7 +45,7 @@ public interface DemandMapper {
     @Select("SELECT COUNT(id) FROM t_demands WHERE category_id = #{categoryId}")
     int countByCategoryId(@Param("categoryId") Integer categoryId);
 
-    @Select("SELECT COUNT(category_id) FROM t_demands WHERE category_id = #{categoryId} AND status = ${status}")
+    @Select("SELECT COUNT(category_id) FROM t_demands WHERE category_id = #{categoryId} AND status = #{status}")
     int countByCategoryIdAndStatus(@Param("categoryId") Integer categoryId, @Param("status") String status);
 
     @Select("SELECT COUNT(category_id) FROM t_demands WHERE customer_id = #{customerId} AND category_id = #{categoryId}")
@@ -66,4 +69,30 @@ public interface DemandMapper {
 
     @Delete("DELETE FROM t_demands WHERE id = #{id}")
     int delete(@Param("id") Integer id);
+
+    @SelectProvider(type = DemandSQLProvider.class, method = "countByMultipleConditions")
+    int countByMultipleConditions(@Param("keyword") String keyword,
+                                  @Param("categoryId") Integer categoryId,
+                                  @Param("region") String region,
+                                  @Param("lowPrice") BigDecimal lowPrice,
+                                  @Param("highPrice") BigDecimal highPrice,
+                                  @Param("startDateFrom") Date startDateFrom,
+                                  @Param("startDateTo") Date startDateTo,
+                                  @Param("endDateFrom") Date endDateFrom,
+                                  @Param("endDateTo") Date endDateTo,
+                                  @Param("status") String status);
+
+    @SelectProvider(type = DemandSQLProvider.class, method = "findByMultipleConditions")
+    List<Demand> findByMultipleConditions(@Param("keyword") String keyword,
+                                          @Param("categoryId") Integer categoryId,
+                                          @Param("region") String region,
+                                          @Param("lowPrice") BigDecimal lowPrice,
+                                          @Param("highPrice") BigDecimal highPrice,
+                                          @Param("startDateFrom") Date startDateFrom,
+                                          @Param("startDateTo") Date startDateTo,
+                                          @Param("endDateFrom") Date endDateFrom,
+                                          @Param("endDateTo") Date endDateTo,
+                                          @Param("status") String status,
+                                          @Param("offset") int offset,
+                                          @Param("size") int size);
 }
