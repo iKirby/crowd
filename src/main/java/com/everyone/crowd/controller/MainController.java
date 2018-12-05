@@ -2,7 +2,10 @@ package com.everyone.crowd.controller;
 
 import com.everyone.crowd.entity.Category;
 import com.everyone.crowd.entity.Demand;
+import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.entity.User;
+import com.everyone.crowd.service.AnnouncementService;
+import com.everyone.crowd.service.CategoryService;
 import com.everyone.crowd.entity.status.DemandStatus;
 import com.everyone.crowd.service.CategoryService;
 import com.everyone.crowd.service.DemandService;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -34,6 +38,7 @@ public class MainController {
     private final DemandService demandService;
     private final CategoryService categoryService;
     private final UserService userService;
+    private final AnnouncementService announcementService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -41,10 +46,11 @@ public class MainController {
     }
 
     @Autowired
-    public MainController(DemandService demandService, CategoryService categoryService, UserService userService) {
+    public MainController(DemandService demandService, CategoryService categoryService, UserService userService, AnnouncementService announcementService) {
         this.demandService = demandService;
         this.categoryService = categoryService;
         this.userService = userService;
+        this.announcementService = announcementService;
     }
 
     @GetMapping("/")
@@ -190,4 +196,10 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("/announcements/{id}")
+    public String announcementPage(Model model, @PathVariable("id") Integer id, @RequestParam(value = "page", defaultValue = "1") int page) {
+        model.addAttribute("announcement", announcementService.findById(id));
+        model.addAttribute("announcements", announcementService.findAll(5, page));
+        return "announcement";
+    }
 }

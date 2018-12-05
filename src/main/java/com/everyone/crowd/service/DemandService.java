@@ -22,7 +22,7 @@ public interface DemandService {
 
     Page<Demand> findByCategoryIdAndStatus(Integer categoryId, String status, int pageSize, int page);
 
-    Page<Demand> findByCustomerIdAndCategoryId(Integer customerId, Integer categoryId, int pageSize, int page);
+    Page<Demand> findByCustomerIdAndTitle(Integer customerId, String title, int pageSize, int page);
 
     int insert(Demand demand);
 

@@ -131,11 +131,11 @@
                 <div class="card">
                     <div class="card-header">公告</div>
                     <div class="card-body">
-                        <p>系统公告</p>
-                        <p>系统公告</p>
-                        <p>系统公告</p>
-                        <p>系统公告</p>
-                        <p>系统公告</p>
+                        <ul>
+                            <li th:each="announcement : ${announcements.content}">
+                                <a th:href="@{'/announcements/' + ${announcement.id}}" th:text="${announcement.title}">1</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div> <!-- /Right column -->

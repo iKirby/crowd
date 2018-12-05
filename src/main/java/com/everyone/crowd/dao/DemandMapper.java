@@ -33,6 +33,10 @@ public interface DemandMapper {
     @Select("SELECT * FROM t_demands WHERE customer_id = #{customerId} AND category_id = #{categoryId} LIMIT #{offset}, #{size}")
     List<Demand> findByCustomerIdAndCategoryId(@Param("customerId") Integer customerId, @Param("categoryId") Integer categoryId, @Param("offset") int offset, @Param("size") int size);
 
+    @Select("SELECT * FROM t_demands WHERE title LIKE '%${title}%' and status = #{status} LIMIT #{offset}, #{size}")
+    List<Demand> findByTitleAndStatus( @Param("title") String title, @Param("status") String status, @Param("offset") int offset, @Param("size") int size);
+
+
     @Select("SELECT * FROM t_demands WHERE category_id = #{categoryId} and status = #{status} LIMIT #{offset}, #{size}")
     List<Demand> findByCategoryIdAndStatus(@Param("categoryId") Integer categoryId, @Param("status") String status, @Param("offset") int offset, @Param("size") int size);
 
