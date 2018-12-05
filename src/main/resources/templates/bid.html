@@ -15,7 +15,10 @@
         <div class="row">
             <!-- Left column -->
             <div class="col-md-8">
-                <div class="alert alert-info" th:if="${demand.status != 'CONTRACTED'}">
+                <div class="alert alert-info" th:if="${demand.status != 'PASS'}">
+                    此需求未开放竞标。
+                </div>
+                <div class="alert alert-info" th:if="${demand.status == 'PASS'}">
                     此需求还在竞标阶段。
                     <a href="#" class="alert-link float-right" th:href="@{'/bid/join/' + ${demand.id}}">参与竞标</a>
                 </div>
