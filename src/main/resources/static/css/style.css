@@ -81,3 +81,7 @@ code {
 .input-group {
     margin-bottom: 1em;
 }
+
+.indent-2 {
+    text-indent: 2em;
+}
