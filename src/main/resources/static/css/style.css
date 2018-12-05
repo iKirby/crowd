@@ -46,6 +46,7 @@ code {
     background-color: rgba(0, 0, 0, .03);
 }
 
+
 .page-link {
     margin: 0;
     border: 1px solid #005cbf !important;
@@ -76,4 +77,8 @@ code {
 
 .order-id {
     font-weight: bold;
+}
+
+.indent-2 {
+    text-indent: 2em;
 }

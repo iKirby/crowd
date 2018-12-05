@@ -2,7 +2,9 @@ package com.everyone.crowd.controller;
 
 import com.everyone.crowd.entity.Category;
 import com.everyone.crowd.entity.Demand;
+import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.entity.User;
+import com.everyone.crowd.service.AnnouncementService;
 import com.everyone.crowd.service.CategoryService;
 import com.everyone.crowd.entity.status.DemandStatus;
 import com.everyone.crowd.service.DemandService;
@@ -16,18 +18,19 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MainController {
     private final DemandService demandService;
     private final CategoryService categoryService;
     private final UserService userService;
+    private final AnnouncementService announcementService;
 
     @InitBinder
     public void initBinder(WebDataBinder binder) {
@@ -35,10 +38,11 @@ public class MainController {
     }
 
     @Autowired
-    public MainController(DemandService demandService, CategoryService categoryService, UserService userService) {
+    public MainController(DemandService demandService, CategoryService categoryService, UserService userService, AnnouncementService announcementService) {
         this.demandService = demandService;
         this.categoryService = categoryService;
         this.userService = userService;
+        this.announcementService = announcementService;
     }
 
     @GetMapping("/")
@@ -67,6 +71,7 @@ public class MainController {
             // TODO 添加条件查询
             model.addAttribute("demands", demandService.findByCategoryIdAndStatus(category, DemandStatus.PASS.name(), 10, page));
         }
+        model.addAttribute("announcements", announcementService.findAll(5, page));
         return "index";
     }
 
@@ -143,7 +148,7 @@ public class MainController {
         if (title.isEmpty()) {
             model.addAttribute("demands", demandService.findByStatus(DemandStatus.PASS.name(), 10, page));
         } else {
-            model.addAttribute("demands", demandService.findByTitle(title, 10, page));
+            model.addAttribute("demands", demandService.findByTitleAndStatus(title, DemandStatus.PASS.name(), 10, page));
         }
         List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryId", category);
@@ -153,7 +158,7 @@ public class MainController {
             categoryMap.put(aCategory.getId(), aCategory.getName());
         }
         model.addAttribute("categoryMap", categoryMap);
-        return "index1";
+        return "index";
     }
 
     @GetMapping("/demand/search/customer")
@@ -178,7 +183,14 @@ public class MainController {
         statusMap.put(DemandStatus.CONTRACTED.name(), "竞标中");
         model.addAttribute("categoryMap", categoryMap);
         model.addAttribute("statusMap", statusMap);
+        Page<Demand> demands = demandService.findByCustomerIdAndTitle(user.getId(), title, 10, page);
         return "viewdemand";
     }
 
+    @GetMapping("/announcements/{id}")
+    public String announcementPage(Model model, @PathVariable("id") Integer id, @RequestParam(value = "page", defaultValue = "1") int page) {
+        model.addAttribute("announcement", announcementService.findById(id));
+        model.addAttribute("announcements", announcementService.findAll(5, page));
+        return "announcement";
+    }
 }

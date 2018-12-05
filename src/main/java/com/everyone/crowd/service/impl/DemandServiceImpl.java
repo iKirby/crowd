@@ -99,6 +99,18 @@ public class DemandServiceImpl implements DemandService {
     }
 
     @Override
+    public Page<Demand> findByTitleAndStatus(String title, String status, int pageSize, int page) {
+        int total = demandMapper.countByStatus(status);
+        List<Demand> content = demandMapper.findByTitleAndStatus(title, status, pageSize * (page - 1), pageSize);
+        Page<Demand> demandPage = new Page<>();
+        demandPage.setContent(content);
+        demandPage.setCurrentPage(page);
+        demandPage.setTotal(total);
+        demandPage.setPageSize(pageSize);
+        return demandPage;
+    }
+
+    @Override
     public Page<Demand> findByCustomerIdAndTitle(Integer customerId, String title, int pageSize, int page) {
         int total = demandMapper.countByCustomerId(customerId);
         List<Demand> content = demandMapper.findByCustomerIdAndTitle(customerId, title, pageSize * (page - 1), pageSize);
