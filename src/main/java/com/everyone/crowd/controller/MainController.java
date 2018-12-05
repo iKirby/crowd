@@ -2,11 +2,9 @@ package com.everyone.crowd.controller;
 
 import com.everyone.crowd.entity.Category;
 import com.everyone.crowd.entity.Demand;
-import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.entity.User;
-import com.everyone.crowd.service.AnnouncementService;
-import com.everyone.crowd.service.CategoryService;
 import com.everyone.crowd.entity.status.DemandStatus;
+import com.everyone.crowd.service.AnnouncementService;
 import com.everyone.crowd.service.CategoryService;
 import com.everyone.crowd.service.DemandService;
 import com.everyone.crowd.service.UserService;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
