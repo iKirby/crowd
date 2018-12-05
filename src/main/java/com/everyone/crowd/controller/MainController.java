@@ -76,6 +76,7 @@ public class MainController {
             model.addAttribute("demands", demandService.findByCategoryIdAndStatus(categoryId, DemandStatus.PASS.name(), 10, page));
         }
         model.addAttribute("isSearch", false);
+        model.addAttribute("announcements", announcementService.findAll(10, 1));
         return "index";
     }
 
