@@ -191,13 +191,14 @@ public class MainController {
         }
         model.addAttribute("categoryMap", categoryMap);
         model.addAttribute("isSearch", true);
+        model.addAttribute("announcements", announcementService.findAll(10, 1));
         return "index";
     }
 
     @GetMapping("/announcements/{id}")
-    public String announcementPage(Model model, @PathVariable("id") Integer id, @RequestParam(value = "page", defaultValue = "1") int page) {
+    public String announcementPage(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("announcement", announcementService.findById(id));
-        model.addAttribute("announcements", announcementService.findAll(5, page));
+        model.addAttribute("announcements", announcementService.findAll(10, 1));
         return "announcement";
     }
 }

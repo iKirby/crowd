@@ -20,7 +20,8 @@
 
     <div class="container container-main">
         <!-- Example row of columns -->
-        <div class="row">
+        <h2 class="h2" th:if="${isSearch}">搜索结果</h2>
+        <div class="row slide-up-fade-in">
             <!-- Left column -->
             <div class="col-md-8">
                 <p th:if="${!isSearch}">
@@ -32,7 +33,6 @@
                            th:classappend="${categoryId == category.id ? 'btn-info' : 'btn-outline-info'}">分类</a>
                     </th:block>
                 </p>
-                <h2 class="h2" th:if="${isSearch}">搜索结果</h2>
                 <hr>
                 <div class="alert alert-info" th:if="${demands.content.isEmpty()}">没有找到任何需求</div>
                 <div class="card-list">
@@ -116,7 +116,7 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         搜索需求
-                        <a href="#" class="text-primary float-right">高级</a>
+                        <a href="#" class="text-primary float-right" th:href="@{/demand/search}">高级</a>
                     </div>
                     <div class="card-body">
                         <form th:action="@{/demand/search}">
