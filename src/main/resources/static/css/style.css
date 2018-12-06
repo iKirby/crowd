@@ -4,8 +4,8 @@ body {
 }
 
 .container-main {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
 .jumbotron {
@@ -84,6 +84,11 @@ code {
 
 .indent-2 {
     text-indent: 2em;
+}
+
+.welcome-bar {
+    background-color: #e9ecef;
+    padding: 1em 0
 }
 
 .slide-up-fade-in {
