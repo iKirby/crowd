@@ -1,6 +1,7 @@
 body {
     padding-top: 3.5rem;
     font-weight: 400;
+    word-break: break-word;
 }
 
 .container-main {
@@ -28,6 +29,7 @@ body {
 
 code {
     font-size: 1em;
+    word-break: break-all;
 }
 
 .dropdown-divider {
@@ -89,6 +91,12 @@ code {
 .welcome-bar {
     background-color: #e9ecef;
     padding: 1em 0
+}
+
+#footer-link-list li + li:before {
+    content: "| ";
+    color: #a9a9a9;
+    padding: 0 .5em;
 }
 
 .slide-up-fade-in {

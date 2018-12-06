@@ -30,7 +30,7 @@ public interface FeedbackMapper {
     @Select("SELECT COUNT(id) FROM t_feedbacks WHERE user_id = #{userId}")
     int countByUserId(Integer userId);
 
-    @Insert("INSERT INTO t_feedbacks (user_id, url, title, content) VALUES (#{userId}, #{url}, #{title}, #{content})")
+    @Insert("INSERT INTO t_feedbacks (user_id, url, title, submit_time, content) VALUES (#{userId}, #{url}, #{title}, #{submitTime}, #{content})")
     @Options(useGeneratedKeys = true)
     int insert(Feedback feedback);
 

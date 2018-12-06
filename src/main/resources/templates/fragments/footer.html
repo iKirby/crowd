@@ -5,62 +5,13 @@
     <title>Footer fragment</title>
 </head>
 <body>
-<footer th:fragment="footerFragment" class="page-footer font-small pt-4">
+<footer th:fragment="footerFragment" class="page-footer font-small">
     <!-- Footer Links -->
-    <div class="container text-center text-md-left">
-        <!-- Grid row -->
-        <div class="row">
-            <!-- Grid column -->
-            <div class="col-md-6 mt-md-0 mt-3">
-                <!-- Content -->
-                <h5 class="text-uppercase">CROWD 众包平台</h5>
-                <p>Here you can use rows and columns here to organize your footer content.</p>
-            </div>
-            <!-- Grid column -->
-            <hr class="clearfix w-100 d-md-none pb-3">
-            <!-- Grid column -->
-            <div class="col-md-3 mb-md-0 mb-3">
-                <!-- Links -->
-                <h5 class="text-uppercase">Links</h5>
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="#">Link 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Link 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Link 3</a>
-                    </li>
-                    <li>
-                        <a href="#">Link 4</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- Grid column -->
-            <!-- Grid column -->
-            <div class="col-md-3 mb-md-0 mb-3">
-                <!-- Links -->
-                <h5 class="text-uppercase">Links</h5>
-
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="#">Link 1</a>
-                    </li>
-                    <li>
-                        <a href="#">Link 2</a>
-                    </li>
-                    <li>
-                        <a href="#">Link 3</a>
-                    </li>
-                    <li>
-                        <a href="#">Link 4</a>
-                    </li>
-                </ul>
-            </div>
-            <!-- Grid column -->
-        </div>
-        <!-- Grid row -->
+    <div class="container text-center pt-2 pb-2">
+        <ul class="list-inline m-0" id="footer-link-list">
+            <li class="list-inline-item m-0"><a th:href="@{/about}">关于</a></li>
+            <li class="list-inline-item m-0"><a target="_blank" th:href="@{/feedback/new}">反馈</a></li>
+        </ul>
     </div>
     <!-- Footer Links -->
     <!-- Copyright -->
