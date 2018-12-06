@@ -1,6 +1,12 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
 body {
     padding-top: 3.5rem;
     font-weight: 400;
+    margin-bottom: 96px;
     word-break: break-word;
 }
 
@@ -97,6 +103,14 @@ code {
     content: "| ";
     color: #a9a9a9;
     padding: 0 .5em;
+}
+
+.page-footer {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 120px;
 }
 
 .slide-up-fade-in {
