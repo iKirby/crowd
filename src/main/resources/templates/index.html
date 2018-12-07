@@ -88,7 +88,8 @@
                                     地区: <span th:text="${demand.region}"></span>
                                 </div>
                                 <div class="card-text-item">
-                                    发布日期: <span th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}"></span>
+                                    发布日期: <span
+                                        th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}"></span>
                                     <span class="text-danger float-right list-price h5" th:text="'￥' + ${demand.price}">5600.00</span>
                                 </div>
                             </div>
@@ -125,19 +126,23 @@
                     </ul>
                     <ul class="pagination" th:if="${categoryId != 0}">
                         <li class="page-item" th:if="${!demands.isFirst()}">
-                            <a class="page-link" href="#" aria-label="Previous" th:href="@{'?category=' + ${categoryId} + '&page=' + ${demands.currentPage - 1}}">
+                            <a class="page-link" href="#" aria-label="Previous"
+                               th:href="@{'?category=' + ${categoryId} + '&page=' + ${demands.currentPage - 1}}">
                                 <span aria-hidden="true">
                                     <i class="mi mi-ChevronLeft"></i> Prev
                                 </span>
                                 <span class="sr-only">Prev</span>
                             </a>
                         </li>
-                        <li class="page-item" th:if="${demands.totalPage > 0}" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
+                        <li class="page-item" th:if="${demands.totalPage > 0}"
+                            th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
                             th:classappend="${demands.currentPage == i ? 'active' : ''}">
-                            <a class="page-link" th:href="@{'?category=' + ${categoryId} + '&page=' + ${i}}" th:text="${i}">1</a>
+                            <a class="page-link" th:href="@{'?category=' + ${categoryId} + '&page=' + ${i}}"
+                               th:text="${i}">1</a>
                         </li>
                         <li class="page-item" th:if="${!demands.isLast()}">
-                            <a class="page-link" href="#" aria-label="Next" th:href="@{'?category=' + ${categoryId} + '&page=' + ${demands.currentPage + 1}}">
+                            <a class="page-link" href="#" aria-label="Next"
+                               th:href="@{'?category=' + ${categoryId} + '&page=' + ${demands.currentPage + 1}}">
                                 <span aria-hidden="true">Next
                                     <i class="mi mi-ChevronRight"></i>
                                 </span>
@@ -170,7 +175,8 @@
                     <div class="card-body">
                         <ul class="card-ul">
                             <li th:each="announcement : ${announcements.content}">
-                                <a th:href="@{'/announcements/' + ${announcement.id}}" th:text="${announcement.title}">1</a>
+                                <a th:href="@{'/announcements/' + ${announcement.id}}"
+                                   th:text="'&nbsp;'+ ${announcement.title} + '&nbsp;'">1</a>
                             </li>
                         </ul>
                     </div>
