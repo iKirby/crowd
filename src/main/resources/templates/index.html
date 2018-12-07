@@ -168,7 +168,7 @@
                 <div class="card">
                     <div class="card-header">公告</div>
                     <div class="card-body">
-                        <ul>
+                        <ul class="card-ul">
                             <li th:each="announcement : ${announcements.content}">
                                 <a th:href="@{'/announcements/' + ${announcement.id}}" th:text="${announcement.title}">1</a>
                             </li>
