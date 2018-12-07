@@ -44,9 +44,9 @@
                                     </div>
                                     <form method="post" th:action="@{/user/profile}">
                                         <input type="hidden" name="action" value="changeEmail">
-                                        <p>
+                                        <div class="form-group">
                                             <input placeholder="电子邮箱" type="email" name="email" class="form-control" required>
-                                        </p>
+                                        </div>
                                         <input class="btn btn-primary" type="submit" value="保存">
                                     </form>
                                 </div>
@@ -54,21 +54,21 @@
                                     <h4>修改密码</h4>
                                     <form method="post" th:action="@{/user/profile}">
                                         <input type="hidden" name="action" value="changePassword">
-                                        <p>
+                                        <div class="form-group">
                                             <label for="password">当前密码</label>
                                             <input placeholder="密码" type="password" id="password" name="password" class="form-control"
                                                    required>
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="new-password">新密码</label>
                                             <input placeholder="新密码" type="password" id="new-password" name="newPassword" class="form-control"
                                                    required>
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="new-password">确认密码</label>
                                             <input placeholder="确认密码" type="password" id="confirm-password" name="confirmPassword"
                                                    class="form-control" required>
-                                        </p>
+                                        </div>
                                         <input class="btn btn-primary" type="submit" value="保存">
                                     </form>
                                 </div>
@@ -86,11 +86,11 @@
                                         <form method="post" th:action="@{/user/profile}">
                                             <input type="hidden" name="action" value="enable2FA">
                                             <input type="hidden" name="twoFactorKey" th:value="${twoFactorKey}">
-                                            <p>
+                                            <div class="form-group">
                                                 <label for="2fa-code">两步验证代码</label>
                                                 <input placeholder="输入由身份验证器生成的验证码" type="text" id="2fa-code" name="twoFactorCode"
                                                        class="form-control" required>
-                                            </p>
+                                            </div>
                                             <input class="btn btn-primary" type="submit" value="启用两步验证">
                                         </form>
                                     </div>
@@ -101,11 +101,11 @@
                                         </div>
                                         <form method="post" th:action="@{/user/profile}">
                                             <input type="hidden" name="action" value="disable2FA">
-                                            <p>
+                                            <div class="form-group">
                                                 <label for="2fa-code-disable">两步验证代码</label>
                                                 <input placeholder="输入由身份验证器生成的验证码" type="text" id="2fa-code-disable" name="twoFactorCode"
                                                        class="form-control" required>
-                                            </p>
+                                            </div>
                                             <input class="btn btn-primary" type="submit" value="停用两步验证">
                                         </form>
                                     </div>
@@ -149,36 +149,36 @@
                                 <div class="shadow-sm p-3 mb-3 bg-white">
                                     <form method="post" enctype="multipart/form-data"
                                           th:action="@{/user/profile/updateDev}" th:object="${devProfile}">
-                                        <p>
+                                        <div class="form-group">
                                             <label for="dev-name">名称</label>
                                             <input placeholder="名称" type="text" id="dev-name" class="form-control" required
                                                    th:field="*{name}">
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="dev-email">电子邮箱</label>
                                             <input placeholder="电子邮箱" type="email" id="dev-email" class="form-control" required
                                                    th:field="*{email}">
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="dev-phone">电话</label>
                                             <input placeholder="电话" type="tel" id="dev-phone" class="form-control" required
                                                    th:field="*{phone}">
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="dev-photo">照片（创建资料时必须上传，修改资料时不更改则无需上传）</label>
                                             <input type="file" accept=".jpg,.png" id="dev-photo" class="form-control" name="photo"
                                                    th:required="${devProfile.status == null}">
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="dev-bio">简介</label>
                                             <input placeholder="简介" type="text" id="dev-bio" class="form-control" required
                                                    th:field="*{bio}">
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="dev-alipay">支付宝账号</label>
                                             <input placeholder="支付宝账号" type="text" id="dev-alipay" class="form-control" required
                                                    th:field="*{alipay}">
-                                        </p>
+                                        </div>
                                         <input class="btn btn-primary" type="submit" value="保存">
                                     </form>
                                 </div>
@@ -236,36 +236,36 @@
                                 <div class="shadow-sm p-3 mb-3 bg-white">
                                     <form method="post" enctype="multipart/form-data"
                                           th:action="@{/user/profile/updateCustomer}" th:object="${customerProfile}">
-                                        <p>
+                                        <div class="form-group">
                                             <label for="customer-name">名称</label>
                                             <input placeholder="名称" type="text" id="customer-name" class="form-control" required
                                                    th:field="*{name}">
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="customer-email">电子邮箱</label>
                                             <input placeholder="电子邮箱" type="email" id="customer-email" class="form-control" required
                                                    th:field="*{email}">
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="customer-phone">电话</label>
                                             <input placeholder="电话" type="tel" id="customer-phone" class="form-control" required
                                                    th:field="*{phone}">
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="customer-photo">照片（创建资料时必须上传，修改资料时不更改则无需上传）</label>
                                             <input type="file" accept=".jpg,.png" id="customer-photo" class="form-control" name="photo"
                                                    th:required="${customerProfile.status == null}">
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="customer-bio">简介</label>
                                             <input placeholder="简介" type="text" id="customer-bio" class="form-control" required
                                                    th:field="*{bio}">
-                                        </p>
-                                        <p>
+                                        </div>
+                                        <div class="form-group">
                                             <label for="customer-alipay">支付宝账号</label>
                                             <input placeholder="支付宝账号" type="text" id="customer-alipay" class="form-control" required
                                                    th:field="*{alipay}">
-                                        </p>
+                                        </div>
                                         <input class="btn btn-primary" type="submit" value="保存">
                                     </form>
                                 </div>

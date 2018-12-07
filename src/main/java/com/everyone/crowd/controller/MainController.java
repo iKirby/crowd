@@ -75,6 +75,7 @@ public class MainController {
         }
         model.addAttribute("isSearch", false);
         model.addAttribute("announcements", announcementService.findAll(10, 1));
+        model.addAttribute("title", "需求大厅");
         return "index";
     }
 
@@ -191,6 +192,7 @@ public class MainController {
         model.addAttribute("categoryMap", categoryMap);
         model.addAttribute("isSearch", true);
         model.addAttribute("announcements", announcementService.findAll(10, 1));
+        model.addAttribute("title", "搜索结果");
         return "index";
     }
 

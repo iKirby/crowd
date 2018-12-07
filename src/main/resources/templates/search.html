@@ -16,21 +16,21 @@
                 <div class="alert alert-info">同时组合多个条件搜索需求</div>
                 <div class="shadow-sm p-3 mb-3 bg-white">
                     <form th:action="@{/demand/search}">
-                        <p>
+                        <div class="form-group">
                             <label for="keyword">关键词</label>
                             <input placeholder="关键词" type="text" id="keyword" name="keyword" class="form-control">
-                        </p>
-                        <p>
+                        </div>
+                        <div class="form-group">
                             <label for="demand-category">分类</label>
                             <select id="demand-category" class="form-control" name="categoryId">
                                 <option value="0">全部</option>
                                 <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}">分类</option>
                             </select>
-                        </p>
-                        <p>
+                        </div>
+                        <div class="form-group">
                             <label for="region">地区</label>
                             <input placeholder="地区" type="text" id="region" name="region" class="form-control">
-                        </p>
+                        </div>
                         价格区间
                         <div class="input-group">
                             <input placeholder="价格从" type="number" name="lowPrice" class="form-control">
