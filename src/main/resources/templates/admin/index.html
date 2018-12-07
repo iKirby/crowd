@@ -74,15 +74,15 @@
                             <div class="card-body">
                                 <div id="chart-memory" style="height: 256px"></div>
                             </div>
-                            <script>
+                            <script th:inline="javascript">
                                 require(['c3', 'jquery'], function (c3, $) {
                                     $(document).ready(function () {
                                         c3.generate({
                                             bindto: '#chart-memory',
                                             data: {
                                                 columns: [
-                                                    ['data1', 666],
-                                                    ['data2', 1536]
+                                                    ['data1', /*[[${usedMemory}]]*/ 666],
+                                                    ['data2', /*[[${freeMemory}]]*/ 1536]
                                                 ],
                                                 type: 'donut',
                                                 colors: {
