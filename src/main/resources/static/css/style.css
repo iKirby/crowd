@@ -66,6 +66,9 @@ code {
     color: #005cbf !important;
     background-color: rgba(0, 0, 0, .03);
     border-radius: 3px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, .03);
+    border-width: 1px;
 }
 
 .card-ul li {
