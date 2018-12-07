@@ -1,13 +1,11 @@
 package com.everyone.crowd.controller;
 
 import com.everyone.crowd.entity.Category;
+import com.everyone.crowd.entity.CustomerProfile;
 import com.everyone.crowd.entity.Demand;
 import com.everyone.crowd.entity.User;
 import com.everyone.crowd.entity.status.DemandStatus;
-import com.everyone.crowd.service.AnnouncementService;
-import com.everyone.crowd.service.CategoryService;
-import com.everyone.crowd.service.DemandService;
-import com.everyone.crowd.service.UserService;
+import com.everyone.crowd.service.*;
 import com.everyone.crowd.util.CookieUtil;
 import com.everyone.crowd.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +32,7 @@ public class MainController {
 
     private final DemandService demandService;
     private final CategoryService categoryService;
-    private final UserService userService;
+    private final CustomerProfileService customerProfileService;
     private final AnnouncementService announcementService;
 
     @InitBinder
@@ -43,10 +41,10 @@ public class MainController {
     }
 
     @Autowired
-    public MainController(DemandService demandService, CategoryService categoryService, UserService userService, AnnouncementService announcementService) {
+    public MainController(DemandService demandService, CategoryService categoryService, CustomerProfileService customerProfileService, AnnouncementService announcementService) {
         this.demandService = demandService;
         this.categoryService = categoryService;
-        this.userService = userService;
+        this.customerProfileService = customerProfileService;
         this.announcementService = announcementService;
     }
 
@@ -77,15 +75,17 @@ public class MainController {
         }
         model.addAttribute("isSearch", false);
         model.addAttribute("announcements", announcementService.findAll(10, 1));
+        model.addAttribute("title", "需求大厅");
         return "index";
     }
 
     @GetMapping("/demand/view/{id}")
     public String demandPage(Model model, @PathVariable("id") Integer id) {
-        model.addAttribute("demand", demandService.findById(id));
-        Category category = categoryService.findById(demandService.findById(id).getCategoryId());
-        User user = userService.findById(demandService.findById(id).getCustomerId());
-        model.addAttribute("user", user);
+        Demand demand = demandService.findById(id);
+        model.addAttribute("demand", demand);
+        Category category = categoryService.findById(demand.getCategoryId());
+        CustomerProfile profile = customerProfileService.findById(demand.getCustomerId());
+        model.addAttribute("customerProfile", profile);
         model.addAttribute("category", category);
         return "demand";
     }
@@ -192,6 +192,7 @@ public class MainController {
         model.addAttribute("categoryMap", categoryMap);
         model.addAttribute("isSearch", true);
         model.addAttribute("announcements", announcementService.findAll(10, 1));
+        model.addAttribute("title", "搜索结果");
         return "index";
     }
 

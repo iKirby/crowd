@@ -2,6 +2,15 @@ body {
     padding-top: 3.5rem;
     font-weight: 400;
     word-break: break-word;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center;
+    overflow-y: scroll;
+}
+
+main {
+    flex: 1 1 auto;
 }
 
 .container-main {

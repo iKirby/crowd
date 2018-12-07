@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: headFragment('首页')">
+<head th:replace="fragments/head :: headFragment(${title})">
     <meta charset="UTF-8">
     <title>首页</title>
 </head>
@@ -61,7 +61,7 @@
         <div class="row slide-up-fade-in">
             <!-- Left column -->
             <div class="col-md-8">
-                <p th:if="${!isSearch}">
+                <div class="form-group" th:if="${!isSearch}">
                     <a class="btn" role="button" th:href="@{/}"
                        th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
                     <th:block th:each="category : ${categories}">
@@ -69,7 +69,7 @@
                            th:href="@{'?category=' + ${category.id}}"
                            th:classappend="${categoryId == category.id ? 'btn-info' : 'btn-outline-info'}">分类</a>
                     </th:block>
-                </p>
+                </div>
                 <hr>
                 <div class="alert alert-info" th:if="${demands.content.isEmpty()}">没有找到任何需求</div>
                 <div class="card-list">
@@ -162,10 +162,10 @@
                     </div>
                     <div class="card-body">
                         <form th:action="@{/demand/search}">
-                            <p>
+                            <div class="form-group">
                                 <input placeholder="输入关键词并按下 Enter ..." type="text" id="inputSearch"
                                        class="form-control" name="keyword">
-                            </p>
+                            </div>
                             <input type="submit" class="btn btn-primary" value="搜索">
                         </form>
                     </div>

@@ -56,7 +56,7 @@
                     <div class="card-header">更多信息</div>
                     <div class="card-body">
                         <div class="text-black-50">发布者</div>
-                        <p class="sh4" th:text="${user.username}">CUSTOMER1</p>
+                        <p class="sh4" th:text="${customerProfile.name}">CUSTOMER1</p>
                         <div class="text-black-50">发布时间</div>
                         <p class="sh4" th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}"></p>
                         <div class="text-black-50">地区</div>

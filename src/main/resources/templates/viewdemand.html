@@ -14,7 +14,7 @@
         <div class="row slide-up-fade-in">
             <!-- Left column -->
             <div class="col-md-8">
-                <p>
+                <div class="form-group">
                     <a class="btn" role="button" th:href="@{/demand/my}"
                        th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
                     <th:block th:each="category : ${categories}">
@@ -22,7 +22,7 @@
                            th:href="@{'?category=' + ${category.id}}"
                            th:classappend="${categoryId == category.id ? 'btn-info' : 'btn-outline-info'}">分类</a>
                     </th:block>
-                </p>
+                </div>
                 <hr>
                 <div class="alert alert-info" th:if="${demands.content.isEmpty()}">没有找到任何需求</div>
                 <div class="card-list">

@@ -19,9 +19,9 @@
                 </div>
                 <form method="post" th:action="@{/user/2fa}">
                     <input type="hidden" name="from" th:value="${from}">
-                    <p>
+                    <div class="form-group">
                         <input type="number" name="twoFactorCode" placeholder="输入数字验证码" class="form-control">
-                    </p>
+                    </div>
                     <input class="btn btn-primary" type="submit" value="提交">
                 </form>
             </div> <!-- /Left column -->

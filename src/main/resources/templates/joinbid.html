@@ -24,20 +24,20 @@
                 <div class="shadow-sm p-3 mb-5 bg-white" th:if="${demand.status == 'PASS'}">
                     <form method="post" enctype="multipart/form-data" th:action="@{/bid/join}" th:object="${bid}">
                         <input type="hidden" th:field="*{demandId}">
-                        <p>
+                        <div class="form-group">
                             <label for="bid-price">竞标价格</label>
                             <input placeholder="输入您可以接受的价格" type="number" id="bid-price" class="form-control" required
                                    th:field="*{price}">
-                        </p>
-                        <p>
+                        </div>
+                        <div class="form-group">
                             <label for="attach-message">附加信息</label>
                             <textarea placeholder="附加信息" id="attach-message" class="form-control" rows="5"
                                       required th:field="*{msg}"></textarea>
-                        </p>
-                        <p>
+                        </div>
+                        <div class="form-group">
                             <label for="customer-photo">提交有利于您在竞标中被选中的附件（可选）</label>
                             <input type="file" id="customer-photo" class="form-control" name="attachment">
-                        </p>
+                        </div>
                         <input class="btn btn-primary" type="submit" value="参与竞标">
                     </form>
                 </div>
