@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('登录')">
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-single">
+        <div class="container">
+            <div class="row">
+                <div class="col col-login mx-auto">
+                    <form class="card" action="" method="post">
+                        <div class="card-body p-6">
+                            <div class="card-title">登录</div>
+                            <div class="form-group">
+                                <label class="form-label">电子邮箱</label>
+                                <input type="email" class="form-control" id="email" placeholder="输入电子邮箱" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    密码
+                                    <a href="#" class="float-right small">忘记密码？</a>
+                                </label>
+                                <input type="password" class="form-control" id="password" placeholder="输入密码" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" />
+                                    <span class="custom-control-label">Remember me</span>
+                                </label>
+                            </div>
+                            <div class="form-footer">
+                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
