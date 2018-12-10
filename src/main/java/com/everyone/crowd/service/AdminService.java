@@ -5,6 +5,8 @@ import com.everyone.crowd.entity.Admin;
 public interface AdminService {
     Admin login(Admin adminToLogin);
 
+    Admin login(String cookie);
+
     Admin twoFactorAuth(Admin adminToLogin, int twoFACode);
 
     void logout(Admin admin);

@@ -53,6 +53,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Admin login(String cookie) {
+        return adminMapper.findByCookie(cookie);
+    }
+
+    @Override
     public void logout(Admin admin) {
         adminMapper.updateCookie(admin.getId(), null);
     }

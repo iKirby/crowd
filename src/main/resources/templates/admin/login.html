@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: headFragment('登录')">
+<head th:replace="admin/fragments/head :: headFragment('登录')">
     <meta charset="UTF-8">
     <title>登录</title>
 </head>
@@ -10,28 +10,30 @@
         <div class="container">
             <div class="row">
                 <div class="col col-login mx-auto">
-                    <form class="card" action="" method="post">
+                    <form class="card" method="post" th:action="@{/admin/login}" th:object="${adminLogin}">
                         <div class="card-body p-6">
                             <div class="card-title">登录</div>
+                            <div class="alert alert-danger" th:if="${message}" th:text="${message}"></div>
                             <div class="form-group">
-                                <label class="form-label">电子邮箱</label>
-                                <input type="email" class="form-control" id="email" placeholder="输入电子邮箱" required>
+                                <label class="form-label">用户名</label>
+                                <input type="text" class="form-control" id="email" placeholder="输入用户名" required
+                                       th:field="*{username}">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">
                                     密码
-                                    <a href="#" class="float-right small">忘记密码？</a>
                                 </label>
-                                <input type="password" class="form-control" id="password" placeholder="输入密码" required>
+                                <input type="password" class="form-control" id="password" placeholder="输入密码" required
+                                       th:field="*{password}">
                             </div>
                             <div class="form-group">
                                 <label class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" />
-                                    <span class="custom-control-label">Remember me</span>
+                                    <input type="checkbox" class="custom-control-input" name="remember">
+                                    <span class="custom-control-label">记住登录状态</span>
                                 </label>
                             </div>
                             <div class="form-footer">
-                                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                                <button type="submit" class="btn btn-primary btn-block">登录</button>
                             </div>
                         </div>
                     </form>

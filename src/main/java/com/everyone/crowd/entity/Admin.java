@@ -10,6 +10,7 @@ import lombok.Setter;
 public class Admin {
     private Integer id;
     private String username;
+    private String email;
     private String password;
     private String twoFactor;
     private String cookie;
