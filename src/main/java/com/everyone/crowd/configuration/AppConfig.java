@@ -1,5 +1,6 @@
 package com.everyone.crowd.configuration;
 
+import com.everyone.crowd.interceptor.AdminLoginInterceptor;
 import com.everyone.crowd.interceptor.UserLoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -12,9 +13,10 @@ public class AppConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new UserLoginInterceptor())
                 .addPathPatterns("/**")
-                // static resources
                 .excludePathPatterns("/js/**", "/css/**", "/font/**", "/img/**")
-                // pages that can be accessed without logging in
-                .excludePathPatterns("/", "/error");
+                .excludePathPatterns("/", "/error", "/admin/**");
+        registry.addInterceptor(new AdminLoginInterceptor())
+                .addPathPatterns("/admin/**")
+                .excludePathPatterns("/admin/css/**", "/admin/fonts/**", "/admin/js/**", "/admin/plugins/**");
     }
 }
