@@ -24,7 +24,10 @@ public class FileController {
             } else if (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")){
                 builder.contentType(MediaType.IMAGE_JPEG);
             } else {
-                builder.header("Content-Disposition", "attachment; filename=" + fileName);
+                builder.header(
+                        "Content-Disposition",
+                        "attachment; filename=" + fileName.substring(fileName.indexOf("_") + 1)
+                );
             }
             return builder.body(file);
         }
