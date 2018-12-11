@@ -44,28 +44,32 @@
                 <div class="col-lg order-lg-first">
                     <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                         <li class="nav-item">
-                            <a href="#" class="nav-link active" th:href="@{/admin/dashboard}">
+                            <a href="#" class="nav-link" th:href="@{/admin/dashboard}"
+                               th:classappend="${#request.requestURI.contains('/dashboard') ? 'active' : ''}">
                                 <i class="fe fe-home"></i>仪表板</a>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i
-                                    class="fe fe-box"></i> 需求</a>
+                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
+                               th:classappend="${#request.requestURI.contains('/demand') ? 'active' : ''}">
+                                <i class="fe fe-box"></i> 需求</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
-                                <a href="#" class="dropdown-item ">需求管理</a>
+                                <a href="#" class="dropdown-item " th:href="@{/admin/demand}">需求管理</a>
                                 <a href="#" class="dropdown-item ">统计信息</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i
-                                    class="fe fe-target"></i> 竞标</a>
+                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
+                               th:classappend="${#request.requestURI.contains('/bid') ? 'active' : ''}">
+                                <i class="fe fe-target"></i>竞标</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
                                 <a href="#" class="dropdown-item ">竞标管理</a>
                                 <a href="#" class="dropdown-item ">统计信息</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i
-                                    class="fe fe-users"></i> 用户</a>
+                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
+                               th:classappend="${#request.requestURI.contains('/user') ? 'active' : ''}">
+                                <i class="fe fe-users"></i> 用户</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
                                 <a href="#" class="dropdown-item ">用户管理</a>
                                 <a href="#" class="dropdown-item ">开发者管理</a>
@@ -74,8 +78,9 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"><i
-                                    class="fe fe-settings"></i> 系统</a>
+                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
+                               th:classappend="${#request.requestURI.contains('/system') ? 'active' : ''}">
+                                <i class="fe fe-settings"></i> 系统</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
                                 <a href="#" class="dropdown-item ">系统设置</a>
                                 <a href="#" class="dropdown-item ">数据管理</a>

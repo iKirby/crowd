@@ -3,6 +3,7 @@ package com.everyone.crowd.service;
 import com.everyone.crowd.entity.Category;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CategoryService {
 
@@ -15,4 +16,6 @@ public interface CategoryService {
     int insert(Category category);
 
     void delete(Integer id);
+
+    Map<Integer, String> getIdNameMap();
 }

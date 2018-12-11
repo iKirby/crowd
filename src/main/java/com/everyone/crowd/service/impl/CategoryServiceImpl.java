@@ -6,7 +6,10 @@ import com.everyone.crowd.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -43,5 +46,14 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void delete(Integer id) {
         categoryMapper.delete(id);
+    }
+
+    @Override
+    public Map<Integer, String> getIdNameMap() {
+        Map<Integer, String> idNameMap = new HashMap<>();
+        for (Category category : categoryMapper.findAll()) {
+            idNameMap.put(category.getId(), category.getName());
+        }
+        return idNameMap;
     }
 }
