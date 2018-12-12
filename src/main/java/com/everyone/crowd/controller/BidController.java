@@ -1,9 +1,6 @@
 package com.everyone.crowd.controller;
 
-import com.everyone.crowd.entity.Bid;
-import com.everyone.crowd.entity.Demand;
-import com.everyone.crowd.entity.Page;
-import com.everyone.crowd.entity.User;
+import com.everyone.crowd.entity.*;
 import com.everyone.crowd.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -76,5 +73,22 @@ public class BidController {
             model.addAttribute("devIdNameMap", devProfileService.getIdNameMap(ids));
         }
         return "bid";
+    }
+
+    @GetMapping("/bid/detail/{id}")
+    public String viewBid(Model model, @PathVariable("id") Integer bidId, HttpSession session) {
+        Bid bid = bidService.findById(bidId);
+        if (bid != null) {
+            Demand demand = demandService.findById(bid.getDemandId());
+            if (demand.getCustomerId().equals(((User) session.getAttribute("user")).getId())) {
+                DevProfile devProfile = devProfileService.findById(bid.getDevId());
+                model.addAttribute("bid", bid);
+                model.addAttribute("demand", demand);
+                model.addAttribute("devProfile", devProfile);
+                return "viewbid";
+            }
+        }
+        model.addAttribute("message", "您当前无法查看此竞标信息。");
+        return "viewbid";
     }
 }

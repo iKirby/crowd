@@ -42,7 +42,7 @@
                 </div>
                 <div class="p-3 mb-3 bg-white" th:if="${demand.status == 'PASS'}">
                     <div class="text-black-50">对此需求感兴趣？参与竞标即有机会承包项目。</div>
-                    <a href="#" class="btn btn-primary" th:classappend="${demand.status == 'PASSED' ? '' : 'disabled'}"
+                    <a href="#" class="btn btn-primary" th:classappend="${demand.status == 'PASS' ? '' : 'disabled'}"
                        th:href="@{'/bid/join/' + ${demand.id}}">参与竞标</a>
                 </div>
                 <div class="p-3 mb-3 bg-white" th:if="${demand.status != 'PASS'}">
