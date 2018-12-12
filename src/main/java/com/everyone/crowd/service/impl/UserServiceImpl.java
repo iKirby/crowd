@@ -150,6 +150,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(Integer id) {
-        return userMapper.findById(id);
+        User user = userMapper.findById(id);
+        if (user != null) {
+            user.setPassword("");
+            user.setTwoFactor(user.getTwoFactor() != null ? "" : null);
+        }
+        return user;
     }
 }

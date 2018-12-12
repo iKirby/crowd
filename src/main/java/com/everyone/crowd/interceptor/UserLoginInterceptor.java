@@ -1,11 +1,21 @@
 package com.everyone.crowd.interceptor;
 
+import com.everyone.crowd.entity.User;
+import com.everyone.crowd.service.UserService;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Component
 public class UserLoginInterceptor implements HandlerInterceptor {
+
+    private final UserService userService;
+
+    public UserLoginInterceptor(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -15,6 +25,8 @@ public class UserLoginInterceptor implements HandlerInterceptor {
             if (requestURI.equals("/user/logout")) {
                 return true;
             }
+            User user = (User) request.getSession().getAttribute("user");
+            request.getSession().setAttribute("user", userService.findById(user.getId()));
             if (isLoginRelated) {
                 String from = request.getParameter("from");
                 if (from != null && !isLoginRelated(from)) {
@@ -35,7 +47,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
                 response.sendRedirect("/user/2fa?from=" + requestURI);
             }
             return false;
-        } else if (isLoginRelated) {
+        } else if (isLoginRelated || requestURI.equals("/")) {
             return true;
         } else {
             response.sendRedirect("/user/login?from=" + requestURI);
