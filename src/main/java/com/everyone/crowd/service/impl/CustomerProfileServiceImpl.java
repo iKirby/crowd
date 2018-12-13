@@ -2,6 +2,7 @@ package com.everyone.crowd.service.impl;
 
 import com.everyone.crowd.dao.CustomerProfileMapper;
 import com.everyone.crowd.entity.CustomerProfile;
+import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.service.CustomerProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,30 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     @Override
     public CustomerProfile findById(Integer user_id) {
         return customerProfileMapper.findById(user_id);
+    }
+
+    @Override
+    public Page<CustomerProfile> findAll(int pageSize, int page) {
+        int total = customerProfileMapper.countAll();
+        List<CustomerProfile> content = customerProfileMapper.findAll(pageSize * (page - 1), pageSize);
+        Page<CustomerProfile> demandPage = new Page<>();
+        demandPage.setContent(content);
+        demandPage.setCurrentPage(page);
+        demandPage.setTotal(total);
+        demandPage.setPageSize(pageSize);
+        return demandPage;
+    }
+
+    @Override
+    public Page<CustomerProfile> findByName(String name, int pageSize, int page) {
+        int total = customerProfileMapper.countAll();
+        List<CustomerProfile> content = customerProfileMapper.findByName(name, pageSize * (page - 1), pageSize);
+        Page<CustomerProfile> customerProfilePage = new Page<>();
+        customerProfilePage.setContent(content);
+        customerProfilePage.setCurrentPage(page);
+        customerProfilePage.setTotal(total);
+        customerProfilePage.setPageSize(pageSize);
+        return customerProfilePage;
     }
 
     @Override

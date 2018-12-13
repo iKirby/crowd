@@ -12,10 +12,16 @@ public interface DevProfileMapper {
     @Select("SELECT * FROM t_devprofiles WHERE user_id = #{user_id}")
     DevProfile findById(@Param("user_id") Integer user_id);
 
+    @Select("SELECT * FROM t_devprofiles WHERE name LIKE '%${name}%' LIMIT #{offset}, #{size}")
+    List<DevProfile> findByName(@Param("name") String name, @Param("offset") int offset, @Param("size") int size);
+
+    @Select("SELECT * FROM t_devprofiles LIMIT #{offset}, #{size}")
+    List<DevProfile> findAll(@Param("offset") int offset, @Param("size") int size);
+
     @Insert("INSERT INTO t_devprofiles (user_id, name, email, phone, photo, addr, alipay, bio, cert, status) VALUES (#{userId}, #{name}, #{email}, #{phone}, #{photo},#{addr},#{alipay},#{bio},#{cert},#{status})")
     int insert(DevProfile devProfile);
 
-    @Update("UPDATE t_devprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, cert = #{cert} WHERE user_id = #{userId}")
+    @Update("UPDATE t_devprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, level = #{level},cert = #{cert},status = #{status} WHERE user_id = #{userId}")
     int update(DevProfile devProfile);
 
     @Delete("DELETE  from t_devprofiles where  user_id=#{user_id}")
@@ -26,6 +32,9 @@ public interface DevProfileMapper {
 
     @Update("UPDATE t_devprofiles set level=#{level} where user_id = #{user_id}")
     int updateLevel(@Param("user_id") Integer user_id, @Param("level") int level);
+
+    @Select("SELECT COUNT(*) FROM t_devprofiles")
+    int countAll();
 
     @SelectProvider(type = DevProfileSQLProvider.class, method = "findByIds")
     List<DevProfile> findByIds(@Param("ids") List<Integer> ids);

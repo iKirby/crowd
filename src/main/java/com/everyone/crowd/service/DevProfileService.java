@@ -1,6 +1,7 @@
 package com.everyone.crowd.service;
 
 import com.everyone.crowd.entity.DevProfile;
+import com.everyone.crowd.entity.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,6 +9,10 @@ import java.util.Map;
 
 public interface DevProfileService {
     DevProfile findById(Integer user_id);
+
+    Page<DevProfile> findAll(int pageSize, int page);
+
+    Page<DevProfile> findByName(String name, int pageSize, int page);
 
     void insert(DevProfile devProfile);
 
