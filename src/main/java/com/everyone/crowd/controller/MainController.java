@@ -87,14 +87,14 @@ public class MainController {
         CustomerProfile profile = customerProfileService.findById(demand.getCustomerId());
         model.addAttribute("customerProfile", profile);
         model.addAttribute("category", category);
-        return "demand";
+        return "demand-view";
     }
 
     @GetMapping("/demand/new")
     public String newDemand(Model model) {
         model.addAttribute("demand", new Demand());
         model.addAttribute("categories", categoryService.findAll());
-        return "newdemand";
+        return "demand-new";
     }
 
     @PostMapping("/demand/new")
@@ -111,7 +111,7 @@ public class MainController {
     public String editDemand(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("demand", demandService.findById(id));
         model.addAttribute("categories", categoryService.findAll());
-        return "updatedemand";
+        return "demand-update";
     }
 
     @PostMapping("/demand/edit")
@@ -158,7 +158,7 @@ public class MainController {
         statusMap.put(DemandStatus.CONTRACTED.name(), "竞标中");
         model.addAttribute("categoryMap", categoryMap);
         model.addAttribute("statusMap", statusMap);
-        return "viewdemand";
+        return "demand-my";
     }
 
     @GetMapping("/demand/search")

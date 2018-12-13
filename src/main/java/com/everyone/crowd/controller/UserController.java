@@ -110,7 +110,7 @@ public class UserController {
             return "redirect:" + from;
         } else {
             model.addAttribute("from", from);
-            return "2fa";
+            return "login-2fa";
         }
     }
 
@@ -133,7 +133,7 @@ public class UserController {
         } else {
             model.addAttribute("from", from);
             model.addAttribute("message", "两步验证验证码错误，请重试");
-            return "2fa";
+            return "login-2fa";
         }
     }
 

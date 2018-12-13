@@ -88,7 +88,7 @@ public class ProfileController {
         }
         model.addAttribute("devProfile", devProfile);
         model.addAttribute("customerProfile", customerProfile);
-        return "verify";
+        return "verify-new";
     }
 
     @PostMapping("/user/profile/verify")

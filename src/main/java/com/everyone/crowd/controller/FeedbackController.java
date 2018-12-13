@@ -28,7 +28,7 @@ public class FeedbackController {
         Feedback feedback = new Feedback();
         feedback.setUrl(referer);
         model.addAttribute("feedback", feedback);
-        return "newfeedback";
+        return "feedback-new";
     }
 
     @PostMapping("/feedback/new")

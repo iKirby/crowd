@@ -45,7 +45,7 @@ public class BidController {
         }});
         model.addAttribute("customer", customerProfileService.findById(demand.getCustomerId()));
         model.addAttribute("category", categoryService.findById(demand.getCategoryId()));
-        return "joinbid";
+        return "bid-join";
     }
 
     @PostMapping("/bid/join")
@@ -72,7 +72,7 @@ public class BidController {
             }
             model.addAttribute("devIdNameMap", devProfileService.getIdNameMap(ids));
         }
-        return "bid";
+        return "bid-list";
     }
 
     @GetMapping("/bid/detail/{id}")
@@ -85,10 +85,10 @@ public class BidController {
                 model.addAttribute("bid", bid);
                 model.addAttribute("demand", demand);
                 model.addAttribute("devProfile", devProfile);
-                return "viewbid";
+                return "bid-view";
             }
         }
         model.addAttribute("message", "您当前无法查看此竞标信息。");
-        return "viewbid";
+        return "bid-view";
     }
 }
