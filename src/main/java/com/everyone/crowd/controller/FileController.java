@@ -1,5 +1,6 @@
 package com.everyone.crowd.controller;
 
+import com.everyone.crowd.entity.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -31,6 +32,6 @@ public class FileController {
             }
             return builder.body(file);
         }
-        return ResponseEntity.notFound().build();
+        throw new NotFoundException("找不到请求的文件");
     }
 }

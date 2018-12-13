@@ -1,9 +1,7 @@
 package com.everyone.crowd.controller;
 
-import com.everyone.crowd.entity.Category;
-import com.everyone.crowd.entity.CustomerProfile;
-import com.everyone.crowd.entity.Demand;
-import com.everyone.crowd.entity.User;
+import com.everyone.crowd.entity.*;
+import com.everyone.crowd.entity.exception.NotAcceptableException;
 import com.everyone.crowd.entity.exception.NotFoundException;
 import com.everyone.crowd.entity.status.DemandStatus;
 import com.everyone.crowd.service.AnnouncementService;
@@ -25,9 +23,6 @@ import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class MainController {
@@ -62,16 +57,8 @@ public class MainController {
                 return "redirect:/user/login";
             }
         }
-
-        List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryId", categoryId);
-        model.addAttribute("categories", categoryList);
-        Map<Integer, String> categoryMap = new HashMap<>();
-        for (Category aCategory : categoryList) {
-            categoryMap.put(aCategory.getId(), aCategory.getName());
-        }
-        model.addAttribute("categoryMap", categoryMap);
-
+        model.addAttribute("categoryMap", categoryService.getIdNameMap());
         if (categoryId == 0) {
             model.addAttribute("demands", demandService.findByStatus(DemandStatus.PASS.name(), 10, page));
         } else {
@@ -114,7 +101,9 @@ public class MainController {
 
     @GetMapping("/demand/edit/{id}")
     public String editDemand(Model model, @PathVariable("id") Integer id) {
-        model.addAttribute("demand", demandService.findById(id));
+        Demand demand = demandService.findById(id);
+        if (demand == null) throw new NotFoundException("找不到请求的需求信息");
+        model.addAttribute("demand", demand);
         model.addAttribute("categories", categoryService.findAll());
         return "demand-update";
     }
@@ -134,8 +123,13 @@ public class MainController {
     }
 
     @GetMapping("/demand/delete/{id}")
-    public String deleteDemand(@PathVariable("id") Integer id) {
-        demandService.delete(id);
+    public String deleteDemand(HttpSession session, @PathVariable("id") Integer id) {
+        Demand demand = demandService.findById(id);
+        if (demand != null && demand.getCustomerId().equals(((User) session.getAttribute("user")).getId())) {
+            demandService.delete(id);
+        } else {
+            throw new NotAcceptableException("非法请求，无法删除需求");
+        }
         return "redirect:/";
     }
 
@@ -149,20 +143,9 @@ public class MainController {
         } else {
             model.addAttribute("demands", demandService.findByCustomerIdAndCategoryId(user.getId(), categoryId, 10, page));
         }
-        List<Category> categoryList = categoryService.findAll();
         model.addAttribute("categoryId", categoryId);
-        model.addAttribute("categories", categoryList);
-        Map<Integer, String> categoryMap = new HashMap<>();
-        for (Category aCategory : categoryList) {
-            categoryMap.put(aCategory.getId(), aCategory.getName());
-        }
-        Map<String, String> statusMap = new HashMap<>();
-        statusMap.put(DemandStatus.PENDING.name(), "审核中");
-        statusMap.put(DemandStatus.PASS.name(), "审核通过");
-        statusMap.put(DemandStatus.FAIL.name(), "审核未通过");
-        statusMap.put(DemandStatus.CONTRACTED.name(), "竞标中");
-        model.addAttribute("categoryMap", categoryMap);
-        model.addAttribute("statusMap", statusMap);
+        model.addAttribute("categoryMap", categoryService.getIdNameMap());
+        model.addAttribute("statusMap", demandService.getStatusMap());
         return "demand-my";
     }
 
@@ -189,12 +172,7 @@ public class MainController {
         model.addAttribute("demands", demandService.findByMultipleConditions(keyword,
                 categoryId, region, lowPrice, highPrice, startDateFrom, startDateTo, endDateFrom, endDateTo,
                 DemandStatus.PASS.name(), 10, page));
-        List<Category> categoryList = categoryService.findAll();
-        Map<Integer, String> categoryMap = new HashMap<>();
-        for (Category aCategory : categoryList) {
-            categoryMap.put(aCategory.getId(), aCategory.getName());
-        }
-        model.addAttribute("categoryMap", categoryMap);
+        model.addAttribute("categoryMap", categoryService.getIdNameMap());
         model.addAttribute("isSearch", true);
         model.addAttribute("announcements", announcementService.findAll(10, 1));
         model.addAttribute("title", "搜索结果");
@@ -203,7 +181,9 @@ public class MainController {
 
     @GetMapping("/announcements/{id}")
     public String announcementPage(Model model, @PathVariable("id") Integer id) {
-        model.addAttribute("announcement", announcementService.findById(id));
+        Announcement announcement = announcementService.findById(id);
+        if (announcement == null) throw new NotFoundException("找不到请求的公告信息");
+        model.addAttribute("announcement", announcement);
         model.addAttribute("announcements", announcementService.findAll(10, 1));
         return "announcement";
     }

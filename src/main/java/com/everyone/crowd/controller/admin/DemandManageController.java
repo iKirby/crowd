@@ -2,7 +2,6 @@ package com.everyone.crowd.controller.admin;
 
 import com.everyone.crowd.entity.Demand;
 import com.everyone.crowd.entity.Page;
-import com.everyone.crowd.entity.status.DemandStatus;
 import com.everyone.crowd.service.CategoryService;
 import com.everyone.crowd.service.CustomerProfileService;
 import com.everyone.crowd.service.DemandService;
@@ -14,9 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class DemandManageController {
@@ -42,13 +39,7 @@ public class DemandManageController {
             customerIds.add(demand.getCustomerId());
         }
         model.addAttribute("customerMap", customerProfileService.getIdNameMap(customerIds));
-
-        Map<String, String> statusMap = new HashMap<>();
-        statusMap.put(DemandStatus.PENDING.name(), "审核中");
-        statusMap.put(DemandStatus.PASS.name(), "审核通过");
-        statusMap.put(DemandStatus.FAIL.name(), "审核未通过");
-        statusMap.put(DemandStatus.CONTRACTED.name(), "竞标中");
-        model.addAttribute("statusMap", statusMap);
+        model.addAttribute("statusMap", demandService.getStatusMap());
         return "admin/demandmanage";
     }
 
@@ -56,13 +47,7 @@ public class DemandManageController {
     public String editDemand(Model model, @PathVariable("id") Integer id) {
         model.addAttribute("demand", demandService.findById(id));
         model.addAttribute("categories", categoryService.findAll());
-
-        Map<String, String> statusMap = new HashMap<>();
-        statusMap.put(DemandStatus.PENDING.name(), "审核中");
-        statusMap.put(DemandStatus.PASS.name(), "审核通过");
-        statusMap.put(DemandStatus.FAIL.name(), "审核未通过");
-        statusMap.put(DemandStatus.CONTRACTED.name(), "竞标中");
-        model.addAttribute("statusMap", statusMap);
+        model.addAttribute("statusMap", demandService.getStatusMap());
         return "admin/demandedit";
     }
 
