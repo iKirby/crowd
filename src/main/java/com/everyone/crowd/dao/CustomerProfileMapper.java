@@ -12,10 +12,16 @@ public interface CustomerProfileMapper {
     @Select("SELECT * FROM t_customerprofiles WHERE user_id = #{user_id}")
     CustomerProfile findById(@Param("user_id") Integer user_id);
 
+    @Select("SELECT * FROM t_customerprofiles WHERE name LIKE '%${name}%' LIMIT #{offset}, #{size}")
+    List<CustomerProfile> findByName(@Param("name") String name, @Param("offset") int offset, @Param("size") int size);
+
+    @Select("SELECT * FROM t_customerprofiles LIMIT #{offset}, #{size}")
+    List<CustomerProfile> findAll(@Param("offset") int offset, @Param("size") int size);
+
     @Insert("INSERT INTO t_customerprofiles (user_id, name, email, phone, photo, addr, alipay, bio, cert, status) VALUES (#{userId}, #{name}, #{email}, #{phone}, #{photo},#{addr},#{alipay},#{bio},#{cert}, #{status})")
     int insert(CustomerProfile customerProfile);
 
-    @Update("UPDATE t_customerprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, cert = #{cert} WHERE user_id = #{userId}")
+    @Update("UPDATE t_customerprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, level = #{level},cert = #{cert},status = #{status} WHERE user_id = #{userId}")
     int update(CustomerProfile customerProfile);
 
     @Delete("DELETE  from t_customerprofiles where  user_id=#{user_id}")
@@ -26,6 +32,9 @@ public interface CustomerProfileMapper {
 
     @Update("UPDATE t_customerprofiles set level=#{level} where user_id = #{user_id}")
     int updateLevel(@Param("user_id") Integer user_id, @Param("level") int level);
+
+    @Select("SELECT COUNT(*) FROM t_customerprofiles")
+    int countAll();
 
     @SelectProvider(type = CustomerProfileSQLProvider.class, method = "findByIds")
     List<CustomerProfile> findByIds(@Param("ids") List<Integer> ids);
