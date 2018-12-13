@@ -17,10 +17,10 @@
                 <div class="form-group">
                     <a class="btn" role="button" th:href="@{/demand/my}"
                        th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
-                    <th:block th:each="category : ${categories}">
-                        <a href="#" class="btn" role="button" th:text="${category.name}"
-                           th:href="@{'?category=' + ${category.id}}"
-                           th:classappend="${categoryId == category.id ? 'btn-info' : 'btn-outline-info'}">分类</a>
+                    <th:block th:each="category : ${categoryMap}">
+                        <a href="#" class="btn" role="button" th:text="${category.value}"
+                           th:href="@{/(category=${category.key})}"
+                           th:classappend="${categoryId == category.key ? 'btn-info' : 'btn-outline-info'}">分类</a>
                     </th:block>
                 </div>
                 <hr>
@@ -30,7 +30,7 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 <span class="badge badge-info" th:text="${categoryMap.get(demand.categoryId)}">教育</span>
-                                <a th:href="@{'/demand/view/'+ ${demand.id}}" th:text="${demand.title}">XXX</a>
+                                <a th:href="@{/demand/view/{id}(id=${demand.id})}" th:text="${demand.title}">XXX</a>
                                 <span class="text-danger float-right list-price" th:text="${statusMap.get(demand.status)}">审核中</span>
                             </h5>
                             <div class=" card-text">
@@ -55,7 +55,7 @@
                     <ul class="pagination" th:if="${categoryId == 0}">
                         <li class="page-item" th:if="${!demands.isFirst()}">
                             <a class="page-link" href="#" aria-label="Previous"
-                               th:href="@{'?page=' + ${demands.currentPage - 1}}">
+                               th:href="@{/demand/my(page=${demands.currentPage - 1})}">
                                 <span aria-hidden="true">
                                     <i class="mi mi-ChevronLeft"></i> Prev
                                 </span>
@@ -65,11 +65,11 @@
                         <li class="page-item" th:if="${demands.totalPage > 0}"
                             th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
                             th:classappend="${demands.currentPage == i ? 'active' : ''}">
-                            <a class="page-link" th:href="@{'?page=' + ${i}}" th:text="${i}">1</a>
+                            <a class="page-link" th:href="@{/demand/my(page=${i})}" th:text="${i}">1</a>
                         </li>
                         <li class="page-item" th:if="${!demands.isLast()}">
                             <a class="page-link" href="#" aria-label="Next"
-                               th:href="@{'?page=' + ${demands.currentPage + 1}}">
+                               th:href="@{/demand/my(page=${demands.currentPage + 1})}">
                                 <span aria-hidden="true">Next
                                     <i class="mi mi-ChevronRight"></i>
                                 </span>
@@ -79,7 +79,7 @@
                     </ul>
                     <ul class="pagination" th:if="${categoryId != 0}">
                         <li class="page-item" th:if="${!demands.isFirst()}">
-                            <a class="page-link" href="#" aria-label="Previous" th:href="@{'?category=' + ${categoryId} + '&page=' + ${demands.currentPage - 1}}">
+                            <a class="page-link" href="#" aria-label="Previous" th:href="@{/demand/my(category=${categoryId}, page=${demands.currentPage - 1})}">
                                 <span aria-hidden="true">
                                     <i class="mi mi-ChevronLeft"></i> Prev
                                 </span>
@@ -88,10 +88,10 @@
                         </li>
                         <li class="page-item" th:if="${demands.totalPage > 0}" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
                             th:classappend="${demands.currentPage == i ? 'active' : ''}">
-                            <a class="page-link" th:href="@{'?category=' + ${categoryId} + '&page=' + ${i}}" th:text="${i}">1</a>
+                            <a class="page-link" th:href="@{/demand/my(category=${categoryId}, page=${i})}">1</a>
                         </li>
                         <li class="page-item" th:if="${!demands.isLast()}">
-                            <a class="page-link" href="#" aria-label="Next" th:href="@{'?category=' + ${categoryId} + '&page=' + ${demands.currentPage + 1}}">
+                            <a class="page-link" href="#" aria-label="Next" th:href="@{/demand/my(category=${categoryId}, page=${demands.currentPage + 1})}">
                                 <span aria-hidden="true">Next
                                     <i class="mi mi-ChevronRight"></i>
                                 </span>

@@ -2,6 +2,7 @@ package com.everyone.crowd.controller;
 
 import com.everyone.crowd.entity.Feedback;
 import com.everyone.crowd.entity.User;
+import com.everyone.crowd.entity.exception.NotFoundException;
 import com.everyone.crowd.service.FeedbackService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,9 +44,7 @@ public class FeedbackController {
     @GetMapping("/feedback/view/{id}")
     public String viewFeedback(Model model, @PathVariable("id") Integer id) {
         Feedback feedback = feedbackService.findById(id);
-        if (feedback == null) {
-            return "redirect:/";
-        }
+        if (feedback == null) throw new NotFoundException("找不到请求的反馈信息");
         model.addAttribute("feedback", feedback);
         return "feedback";
     }

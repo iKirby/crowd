@@ -5,6 +5,7 @@ import com.everyone.crowd.entity.Page;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Map;
 
 public interface DemandService {
 
@@ -31,6 +32,8 @@ public interface DemandService {
     void updateStatus(Integer id, String status);
 
     void delete(Integer id);
+
+    Map<String, String> getStatusMap();
 
     Page<Demand> findByMultipleConditions(String keyword,
                                           Integer categoryId,

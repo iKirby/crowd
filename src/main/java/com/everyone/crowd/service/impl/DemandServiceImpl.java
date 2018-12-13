@@ -3,6 +3,7 @@ package com.everyone.crowd.service.impl;
 import com.everyone.crowd.dao.DemandMapper;
 import com.everyone.crowd.entity.Demand;
 import com.everyone.crowd.entity.Page;
+import com.everyone.crowd.entity.status.DemandStatus;
 import com.everyone.crowd.service.DemandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DemandServiceImpl implements DemandService {
@@ -134,6 +137,16 @@ public class DemandServiceImpl implements DemandService {
     @Transactional
     public void delete(Integer id) {
         demandMapper.delete(id);
+    }
+
+    @Override
+    public Map<String, String> getStatusMap() {
+        Map<String, String> statusMap = new HashMap<>();
+        statusMap.put(DemandStatus.PENDING.name(), "审核中");
+        statusMap.put(DemandStatus.PASS.name(), "竞标中");
+        statusMap.put(DemandStatus.FAIL.name(), "审核未通过");
+        statusMap.put(DemandStatus.CONTRACTED.name(), "已被承包");
+        return statusMap;
     }
 
     @Override

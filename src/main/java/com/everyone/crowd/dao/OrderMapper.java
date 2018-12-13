@@ -26,6 +26,18 @@ public interface OrderMapper {
     @Select("SELECT COUNT(id) FROM t_orders WHERE customer_id = #{customerId}")
     int countByCustomerId(@Param("customerId") Integer customerId);
 
+    @Select("SELECT * FROM t_orders WHERE dev_id = #{devId} AND status = #{status} LIMIT #{offset}, #{size}")
+    List<Order> findByDevIdAndStatus(@Param("devId") Integer devId, @Param("status") String status, @Param("offset") int offset, @Param("size") int size);
+
+    @Select("SELECT * FROM t_orders WHERE customer_id = #{customerId} AND status = #{status} LIMIT #{offset}, #{size}")
+    List<Order> findByCustomerIdAndStatus(@Param("customerId") Integer customerId, @Param("status") String status, @Param("offset") int offset, @Param("size") int size);
+
+    @Select("SELECT COUNT(id) FROM t_orders WHERE dev_id = #{devId} AND status = #{status}")
+    int countByDevIdAndStatus(@Param("devId") Integer devId, @Param("status") String status);
+
+    @Select("SELECT COUNT(id) FROM t_orders WHERE customer_id = #{customerId} AND status = #{status}")
+    int countByCustomerIdAndStatus(@Param("customerId") Integer customerId, @Param("status") String status);
+
     @Select("SELECT * FROM t_orders WHERE status = #{status} LIMIT #{offset}, #{size}")
     List<Order> findByStatus(@Param("status") String status, @Param("offset") int offset, @Param("size") int size);
 
