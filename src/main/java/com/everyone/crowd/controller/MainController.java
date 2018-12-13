@@ -4,8 +4,12 @@ import com.everyone.crowd.entity.Category;
 import com.everyone.crowd.entity.CustomerProfile;
 import com.everyone.crowd.entity.Demand;
 import com.everyone.crowd.entity.User;
+import com.everyone.crowd.entity.exception.NotFoundException;
 import com.everyone.crowd.entity.status.DemandStatus;
-import com.everyone.crowd.service.*;
+import com.everyone.crowd.service.AnnouncementService;
+import com.everyone.crowd.service.CategoryService;
+import com.everyone.crowd.service.CustomerProfileService;
+import com.everyone.crowd.service.DemandService;
 import com.everyone.crowd.util.CookieUtil;
 import com.everyone.crowd.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +86,7 @@ public class MainController {
     @GetMapping("/demand/view/{id}")
     public String demandPage(Model model, @PathVariable("id") Integer id) {
         Demand demand = demandService.findById(id);
+        if (demand == null) throw new NotFoundException("找不到请求的需求");
         model.addAttribute("demand", demand);
         Category category = categoryService.findById(demand.getCategoryId());
         CustomerProfile profile = customerProfileService.findById(demand.getCustomerId());
