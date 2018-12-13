@@ -5,6 +5,7 @@ import com.everyone.crowd.entity.OrderComment;
 import com.everyone.crowd.entity.Page;
 
 import java.util.Date;
+import java.util.Map;
 
 public interface OrderService {
 
@@ -13,6 +14,10 @@ public interface OrderService {
     Page<Order> findByDevId(Integer devId, int pageSize, int page);
 
     Page<Order> findByCustomerId(Integer customerId, int pageSize, int page);
+
+    Page<Order> findByDevIdAndStatus(Integer customerId, String status, int pageSize, int page);
+
+    Page<Order> findByCustomerIdAndStatus(Integer customerId, String status, int pageSize, int page);
 
     Page<Order> findByStatus(String status, int pageSize, int page);
 
@@ -29,4 +34,6 @@ public interface OrderService {
     void devComment(Integer orderId, String comment);
 
     void customerComment(Integer orderId, String comment);
+
+    Map<String, String> getOrderStatusMap();
 }

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: headFragment('参与竞标')">
+<head th:replace="fragments/head :: headFragment('确认订单')">
     <meta charset="UTF-8">
-    <title>参与竞标</title>
+    <title>确认订单</title>
 </head>
 <body>
 <nav th:replace="fragments/header :: navFragment"></nav>
@@ -18,7 +18,7 @@
                 <form method="post" th:action="@{/order/new}">
                     <div class="shadow-sm p-3 mb-3 bg-white">
                         <div class="text-black-50">开发者</div>
-                        <div class="h4 text-danger" th:text="${devProfile.name}">dev</div>
+                        <div class="sh4" th:text="${devProfile.name}">dev</div>
                     </div>
                     <div class="shadow-sm p-3 mb-3 bg-white">
                         <div class="text-black-50">价格</div>

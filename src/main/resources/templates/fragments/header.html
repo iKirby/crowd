@@ -24,6 +24,10 @@
                         <a class="dropdown-item" href="#" th:href="@{/user/profile}">用户中心</a>
                         <a class="dropdown-item" th:if="${session.user.customer == true}" th:href="@{/demand/my}"
                            href="#">已发布需求</a>
+                        <a class="dropdown-item" th:if="${session.user.developer == true}" th:href="@{/order/my/dev}"
+                           href="#">开发者订单</a>
+                        <a class="dropdown-item" th:if="${session.user.customer == true}" th:href="@{/order/my/customer}"
+                           href="#">需求方订单</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#" th:href="@{/user/logout}">退出</a>
                     </div>
