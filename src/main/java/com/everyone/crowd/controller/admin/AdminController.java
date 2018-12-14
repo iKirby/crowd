@@ -23,6 +23,11 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    @GetMapping("/admin")
+    public String admin() {
+        return "redirect:/admin/dashboard";
+    }
+
     @GetMapping("/admin/login")
     public String loginPage(Model model, HttpServletRequest request, HttpSession session,
                             @RequestParam(value = "from", defaultValue = "/admin/dashboard") String from) {
