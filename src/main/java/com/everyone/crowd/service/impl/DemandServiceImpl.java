@@ -123,7 +123,6 @@ public class DemandServiceImpl implements DemandService {
     @Override
     @Transactional
     public void update(Demand demand) {
-        demand.setPublishTime(new Date());
         demandMapper.update(demand);
     }
 

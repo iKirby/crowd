@@ -71,9 +71,9 @@
                                th:classappend="${#request.requestURI.contains('/user') ? 'active' : ''}">
                                 <i class="fe fe-users"></i> 用户</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
-                                <a href="#" class="dropdown-item ">用户管理</a>
-                                <a href="#" class="dropdown-item " th:href="@{/admin/developerprofile}">开发者管理</a>
-                                <a href="#" class="dropdown-item " th:href="@{/admin/customerprofile}">需求方管理</a>
+                                <a href="#" class="dropdown-item " th:href="@{/admin/user}">用户管理</a>
+                                <a href="#" class="dropdown-item " th:href="@{/admin/user/developerprofile}">开发者管理</a>
+                                <a href="#" class="dropdown-item " th:href="@{/admin/user/customerprofile}">需求方管理</a>
                                 <a href="#" class="dropdown-item ">认证审批</a>
                             </div>
                         </li>

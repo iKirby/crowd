@@ -33,10 +33,6 @@ public interface DemandMapper {
     @Select("SELECT * FROM t_demands WHERE customer_id = #{customerId} AND category_id = #{categoryId} LIMIT #{offset}, #{size}")
     List<Demand> findByCustomerIdAndCategoryId(@Param("customerId") Integer customerId, @Param("categoryId") Integer categoryId, @Param("offset") int offset, @Param("size") int size);
 
-    @Select("SELECT * FROM t_demands WHERE title LIKE '%${title}%' and status = #{status} LIMIT #{offset}, #{size}")
-    List<Demand> findByTitleAndStatus( @Param("title") String title, @Param("status") String status, @Param("offset") int offset, @Param("size") int size);
-
-
     @Select("SELECT * FROM t_demands WHERE category_id = #{categoryId} and status = #{status} LIMIT #{offset}, #{size}")
     List<Demand> findByCategoryIdAndStatus(@Param("categoryId") Integer categoryId, @Param("status") String status, @Param("offset") int offset, @Param("size") int size);
 
@@ -55,7 +51,7 @@ public interface DemandMapper {
     @Select("SELECT COUNT(category_id) FROM t_demands WHERE customer_id = #{customerId} AND category_id = #{categoryId}")
     int countByCustomerIdAndCategoryId(@Param("customerId") Integer customerId, @Param("categoryId") Integer categoryId);
 
-    @Select("SELECT COUNT(*) FROM t_demands")
+    @Select("SELECT COUNT(id) FROM t_demands")
     int countAll();
 
     @Select("SELECT COUNT(title) FROM t_demands WHERE title LIKE '%${title}%'")
@@ -65,7 +61,7 @@ public interface DemandMapper {
     @Options(useGeneratedKeys = true)
     int insert(Demand demand);
 
-    @Update("UPDATE t_demands SET title = #{title},publish_time = #{publishTime},category_id = #{categoryId},region = #{region},price = #{price},detail = #{detail},start_date = #{startDate},end_date = #{endDate},attachment = #{attachment} WHERE id = #{id}")
+    @Update("UPDATE t_demands SET title = #{title},publish_time = #{publishTime},category_id = #{categoryId},region = #{region},price = #{price},detail = #{detail},start_date = #{startDate},end_date = #{endDate},attachment = #{attachment}, status = #{status} WHERE id = #{id}")
     int update(Demand demand);
 
     @Update("UPDATE t_demands SET status = #{status} WHERE id = #{id}")
@@ -73,6 +69,9 @@ public interface DemandMapper {
 
     @Delete("DELETE FROM t_demands WHERE id = #{id}")
     int delete(@Param("id") Integer id);
+
+    @Select("SELECT COUNT(id) FROM t_demands WHERE publish_time >= #{publishTime}")
+    int countByTimeAfter(Date publishTime);
 
     @SelectProvider(type = DemandSQLProvider.class, method = "countByMultipleConditions")
     int countByMultipleConditions(@Param("keyword") String keyword,

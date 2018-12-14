@@ -33,8 +33,14 @@ public interface CustomerProfileMapper {
     @Update("UPDATE t_customerprofiles set level=#{level} where user_id = #{user_id}")
     int updateLevel(@Param("user_id") Integer user_id, @Param("level") int level);
 
-    @Select("SELECT COUNT(*) FROM t_customerprofiles")
+    @Select("SELECT COUNT(user_id) FROM t_customerprofiles")
     int countAll();
+
+    @Select("SELECT COUNT(user_id) FROM t_customerprofiles WHERE status = #{status}")
+    int countByStatus(String status);
+
+    @Select("SELECT * FROM t_customerprofiles WHERE name LIKE '%${name}%'")
+    int countByName(@Param("name") String name);
 
     @SelectProvider(type = CustomerProfileSQLProvider.class, method = "findByIds")
     List<CustomerProfile> findByIds(@Param("ids") List<Integer> ids);

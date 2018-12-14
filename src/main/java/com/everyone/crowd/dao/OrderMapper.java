@@ -57,6 +57,9 @@ public interface OrderMapper {
     @Delete("DELETE FROM t_orders WHERE id = #{id}")
     int delete(@Param("id") Integer id);
 
+    @Select("SELECT count(id) FROM t_orders WHERE order_time >= #{orderTime}")
+    int countByTimeAfter(Date orderTime);
+
     @Select("SELECT * FROM t_ordercomments WHERE order_id = #{orderId}")
     OrderComment findCommentByOrderId(@Param("orderId") Integer orderId);
 

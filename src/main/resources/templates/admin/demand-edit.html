@@ -30,7 +30,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label" for="demand-region">价格</label>
+                                    <label class="form-label" for="demand-region">地区</label>
                                     <input class="form-control" type="text" id="demand-region"
                                            placeholder="地区" required th:field="*{region}">
                                 </div>
@@ -55,7 +55,7 @@
                                            placeholder="结束日期" required th:field="*{endDate}">
                                 </div>
                                 <div class="form-group">
-                                    <a th:href="@{'/uploads/' + ${demand.attachment}}">下载附件</a>
+                                    <a th:href="@{/uploads/{attachment}(attachment=${demand.attachment})}">下载附件</a>
                                 </div>
                             </div>
                             <div class="card-footer text-right">

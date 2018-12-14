@@ -40,7 +40,7 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
 
     @Override
     public Page<CustomerProfile> findByName(String name, int pageSize, int page) {
-        int total = customerProfileMapper.countAll();
+        int total = customerProfileMapper.countByName(name);
         List<CustomerProfile> content = customerProfileMapper.findByName(name, pageSize * (page - 1), pageSize);
         Page<CustomerProfile> customerProfilePage = new Page<>();
         customerProfilePage.setContent(content);

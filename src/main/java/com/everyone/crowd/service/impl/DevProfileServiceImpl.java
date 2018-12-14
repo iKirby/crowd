@@ -40,7 +40,7 @@ public class DevProfileServiceImpl implements DevProfileService {
 
     @Override
     public Page<DevProfile> findByName(String name, int pageSize, int page) {
-        int total = devProfileMapper.countAll();
+        int total = devProfileMapper.countByName(name);
         List<DevProfile> content = devProfileMapper.findByName(name, pageSize * (page - 1), pageSize);
         Page<DevProfile> devProfilePage = new Page<>();
         devProfilePage.setContent(content);

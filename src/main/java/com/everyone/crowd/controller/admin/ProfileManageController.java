@@ -31,12 +31,22 @@ public class ProfileManageController {
         this.devProfileService = devProfileService;
     }
 
-    @GetMapping("/admin/customerprofile")
-    public String customerProfileList(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
-        Page<CustomerProfile> customerProfilePage = customerProfileService.findAll(20, page);
+    @GetMapping("/admin/user/customerprofile")
+    public String customerProfileList(Model model,
+                                      @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                      @RequestParam(value = "page", defaultValue = "1") int page) {
+        Page<CustomerProfile> customerProfilePage;
+        String cardTitle;
+        if (keyword.isEmpty()) {
+            customerProfilePage = customerProfileService.findAll(20, page);
+            cardTitle = "全部需求方";
+        } else {
+            customerProfilePage = customerProfileService.findByName(keyword, 20, page);
+            cardTitle = "搜索结果";
+        }
         model.addAttribute("profiles", customerProfilePage);
         model.addAttribute("title", "需求方管理");
-        model.addAttribute("cardTitle", "全部需求方");
+        model.addAttribute("cardTitle", cardTitle);
         model.addAttribute("user", "customerprofile");
         Map<String, String> statusMap = new HashMap<>();
         statusMap.put(ProfileStatus.PENDING.name(), "审核中");
@@ -47,12 +57,23 @@ public class ProfileManageController {
         return "admin/profile-manage";
     }
 
-    @GetMapping("/admin/developerprofile")
-    public String developerProfileList(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
-        Page<DevProfile> devProfilePage = devProfileService.findAll(20, page);
+    @GetMapping("/admin/user/developerprofile")
+    public String developerProfileList(Model model,
+                                       @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                                       @RequestParam(value = "page", defaultValue = "1") int page) {
+        Page<DevProfile> devProfilePage;
+        String cardTitle;
+        if (keyword.isEmpty()) {
+            devProfilePage = devProfileService.findAll(20, page);
+            cardTitle = "全部开发者";
+        } else {
+            devProfilePage = devProfileService.findByName(keyword, 20, page);
+            cardTitle = "搜索结果";
+        }
+        model.addAttribute("keyword", keyword);
         model.addAttribute("profiles", devProfilePage);
         model.addAttribute("title", "开发者管理");
-        model.addAttribute("cardTitle", "全部开发者");
+        model.addAttribute("cardTitle", cardTitle);
         model.addAttribute("user", "developerprofile");
         Map<String, String> statusMap = new HashMap<>();
         statusMap.put(ProfileStatus.PENDING.name(), "审核中");
@@ -63,7 +84,7 @@ public class ProfileManageController {
         return "admin/profile-manage";
     }
 
-    @GetMapping("/admin/customerprofile/edit/{userId}")
+    @GetMapping("/admin/user/customerprofile/edit/{userId}")
     public String editCustomerProfile(Model model, @PathVariable("userId") Integer userId) {
         model.addAttribute("profile", customerProfileService.findById(userId));
         model.addAttribute("title", "编辑需求方资料");
@@ -78,7 +99,7 @@ public class ProfileManageController {
         return "admin/profile-edit";
     }
 
-    @GetMapping("/admin/developerprofile/edit/{userId}")
+    @GetMapping("/admin/user/developerprofile/edit/{userId}")
     public String editDeveloperProfile(Model model, @PathVariable("userId") Integer userId) {
         model.addAttribute("profile", devProfileService.findById(userId));
         model.addAttribute("title", "编辑开发者资料");
@@ -93,19 +114,19 @@ public class ProfileManageController {
         return "admin/profile-edit";
     }
 
-    @GetMapping("/admin/customerprofile/delete/{userId}")
+    @GetMapping("/admin/user/customerprofile/delete/{userId}")
     public String deleteCustomerProfile(@PathVariable("userId") Integer userId) {
         customerProfileService.delete(userId);
-        return "redirect:/admin/customerprofile";
+        return "redirect:/admin/user/customerprofile";
     }
 
-    @GetMapping("/admin/developerprofile/delete/{userId}")
+    @GetMapping("/admin/user/developerprofile/delete/{userId}")
     public String deleteDeveloperProfile(@PathVariable("userId") Integer userId) {
         devProfileService.delete(userId);
-        return "redirect:/admin/developerprofile";
+        return "redirect:/admin/user/developerprofile";
     }
 
-    @PostMapping("/admin/customerprofile/edit")
+    @PostMapping("/admin/user/customerprofile/edit")
     public String editCustomerProfile(CustomerProfile customerProfile) {
         CustomerProfile current = customerProfileService.findById(customerProfile.getUserId());
         if (customerProfile.getPhoto() == null) {
@@ -114,10 +135,10 @@ public class ProfileManageController {
             FileUtil.deleteFile(uploadPath, current.getPhoto());
         }
         customerProfileService.update(customerProfile);
-        return "redirect:/admin/customerprofile";
+        return "redirect:/admin/user/customerprofile";
     }
 
-    @PostMapping("/admin/developerprofile/edit")
+    @PostMapping("/admin/user/developerprofile/edit")
     public String editDeveloperProfile(DevProfile devProfile) {
         DevProfile current = devProfileService.findById(devProfile.getUserId());
         if (devProfile.getPhoto() == null) {
@@ -126,39 +147,7 @@ public class ProfileManageController {
             FileUtil.deleteFile(uploadPath, current.getPhoto());
         }
         devProfileService.update(devProfile);
-        return "redirect:/admin/developerprofile";
+        return "redirect:/admin/user/developerprofile";
     }
-
-
-    @GetMapping("/user/customerprofile/search")
-    public String searchCustomerProfile(Model model,
-                                        @RequestParam(value = "keyword", required = false) String keyword,
-                                        @RequestParam(value = "page", defaultValue = "1") int page) {
-        model.addAttribute("profiles", customerProfileService.findByName(keyword, 20, page));
-        model.addAttribute("user", "customerprofile");
-        Map<String, String> statusMap = new HashMap<>();
-        statusMap.put(ProfileStatus.PENDING.name(), "审核中");
-        statusMap.put(ProfileStatus.UNVERIFIED.name(), "未审核");
-        statusMap.put(ProfileStatus.VERIFIED.name(), "审核通过");
-        statusMap.put(ProfileStatus.FAILED.name(), "审核未通过");
-        model.addAttribute("statusMap", statusMap);
-        return "admin/profile-manage";
-    }
-
-    @GetMapping("/user/developerprofile/search")
-    public String searchDeveloperProfile(Model model,
-                                         @RequestParam(value = "keyword", required = false) String keyword,
-                                         @RequestParam(value = "page", defaultValue = "1") int page) {
-        model.addAttribute("profiles", devProfileService.findByName(keyword, 20, page));
-        model.addAttribute("user", "developerprofile");
-        Map<String, String> statusMap = new HashMap<>();
-        statusMap.put(ProfileStatus.PENDING.name(), "审核中");
-        statusMap.put(ProfileStatus.UNVERIFIED.name(), "未审核");
-        statusMap.put(ProfileStatus.VERIFIED.name(), "审核通过");
-        statusMap.put(ProfileStatus.FAILED.name(), "审核未通过");
-        model.addAttribute("statusMap", statusMap);
-        return "admin/profile-manage";
-    }
-
 
 }

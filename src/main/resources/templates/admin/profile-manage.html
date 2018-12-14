@@ -23,10 +23,10 @@
                                     全部需求方
                                 </h3>
                                 <div class="card-options">
-                                    <form th:action="@{'/user/'+ ${user} +'/search'}">
+                                    <form th:action="@{/admin/user/{user}(user=${user})}">
                                         <div class="input-group">
                                             <input type="text" class="form-control form-control-sm"
-                                                   placeholder="搜索姓名&hellip;" name="keyword">
+                                                   placeholder="搜索姓名&hellip;" name="keyword" th:value="${keyword}">
                                             <span class="input-group-btn ml-2">
                                                 <button class="btn btn-sm btn-default" type="submit">
                                                     <span class="fe fe-search"></span>
@@ -52,18 +52,15 @@
                                     <tbody>
                                     <tr th:each="profile : ${profiles.content}">
                                         <td><a class="text-inherit"
-                                               th:href="@{'/admin/'+ ${user} +'/edit/' + ${profile.userId}}"
+                                               th:href="@{/admin/user/{user}/edit/{id}(user=${user}, id=${profile.userId})}"
                                                th:text="${profile.name}">name</a></td>
                                         <td th:text="${profile.email}"></td>
                                         <td th:text="${profile.phone}"></td>
                                         <td th:text="${profile.level}"></td>
-                                        <td>
-                                            <a th:href="@{'/admin/profile?status=' + ${profile.status}}"
-                                               th:text="${statusMap.get(profile.status)}"></a>
-                                        </td>
+                                        <td th:text="${statusMap.get(profile.status)}"></td>
                                         <td>
                                             <a class="icon"
-                                               th:href="@{'/admin/'+ ${user} +'/edit/' + ${profile.userId}}">
+                                               th:href="@{/admin/user/{user}/edit/{id}(user=${user}, id=${profile.userId})}">
                                                 <i class="fe fe-edit"></i>
                                             </a>
                                         </td>
@@ -74,7 +71,7 @@
                                                 <div class="dropdown-menu dropdown-menu-right"
                                                      x-placement="bottom-end"
                                                      style="position: absolute; transform: translate3d(15px, 20px, 0px); top: 0; left: 0; will-change: transform;">
-                                                    <a th:href="@{'/admin/'+ ${user} +'/delete/' + ${profile.userId}}"
+                                                    <a th:href="@{/admin/user/{user}/delete/{id}(user=${user}, id=${profile.userId})}"
                                                        class="dropdown-item">
                                                         <i class="dropdown-icon fe fe-trash"></i> 删除</a>
                                                 </div>
@@ -84,12 +81,20 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="card-footer">
+                            <div class="card-footer" th:if="${keyword == ''}">
                                 <a href="#" class="btn btn-sm btn-secondary"
-                                   th:href="@{'/admin/profile?page=' + ${profiles.currentPage - 1}}"
+                                   th:href="@{/admin/user/{user}(user=${user}, page=${profiles.currentPage - 1})}"
                                    th:if="${!profiles.isFirst()}">&laquo; 上一页</a>
                                 <a href="#" class="btn btn-sm btn-secondary"
-                                   th:href="@{'/admin/profile?page=' + ${profiles.currentPage + 1}}"
+                                   th:href="@{/admin/user/{user}(user=${user}, page=${profiles.currentPage + 1})}"
+                                   th:if="${!profiles.isLast()}">下一页 &raquo;</a>
+                            </div>
+                            <div class="card-footer" th:if="${keyword != ''}">
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/user/{user}(user=${user}, keyword=${keyword}, page=${profiles.currentPage - 1})}"
+                                   th:if="${!profiles.isFirst()}">&laquo; 上一页</a>
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/user/{user}(user=${user}, keyword=${keyword}, page=${profiles.currentPage + 1})}"
                                    th:if="${!profiles.isLast()}">下一页 &raquo;</a>
                             </div>
                         </div>

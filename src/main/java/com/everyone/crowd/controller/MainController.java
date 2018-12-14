@@ -118,6 +118,8 @@ public class MainController {
         } else {
             FileUtil.deleteFile(uploadPath, current.getAttachment());
         }
+        demand.setStatus(current.getStatus());
+        demand.setPublishTime(current.getPublishTime());
         demandService.update(demand);
         return "redirect:/demand/view/" + demand.getId();
     }

@@ -29,8 +29,20 @@ public class DemandManageController {
     }
 
     @GetMapping("/admin/demand")
-    public String demandList(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
-        Page<Demand> demandPage = demandService.findAll(20, page);
+    public String demandList(Model model,
+                             @RequestParam(value = "keyword", defaultValue = "") String keyword,
+                             @RequestParam(value = "page", defaultValue = "1") int page) {
+        Page<Demand> demandPage;
+        String cardTitle;
+        if (keyword.isEmpty()) {
+            demandPage = demandService.findAll(20, page);
+            cardTitle = "全部需求";
+        } else {
+            demandPage = demandService.findByMultipleConditions(keyword, null, null, null, null, null, null, null, null, null, 20, page);
+            cardTitle = "搜索结果";
+        }
+        model.addAttribute("cardTitle", cardTitle);
+        model.addAttribute("keyword", keyword);
         model.addAttribute("demands", demandPage);
         model.addAttribute("categoryMap", categoryService.getIdNameMap());
 

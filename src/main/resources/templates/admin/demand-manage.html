@@ -19,14 +19,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">
+                                <h3 class="card-title" th:text="${cardTitle}">
                                     全部需求
                                 </h3>
                                 <div class="card-options">
-                                    <form>
+                                    <form th:action="@{/admin/demand}">
                                         <div class="input-group">
                                             <input type="text" class="form-control form-control-sm"
-                                                   placeholder="搜索&hellip;" name="s">
+                                                   placeholder="搜索&hellip;" name="keyword" th:value="${keyword}">
                                             <span class="input-group-btn ml-2">
                                                 <button class="btn btn-sm btn-default" type="submit">
                                                     <span class="fe fe-search"></span>
@@ -51,20 +51,15 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="demand : ${demands.content}">
-                                        <td><a class="text-inherit" th:href="@{'/admin/demand/edit/' + ${demand.id}}"
+                                        <td>
+                                            <a class="text-inherit" th:href="@{/admin/demand/edit/{id}(id=${demand.id})}"
                                                th:text="${demand.title}">title</a></td>
                                         <td th:text="${#dates.format(demand.publishTime, 'yyyy-MM-dd HH:mm')}"></td>
                                         <td th:text="${customerMap.get(demand.customerId)}"></td>
+                                        <td th:text="${categoryMap.get(demand.categoryId)}"></td>
+                                        <td th:text="${statusMap.get(demand.status)}"></td>
                                         <td>
-                                            <a th:href="@{'/admin/demand?category=' + ${demand.categoryId}}"
-                                               th:text="${categoryMap.get(demand.categoryId)}"></a>
-                                        </td>
-                                        <td>
-                                            <a th:href="@{'/admin/demand?status=' + ${demand.status}}"
-                                               th:text="${statusMap.get(demand.status)}"></a>
-                                        </td>
-                                        <td>
-                                            <a class="icon" th:href="@{'/admin/demand/edit/' + ${demand.id}}">
+                                            <a class="icon" th:href="@{/admin/demand/edit/{id}(id=${demand.id})}">
                                                 <i class="fe fe-edit"></i>
                                             </a>
                                         </td>
@@ -75,7 +70,7 @@
                                                 <div class="dropdown-menu dropdown-menu-right"
                                                      x-placement="bottom-end"
                                                      style="position: absolute; transform: translate3d(15px, 20px, 0px); top: 0; left: 0; will-change: transform;">
-                                                    <a th:href="@{'/admin/demand/delete/' + ${demand.id}}"
+                                                    <a th:href="@{/admin/demand/delete/{id}(id=${demand.id})}"
                                                        class="dropdown-item">
                                                         <i class="dropdown-icon fe fe-trash"></i> 删除</a>
                                                 </div>
@@ -85,10 +80,20 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="card-footer">
-                                <a href="#" class="btn btn-sm btn-secondary" th:href="@{'/admin/demand?page=' + ${demands.currentPage - 1}}"
+                            <div class="card-footer" th:if="${keyword == null}">
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/demand(page=${demands.currentPage - 1})}"
                                    th:if="${!demands.isFirst()}">&laquo; 上一页</a>
-                                <a href="#" class="btn btn-sm btn-secondary" th:href="@{'/admin/demand?page=' + ${demands.currentPage + 1}}"
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/demand(page=${demands.currentPage + 1})}"
+                                   th:if="${!demands.isLast()}">下一页 &raquo;</a>
+                            </div>
+                            <div class="card-footer" th:if="${keyword}">
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/demand(keyword=${keyword}, page=${demands.currentPage - 1})}"
+                                   th:if="${!demands.isFirst()}">&laquo; 上一页</a>
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/demand(keyword=${keyword}, page=${demands.currentPage + 1})}"
                                    th:if="${!demands.isLast()}">下一页 &raquo;</a>
                             </div>
                         </div>
