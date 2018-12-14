@@ -10,6 +10,8 @@ import java.util.Map;
 public interface DevProfileService {
     DevProfile findById(Integer user_id);
 
+    Map<Integer, String> getIdNameMap();
+
     Page<DevProfile> findAll(int pageSize, int page);
 
     Page<DevProfile> findByName(String name, int pageSize, int page);

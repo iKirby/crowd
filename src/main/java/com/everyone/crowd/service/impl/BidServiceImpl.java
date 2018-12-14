@@ -25,6 +25,18 @@ public class BidServiceImpl implements BidService {
     }
 
     @Override
+    public Page<Bid> findAll(int pageSize, int page) {
+        int total = bidMapper.countAll();
+        List<Bid> content = bidMapper.findAll(pageSize * (page - 1), pageSize);
+        Page<Bid> bidPage = new Page<>();
+        bidPage.setContent(content);
+        bidPage.setCurrentPage(page);
+        bidPage.setTotal(total);
+        bidPage.setPageSize(pageSize);
+        return bidPage;
+    }
+
+    @Override
     public Page<Bid> findByDevId(Integer devId, int pageSize, int page) {
         int total = bidMapper.countByDevId(devId);
         List<Bid> content = bidMapper.findByDevId(devId, pageSize * (page - 1), pageSize);

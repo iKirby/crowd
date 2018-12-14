@@ -12,6 +12,9 @@ public interface DevProfileMapper {
     @Select("SELECT * FROM t_devprofiles WHERE user_id = #{user_id}")
     DevProfile findById(@Param("user_id") Integer user_id);
 
+    @Select("SELECT * FROM t_devprofiles")
+    List<DevProfile> findAllMap();
+
     @Select("SELECT * FROM t_devprofiles WHERE name LIKE '%${name}%' LIMIT #{offset}, #{size}")
     List<DevProfile> findByName(@Param("name") String name, @Param("offset") int offset, @Param("size") int size);
 

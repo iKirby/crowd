@@ -14,6 +14,9 @@ public interface BidMapper {
     @Select("SELECT * FROM t_bids WHERE dev_id = #{devId} LIMIT #{offset}, #{size}")
     List<Bid> findByDevId(@Param("devId") Integer devId, @Param("offset") int offset, @Param("size") int size);
 
+    @Select("SELECT * FROM  t_bids LIMIT #{offset}, #{size}")
+    List<Bid> findAll(@Param("offset") int offset, @Param("size") int size);
+
     @Select("SELECT * FROM t_bids WHERE demand_id = #{demandId} LIMIT #{offset}, #{size}")
     List<Bid> findByDemandId(@Param("demandId") Integer demandId, @Param("offset") int offset, @Param("size") int size);
 
@@ -30,4 +33,6 @@ public interface BidMapper {
     @Delete("DELETE FROM t_bids WHERE id = #{id}")
     int delete(@Param("id") Integer id);
 
+    @Select("SELECT COUNT(*) FROM t_bids")
+    int countAll();
 }

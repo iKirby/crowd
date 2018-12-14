@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DemandServiceImpl implements DemandService {
@@ -134,6 +136,15 @@ public class DemandServiceImpl implements DemandService {
     @Transactional
     public void delete(Integer id) {
         demandMapper.delete(id);
+    }
+
+    @Override
+    public Map<Integer, String> getIdNameMap() {
+        Map<Integer, String> idNameMap = new HashMap<>();
+        for (Demand demand : demandMapper.findAllMap()) {
+            idNameMap.put(demand.getId(), demand.getTitle());
+        }
+        return idNameMap;
     }
 
     @Override

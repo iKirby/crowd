@@ -7,6 +7,8 @@ public interface BidService {
 
     Bid findById(Integer id);
 
+    Page<Bid> findAll(int pageSize, int page);
+
     Page<Bid> findByDevId(Integer devId, int pageSize, int page);
 
     Page<Bid> findByDemandId(Integer demandId, int pageSize, int page);
@@ -14,4 +16,5 @@ public interface BidService {
     int participate(Bid bid);
 
     void delete(Integer id);
+
 }
