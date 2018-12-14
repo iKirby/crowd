@@ -13,6 +13,6 @@ public class DashboardController {
         long freeMemory = Runtime.getRuntime().freeMemory();
         model.addAttribute("usedMemory", (totalMemory - freeMemory) / 1024 / 1024);
         model.addAttribute("freeMemory", freeMemory / 1024 / 1024);
-        return "admin/index";
+        return "admin/dashboard";
     }
 }

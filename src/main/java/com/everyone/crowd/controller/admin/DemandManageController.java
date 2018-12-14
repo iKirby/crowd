@@ -40,7 +40,7 @@ public class DemandManageController {
         }
         model.addAttribute("customerMap", customerProfileService.getIdNameMap(customerIds));
         model.addAttribute("statusMap", demandService.getStatusMap());
-        return "admin/demandmanage";
+        return "admin/demand-manage";
     }
 
     @GetMapping("/admin/demand/edit/{id}")
@@ -48,7 +48,7 @@ public class DemandManageController {
         model.addAttribute("demand", demandService.findById(id));
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("statusMap", demandService.getStatusMap());
-        return "admin/demandedit";
+        return "admin/demand-edit";
     }
 
     @PostMapping("/admin/demand/edit")

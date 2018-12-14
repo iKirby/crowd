@@ -44,7 +44,7 @@ public class ProfileManageController {
         statusMap.put(ProfileStatus.VERIFIED.name(), "审核通过");
         statusMap.put(ProfileStatus.FAILED.name(), "审核未通过");
         model.addAttribute("statusMap", statusMap);
-        return "admin/profilemanage";
+        return "admin/profile-manage";
     }
 
     @GetMapping("/admin/developerprofile")
@@ -60,7 +60,7 @@ public class ProfileManageController {
         statusMap.put(ProfileStatus.VERIFIED.name(), "审核通过");
         statusMap.put(ProfileStatus.FAILED.name(), "审核未通过");
         model.addAttribute("statusMap", statusMap);
-        return "admin/profilemanage";
+        return "admin/profile-manage";
     }
 
     @GetMapping("/admin/customerprofile/edit/{userId}")
@@ -75,7 +75,7 @@ public class ProfileManageController {
         statusMap.put(ProfileStatus.VERIFIED.name(), "审核通过");
         statusMap.put(ProfileStatus.FAILED.name(), "审核未通过");
         model.addAttribute("statusMap", statusMap);
-        return "admin/profileedit";
+        return "admin/profile-edit";
     }
 
     @GetMapping("/admin/developerprofile/edit/{userId}")
@@ -90,7 +90,7 @@ public class ProfileManageController {
         statusMap.put(ProfileStatus.VERIFIED.name(), "审核通过");
         statusMap.put(ProfileStatus.FAILED.name(), "审核未通过");
         model.addAttribute("statusMap", statusMap);
-        return "admin/profileedit";
+        return "admin/profile-edit";
     }
 
     @GetMapping("/admin/customerprofile/delete/{userId}")
@@ -142,7 +142,7 @@ public class ProfileManageController {
         statusMap.put(ProfileStatus.VERIFIED.name(), "审核通过");
         statusMap.put(ProfileStatus.FAILED.name(), "审核未通过");
         model.addAttribute("statusMap", statusMap);
-        return "admin/profilemanage";
+        return "admin/profile-manage";
     }
 
     @GetMapping("/user/developerprofile/search")
@@ -157,7 +157,7 @@ public class ProfileManageController {
         statusMap.put(ProfileStatus.VERIFIED.name(), "审核通过");
         statusMap.put(ProfileStatus.FAILED.name(), "审核未通过");
         model.addAttribute("statusMap", statusMap);
-        return "admin/profilemanage";
+        return "admin/profile-manage";
     }
 
 
