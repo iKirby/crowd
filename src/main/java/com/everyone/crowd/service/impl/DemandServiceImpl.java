@@ -149,6 +149,15 @@ public class DemandServiceImpl implements DemandService {
     }
 
     @Override
+    public Map<Integer, String> getIdNameMap() {
+        Map<Integer, String> idNameMap = new HashMap<>();
+        for (Demand demand : demandMapper.findAllMap()) {
+            idNameMap.put(demand.getId(), demand.getTitle());
+        }
+        return idNameMap;
+    }
+
+    @Override
     public Page<Demand> findByMultipleConditions(String keyword, Integer categoryId, String region, BigDecimal lowPrice, BigDecimal highPrice,
                                                  Date startDateFrom, Date startDateTo, Date endDateFrom, Date endDateTo,
                                                  String status, int pageSize, int page) {

@@ -15,6 +15,9 @@ public interface DemandMapper {
     @Select("SELECT * FROM t_demands LIMIT #{offset}, #{size}")
     List<Demand> findAll(@Param("offset") int offset, @Param("size") int size);
 
+    @Select("SELECT * FROM t_demands")
+    List<Demand> findAllMap();
+
     @Select("SELECT * FROM t_demands WHERE id = #{id}")
     Demand findById(@Param("id") Integer id);
 

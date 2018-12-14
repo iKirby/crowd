@@ -62,7 +62,7 @@
                                th:classappend="${#request.requestURI.contains('/bid') ? 'active' : ''}">
                                 <i class="fe fe-target"></i>竞标</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
-                                <a href="#" class="dropdown-item ">竞标管理</a>
+                                <a href="#" class="dropdown-item " th:href="@{/admin/bid}">竞标管理</a>
                                 <a href="#" class="dropdown-item ">统计信息</a>
                             </div>
                         </li>

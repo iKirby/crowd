@@ -27,6 +27,15 @@ public class DevProfileServiceImpl implements DevProfileService {
     }
 
     @Override
+    public Map<Integer, String> getIdNameMap() {
+        Map<Integer, String> idNameMap = new HashMap<>();
+        for (DevProfile devProfile : devProfileMapper.findAllMap()) {
+            idNameMap.put(devProfile.getUserId(), devProfile.getName());
+        }
+        return idNameMap;
+    }
+
+    @Override
     public Page<DevProfile> findAll(int pageSize, int page) {
         int total = devProfileMapper.countAll();
         List<DevProfile> content = devProfileMapper.findAll(pageSize * (page - 1), pageSize);

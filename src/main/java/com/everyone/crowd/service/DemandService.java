@@ -33,6 +33,8 @@ public interface DemandService {
 
     void delete(Integer id);
 
+    Map<Integer, String> getIdNameMap();
+
     Map<String, String> getStatusMap();
 
     Page<Demand> findByMultipleConditions(String keyword,
