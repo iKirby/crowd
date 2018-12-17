@@ -1,5 +1,6 @@
 package com.everyone.crowd.controller.admin;
 
+import com.everyone.crowd.entity.Message;
 import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.entity.User;
 import com.everyone.crowd.service.MailService;
@@ -60,7 +61,7 @@ public class UserManageController {
                     user.setEmail(email);
                     userService.updateEmail(user);
                     mailService.sendValidationEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
-                    model.addAttribute("message", "邮箱已经修改");
+                    model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "邮箱已经修改，请提醒用户验证新的邮箱地址"));
                 }
                 break;
             case "resetPassword":
@@ -69,11 +70,12 @@ public class UserManageController {
                 userService.updatePassword(user);
                 user.setPassword("");
                 mailService.sendResetPasswordEmail(user.getEmail(), user.getUsername(), newPassword);
-                model.addAttribute("message", "密码已经重置");
+                model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "密码已经重置，请告知用户查收密码重置邮件"));
                 break;
             case "disable2FA":
                 user.setTwoFactor(null);
                 userService.updateTwoFactor(user);
+                model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "两步验证已停用"));
                 break;
         }
 
