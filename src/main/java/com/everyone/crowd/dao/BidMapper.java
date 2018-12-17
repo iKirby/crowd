@@ -35,4 +35,5 @@ public interface BidMapper {
 
     @Select("SELECT COUNT(*) FROM t_bids")
     int countAll();
+
 }

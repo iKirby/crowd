@@ -36,15 +36,10 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="bid : ${bids.content}">
-                                        <td><a class="text-inherit" th:href="@{'/admin/bid/edit/' + ${bid.id}}"
+                                        <td><a class="text-inherit" th:href="@{/admin/bid/view/{id}(id=${bid.id})}"
                                                th:text="${demandMap.get(bid.demandId)}">title</a></td>
                                         <td th:text="${devProfileMap.get(bid.devId)}"></td>
                                         <td th:text="${bid.price}"></td>
-                                        <td>
-                                            <a class="icon" th:href="@{'/admin/bid/edit/' + ${bid.id}}">
-                                                <i class="fe fe-edit"></i>
-                                            </a>
-                                        </td>
                                         <td>
                                             <div class="item-action dropdown">
                                                 <a href="javascript:void(0)" data-toggle="dropdown" class="icon"
@@ -52,7 +47,7 @@
                                                 <div class="dropdown-menu dropdown-menu-right"
                                                      x-placement="bottom-end"
                                                      style="position: absolute; transform: translate3d(15px, 20px, 0px); top: 0; left: 0; will-change: transform;">
-                                                    <a th:href="@{'/admin/id/delete/' + ${bid.id}}"
+                                                    <a th:href="@{/admin/bid/delete/{id}(id=${bid.id})}"
                                                        class="dropdown-item">
                                                         <i class="dropdown-icon fe fe-trash"></i> 删除</a>
                                                 </div>
