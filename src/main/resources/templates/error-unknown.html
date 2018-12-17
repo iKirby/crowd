@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <title>出现了一些问题</title>
@@ -64,10 +64,8 @@
 <body>
 
 <div class="error-container">
-    <!--/*@thymesVar id="code" type="java.lang.Integer"*/-->
-    <h1 th:text="${code}">404</h1>
-    <!--/*@thymesVar id="message" type="java.lang.String"*/-->
-    <p class="message" th:text="${message}"></p>
+    <h1>&#%!</h1>
+    <p class="message">此页出现了未知错误，我们已经记录了此错误</p>
     <p class="return">让我 <a href="javascript:history.back()">返回上一页</a></p>
 </div>
 
