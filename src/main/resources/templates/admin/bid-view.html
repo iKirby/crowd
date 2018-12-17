@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('查看竞标信息')">
+    <meta charset="UTF-8">
+    <title>查看竞标信息</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">竞标信息</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Example row of columns -->
+                                <div class="text-black-50">需求名称</div>
+                                <h2 class="h4" th:text="${demandMap.get(bid.demandId)}">XXX 网络教学平台</h2>
+                                <div class="text-black-50">开发者</div>
+                                <h2 class="h4" th:text="${devProfileMap.get(bid.devId)}">XXX 网络教学平台</h2>
+                                <div class="text-black-50">价格</div>
+                                <h2 class="h4" th:text="${bid.price}">XXX 网络教学平台</h2>
+                                <div class="text-black-50">竞标信息</div>
+                                <h2 class="h4" th:text="${bid.msg}">XXX 网络教学平台</h2>
+                                <div class="form-group">
+                                    <a th:href="@{/uploads/{attachment}(attachment=${bid.attachment})}">下载附件</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">操作</label>
+                                            <a th:href="@{/admin/bid/delete/{id}(id=${bid.id})}"
+                                               class="dropdown-item">
+                                                <i class="dropdown-icon fe fe-trash"></i> 删除</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="admin/fragments/footer :: footerFragment"></footer>
+</body>
+</html>

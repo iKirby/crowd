@@ -42,7 +42,7 @@ public interface DevProfileMapper {
     @Select("SELECT COUNT(user_id) FROM t_devprofiles WHERE status = #{status}")
     int countByStatus(String status);
 
-    @Select("SELECT * FROM t_devprofiles WHERE name LIKE '%${name}%'")
+    @Select("SELECT COUNT(user_id) FROM t_devprofiles WHERE name LIKE '%${name}%'")
     int countByName(@Param("name") String name);
 
     @SelectProvider(type = DevProfileSQLProvider.class, method = "findByIds")

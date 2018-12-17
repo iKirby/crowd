@@ -39,7 +39,7 @@ public interface CustomerProfileMapper {
     @Select("SELECT COUNT(user_id) FROM t_customerprofiles WHERE status = #{status}")
     int countByStatus(String status);
 
-    @Select("SELECT * FROM t_customerprofiles WHERE name LIKE '%${name}%'")
+    @Select("SELECT COUNT(user_id) FROM t_customerprofiles WHERE name LIKE '%${name}%'")
     int countByName(@Param("name") String name);
 
     @SelectProvider(type = CustomerProfileSQLProvider.class, method = "findByIds")

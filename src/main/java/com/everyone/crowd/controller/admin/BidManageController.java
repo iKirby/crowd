@@ -8,6 +8,7 @@ import com.everyone.crowd.service.DevProfileService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -30,5 +31,19 @@ public class BidManageController {
         model.addAttribute("demandMap", demandService.getIdNameMap());
         model.addAttribute("devProfileMap", devProfileService.getIdNameMap());
         return "admin/bid-manage";
+    }
+
+    @GetMapping("/admin/bid/delete/{id}")
+    public String deleteBid(@PathVariable("id") Integer id) {
+        bidService.delete(id);
+        return "redirect:/admin/bid";
+    }
+
+    @GetMapping("/admin/bid/view/{id}")
+    public String ediBid(Model model, @PathVariable("id") Integer id) {
+        model.addAttribute("bid", bidService.findById(id));
+        model.addAttribute("demandMap", demandService.getIdNameMap());
+        model.addAttribute("devProfileMap", devProfileService.getIdNameMap());
+        return "admin/bid-view";
     }
 }
