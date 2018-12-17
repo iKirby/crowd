@@ -2,6 +2,7 @@ package com.everyone.crowd.controller;
 
 import com.everyone.crowd.entity.CustomerProfile;
 import com.everyone.crowd.entity.DevProfile;
+import com.everyone.crowd.entity.Message;
 import com.everyone.crowd.entity.User;
 import com.everyone.crowd.service.CustomerProfileService;
 import com.everyone.crowd.service.DevProfileService;
@@ -57,10 +58,9 @@ public class UserController {
         }
         if (action.equals("activate") && !activateCode.isEmpty()) {
             if (userService.activate(activateCode)) {
-                model.addAttribute("result", "ok");
-                model.addAttribute("messageLogin", "账户激活成功，现在您可以登录了");
+                model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "激活成功，现在您可以登录了"));
             } else {
-                model.addAttribute("messageLogin", "账户激活失败，激活码无效");
+                model.addAttribute("message", new Message(Message.TYPE_DANGER, "账户激活失败，激活码无效"));
             }
         }
         model.addAttribute("from", from);
@@ -77,7 +77,7 @@ public class UserController {
         User userResult = userService.login(user);
         if (userResult != null) {
             if (!userResult.isActivated()) {
-                model.addAttribute("messageLogin", "您的账户尚未激活，请激活后再登录");
+                model.addAttribute("message", new Message(Message.TYPE_WARNING, "您的账户尚未激活，请先激活"));
             } else if (userResult.getTwoFactor() != null) {
                 session.setAttribute("userTo2FA", userResult);
                 session.setAttribute("remember", remember);
@@ -93,7 +93,7 @@ public class UserController {
                 return "redirect:" + from;
             }
         } else {
-            model.addAttribute("messageLogin", "用户名或密码错误");
+            model.addAttribute("message", new Message(Message.TYPE_DANGER, "用户名或密码错误"));
         }
         user.setPassword("");
         model.addAttribute("from", from);
@@ -131,7 +131,7 @@ public class UserController {
             return "redirect:" + from;
         } else {
             model.addAttribute("from", from);
-            model.addAttribute("message", "两步验证验证码错误，请重试");
+            model.addAttribute("message", new Message(Message.TYPE_DANGER, "两步验证验证码错误，请重试"));
             return "login-2fa";
         }
     }
@@ -143,13 +143,13 @@ public class UserController {
                 userService.register(user);
                 mailService.sendActivateEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
                 model.addAttribute("result", "ok");
-                model.addAttribute("messageRegister", "注册成功，请按照电子邮件中的说明激活账户");
+                model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "注册成功，请按照电子邮件中的说明激活账户"));
                 user = new User();
             } else {
-                model.addAttribute("messageRegister", "密码和确认密码不匹配，请重新输入");
+                model.addAttribute("message", new Message(Message.TYPE_WARNING, "密码和确认密码不匹配，请重新输入"));
             }
         } else {
-            model.addAttribute("messageRegister", "用户名已被占用，请更换后重试");
+            model.addAttribute("message", new Message(Message.TYPE_WARNING, "用户名已被占用，请更换后重试"));
         }
         user.setPassword(null);
         model.addAttribute("userRegister", user);
@@ -205,20 +205,20 @@ public class UserController {
                 user.setEmail(email);
                 userService.updateEmail(user);
                 mailService.sendValidationEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
-                model.addAttribute("message", "邮箱已经更改，请尽快查收验证邮件并完成验证");
+                model.addAttribute("message", new Message(Message.TYPE_INFO, "邮箱已经更改，请尽快查收验证邮件并完成验证"));
                 break;
             case "changePassword":
                 if (userService.checkPassword(user, password)) {
                     if (newPassword.equals(confirmPassword)) {
                         user.setPassword(newPassword);
                         userService.updatePassword(user);
-                        model.addAttribute("message", "密码已更改");
+                        model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "密码已更改"));
                         user.setPassword(null);
                     } else {
-                        model.addAttribute("message", "密码和确认密码不一致，请重试");
+                        model.addAttribute("message", new Message(Message.TYPE_WARNING, "密码和确认密码不一致，请重试"));
                     }
                 } else {
-                    model.addAttribute("message", "原密码不正确，请重试");
+                    model.addAttribute("message", new Message(Message.TYPE_WARNING, "原密码不正确，请重试"));
                 }
                 break;
             case "enable2FA":
@@ -226,18 +226,18 @@ public class UserController {
                     user.setTwoFactor(twoFactorToken);
                     userService.updateTwoFactor(user);
                     user.setTwoFactor("");
-                    model.addAttribute("message", "两步验证已启用");
+                    model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "两步验证已启用"));
                 } else {
-                    model.addAttribute("message", "两步验证验证码错误，请重新添加");
+                    model.addAttribute("message", new Message(Message.TYPE_WARNING, "两步验证验证码错误，请重新添加"));
                 }
                 break;
             case "disable2FA":
                 if (userService.checkTwoFactor(user, twoFactorCode)) {
                     user.setTwoFactor(null);
                     userService.updateTwoFactor(user);
-                    model.addAttribute("message", "两步验证已停用");
+                    model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "两步验证已停用"));
                 } else {
-                    model.addAttribute("message", "两步验证验证码错误，请重试");
+                    model.addAttribute("message", new Message(Message.TYPE_WARNING, "两步验证验证码错误，请重试"));
                 }
                 break;
         }
@@ -261,9 +261,9 @@ public class UserController {
     @GetMapping("/user/validateEmail")
     public String validateEmail(Model model, @RequestParam("validateCode") String validateCode) {
         if (userService.activate(validateCode)) {
-            model.addAttribute("message", "您的邮箱已经成功验证");
+            model.addAttribute("messageText", "您的邮箱已经成功验证");
         } else {
-            model.addAttribute("message", "邮箱验证失败，验证码无效");
+            model.addAttribute("messageText", "邮箱验证失败，验证码无效");
         }
         return "validateemail";
     }

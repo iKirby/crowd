@@ -36,7 +36,6 @@
                          th:classappend="${(page != 'dev' && page != 'customer') ? 'show active' : ''}">
                         <div class="row">
                             <div class="col-md-8">
-                                <div class="alert alert-default" th:if="${message}" th:text="${message}"></div>
                                 <div class="shadow-sm p-3 mb-3 bg-white">
                                     <h4>修改电子邮箱</h4>
                                     <div class="alert alert-warning" th:if="${session.user.activateCode != null}">

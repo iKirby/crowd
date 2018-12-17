@@ -32,7 +32,6 @@
                 <div class="tab-content" id="loginTabContent">
                     <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab"
                          th:classappend="${(action != 'register' && action != 'findpassword') ? 'show active' : ''}">
-                        <div class="alert" th:if="${messageLogin}" th:classappend="${result == 'ok' ? 'alert-success' : 'alert-danger'}" th:text="${messageLogin}"></div>
                         <form method="post" th:action="@{/user/login}" th:object="${userLogin}">
                             <input type="hidden" name="from" th:value="${from}">
                             <div class="form-group">
@@ -54,7 +53,6 @@
                     </div>
                     <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab"
                          th:classappend="${action == 'register' ? 'show active' : ''}">
-                        <div class="alert" th:if="${messageRegister}"  th:classappend="${result == 'ok' ? 'alert-success' : 'alert-warning'}" th:text="${messageRegister}"></div>
                         <form method="post" th:action="@{/user/register}" th:object="${userRegister}">
                             <div class="form-group">
                                 <label for="username-reg">用户名</label>
