@@ -137,9 +137,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findAllPaged(int pageSize, int page) {
+    public Page<User> findAll(int pageSize, int page) {
         int total = userMapper.getUserCount();
-        List<User> content = userMapper.findAllPaged(pageSize * (page - 1), pageSize);
+        List<User> content = userMapper.findAll(pageSize * (page - 1), pageSize);
+        Page<User> userPage = new Page<>();
+        userPage.setContent(content);
+        userPage.setCurrentPage(page);
+        userPage.setTotal(total);
+        userPage.setPageSize(pageSize);
+        return userPage;
+    }
+
+    @Override
+    public Page<User> findByNameLike(String keyword, int pageSize, int page) {
+        int total = userMapper.countByNameLike(keyword);
+        List<User> content = userMapper.findByNameLike(keyword, pageSize * (page - 1), pageSize);
         Page<User> userPage = new Page<>();
         userPage.setContent(content);
         userPage.setCurrentPage(page);

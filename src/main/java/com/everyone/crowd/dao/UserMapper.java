@@ -54,8 +54,14 @@ public interface UserMapper {
     int countExists(@Param("username") String username);
 
     @Select("SELECT * FROM t_users LIMIT #{offset}, #{size}")
-    List<User> findAllPaged(@Param("offset") Integer offset, @Param("size") Integer size);
+    List<User> findAll(@Param("offset") Integer offset, @Param("size") Integer size);
 
     @Select("SELECT COUNT(id) FROM t_users")
     int getUserCount();
+
+    @Select("SELECT * FROM t_users WHERE username LIKE '%${keyword}' LIMIT #{offset}, #{size}")
+    List<User> findByNameLike(@Param("keyword") String keyword, @Param("offset") int offset, @Param("size") int size);
+
+    @Select("SELECT COUNT(*) FROM t_users WHERE username LIKE '%${keyword}'")
+    int countByNameLike(@Param("keyword") String keyword);
 }

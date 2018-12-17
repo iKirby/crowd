@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('修改用户信息')">
+    <meta charset="UTF-8">
+    <title>修改用户信息</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">用户: <span th:text="${user.username}"></span></h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="h-4">电子邮件</div>
+                                <p th:text="${user.email}"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card">
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" th:replace="admin/fragments/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

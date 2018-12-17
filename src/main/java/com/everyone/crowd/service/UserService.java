@@ -33,7 +33,9 @@ public interface UserService {
 
     void updateBalance(User user);
 
-    Page<User> findAllPaged(int pageSize, int page);
+    Page<User> findAll(int pageSize, int page);
+
+    Page<User> findByNameLike(String keyword, int pageSize, int page);
 
     User findById(Integer id);
 }
