@@ -34,6 +34,7 @@ dependencies {
     implementation('mysql:mysql-connector-java')
     implementation('org.apache.commons:commons-dbcp2:2.5.0')
     implementation('com.warrenstrange:googleauth:1.2.0')
+    implementation('com.atlassian.commonmark:commonmark:0.12.1')
     compileOnly('org.projectlombok:lombok')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
