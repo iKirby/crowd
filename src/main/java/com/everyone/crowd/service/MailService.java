@@ -9,4 +9,6 @@ public interface MailService {
     void sendActivateEmail(String to, String username, String activateCode) throws MessagingException;
 
     void sendValidationEmail(String to, String username, String validateCode) throws MessagingException;
+
+    void sendResetPasswordEmail(String to, String username, String newPassword) throws MessagingException;
 }

@@ -19,7 +19,7 @@
                     此需求未开放竞标。
                 </div>
                 <div class="alert alert-warning" th:if="${demand.status == 'PASS'}">
-                    参与竞标后，您在开发者资料中填写的<span class="font-weight-bold">电子邮件地址</span>将可以被需求方查看。
+                    参与竞标后，您在开发者资料中填写的<span class="font-weight-bold">电子邮箱地址</span>将可以被需求方查看。
                 </div>
                 <div class="shadow-sm p-3 mb-5 bg-white" th:if="${demand.status == 'PASS'}">
                     <form method="post" enctype="multipart/form-data" th:action="@{/bid/join}" th:object="${bid}">

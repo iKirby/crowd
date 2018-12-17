@@ -43,7 +43,6 @@ public class MailServiceImpl implements MailService {
         sendHtmlMessage(to, "账户激活 - CROWD 众包平台", content);
     }
 
-
     @Override
     public void sendValidationEmail(String to, String username, String validateCode) throws MessagingException {
         String link = "http://localhost:8080/user/validateEmail?validateCode=" + validateCode;
@@ -52,5 +51,14 @@ public class MailServiceImpl implements MailService {
         context.setVariable("link", link);
         String content = thymeleafEngine.process("mail/change-mail", context);
         sendHtmlMessage(to, "邮箱验证 - CROWD 众包平台", content);
+    }
+
+    @Override
+    public void sendResetPasswordEmail(String to, String username, String newPassword) throws MessagingException {
+        Context context = new Context();
+        context.setVariable("username", username);
+        context.setVariable("newPassword", newPassword);
+        String content = thymeleafEngine.process("mail/reset-password", context);
+        sendHtmlMessage(to, "重置密码 - CROWD 众包平台", content);
     }
 }

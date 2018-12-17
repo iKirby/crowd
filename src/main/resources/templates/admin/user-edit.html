@@ -17,15 +17,49 @@
                     <div class="col-lg-9">
                         <div class="card">
                             <div class="card-body">
-                                <div class="h-4">电子邮件</div>
-                                <p th:text="${user.email}"></p>
+                                <form th:action="@{/admin/user/edit/{id}(id=${user.id})}">
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">电子邮箱</label>
+                                        <div class="input-group">
+                                            <input type="hidden" value="changeEmail" name="action">
+                                            <input placeholder="电子邮箱" type="text" name="email" id="email" class="form-control"
+                                                   th:value="${user.email}">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="submit">修改</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="form-group">
+                                    <label class="form-label">密码</label>
+                                    <a class="btn btn-primary"
+                                       th:href="@{/admin/user/edit/{id}(id=${user.id}, action='resetPassword')}">重置密码</a>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">两步验证</label>
+                                    <div th:text="${user.twoFactor == null ? '未启用' : '已启用'}"></div>
+                                    <a class="btn btn-danger"
+                                       th:href="@{/admin/user/edit/{id}(id=${user.id}, action='disable2FA')}"
+                                       th:if="${user.twoFactor != null}">停用</a>
+                                </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <a class="btn btn-secondary" th:href="@{/admin/user}">返回列表</a>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="card">
+                            <div class="card-header">更多操作</div>
                             <div class="card-body">
-
+                                <a class="btn btn-outline-danger d-block"
+                                   th:href="@{/admin/user/delete/{id}(id=${user.id})}">删除用户</a>
+                                <a class="btn btn-outline-primary d-block mt-3"
+                                   th:href="@{/admin/user/developerproffile/edit/{id}(id=${user.id})}"
+                                   th:if="${user.developer}">开发者资料</a>
+                                <a class="btn btn-outline-primary d-block mt-3"
+                                   th:href="@{/admin/user/customerprofile/edit/{id}(id=${user.id})}"
+                                   th:if="${user.customer}">需求方资料</a>
                             </div>
                         </div>
                     </div>
