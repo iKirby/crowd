@@ -1,6 +1,5 @@
 package com.everyone.crowd.controller;
 
-import com.everyone.crowd.configuration.Constants;
 import com.everyone.crowd.entity.CustomerProfile;
 import com.everyone.crowd.entity.DevProfile;
 import com.everyone.crowd.entity.User;
@@ -246,6 +245,16 @@ public class UserController {
         generate2FAKey(model, user);
         session.setAttribute("user", user);
         model.addAttribute("page", page);
+        DevProfile devProfile = devProfileService.findById(user.getId());
+        CustomerProfile customerProfile = customerProfileService.findById(user.getId());
+        if (devProfile == null) {
+            devProfile = new DevProfile();
+        }
+        if (customerProfile == null) {
+            customerProfile = new CustomerProfile();
+        }
+        model.addAttribute("devProfile", devProfile);
+        model.addAttribute("customerProfile", customerProfile);
         return "usercenter";
     }
 
@@ -264,7 +273,7 @@ public class UserController {
             GoogleAuthenticatorKey gaKey = ga.createCredentials();
             String totpURL = GoogleAuthenticatorQRGenerator.getOtpAuthTotpURL("CROWDPlatform", user.getUsername(), gaKey);
             model.addAttribute("twoFactorKey", gaKey.getKey());
-            model.addAttribute("twoFactorTotpQRURL", Constants.QR_API_URL + totpURL);
+            model.addAttribute("twoFactorTotpURL", totpURL);
         }
     }
 

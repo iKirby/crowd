@@ -78,8 +78,7 @@
                                         <div class="alert alert-info">
                                             使用身份验证器应用扫描下方的二维码或输入代码添加账户，然后提交应用中生成的验证码以启用两步验证。启用后，在登录时将要求您输入两步验证代码。
                                         </div>
-                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=2faKey"
-                                             class="qr-image" alt="两步验证二维码" th:src="${twoFactorTotpQRURL}">
+                                        <img src="" alt="两步验证二维码" th:src="@{/get/qr(content=${twoFactorTotpURL})}">
                                         <p>
                                             KEY: <code th:text="${twoFactorKey}">2faKey</code>
                                         </p>
@@ -192,7 +191,7 @@
                                         </div>
                                         <!-- Card image -->
                                         <div class="w-50 mx-auto position-relative">
-                                            <img class="card-img-top avatar" th:src="@{'/uploads/' + ${devProfile.photo}}" alt="userAvatar">
+                                            <img src="" class="card-img-top avatar" th:src="@{'/uploads/' + ${devProfile.photo}}" alt="userAvatar">
                                         </div>
                                     </div>
                                     <!-- Card body -->
@@ -279,7 +278,7 @@
                                         </div>
                                         <!-- Card image -->
                                         <div class="w-50 mx-auto position-relative">
-                                            <img class="card-img-top avatar" th:src="@{'/uploads/' + ${customerProfile.photo}}" alt="userAvatar">
+                                            <img src="" class="card-img-top avatar" th:src="@{'/uploads/' + ${customerProfile.photo}}" alt="userAvatar">
                                         </div>
                                     </div>
                                     <!-- Card body -->
