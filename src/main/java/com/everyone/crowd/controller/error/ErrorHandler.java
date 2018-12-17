@@ -10,7 +10,6 @@ public class ErrorHandler {
 
     @ExceptionHandler
     public ModelAndView handleError(ErrorCodeException e) {
-        System.out.println("handle error");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("code", e.getCode());
         modelAndView.addObject("message", e.getMessage());
