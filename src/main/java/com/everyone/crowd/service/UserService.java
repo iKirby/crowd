@@ -38,4 +38,6 @@ public interface UserService {
     Page<User> findByNameLike(String keyword, int pageSize, int page);
 
     User findById(Integer id);
+
+    User findByUsernameAndEmail(String username, String email);
 }

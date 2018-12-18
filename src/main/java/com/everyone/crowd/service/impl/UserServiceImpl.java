@@ -169,4 +169,14 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public User findByUsernameAndEmail(String username, String email) {
+        User user = userMapper.findByUsernameAndEmail(username, email);
+        if (user != null) {
+            user.setPassword("");
+            user.setTwoFactor(user.getTwoFactor() != null ? "" : null);
+        }
+        return user;
+    }
 }

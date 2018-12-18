@@ -64,4 +64,7 @@ public interface UserMapper {
 
     @Select("SELECT COUNT(*) FROM t_users WHERE username LIKE '%${keyword}'")
     int countByNameLike(@Param("keyword") String keyword);
+
+    @Select("SELECT * FROM t_users WHERE username = #{username} AND email = #{email}")
+    User findByUsernameAndEmail(@Param("username") String username, @Param("email") String email);
 }

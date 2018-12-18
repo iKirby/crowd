@@ -9,6 +9,7 @@ import com.everyone.crowd.service.DevProfileService;
 import com.everyone.crowd.service.MailService;
 import com.everyone.crowd.service.UserService;
 import com.everyone.crowd.util.CookieUtil;
+import com.everyone.crowd.util.PasswordGenerator;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
 import com.warrenstrange.googleauth.GoogleAuthenticatorQRGenerator;
@@ -143,6 +144,28 @@ public class UserController {
                     new Message(Message.TYPE_DANGER, "两步验证验证码错误"), "/");
             return "login-2fa";
         }
+    }
+
+    @PostMapping("/user/resetPassword")
+    public String resetPassword(HttpServletResponse response,
+                                @RequestParam("username") String username,
+                                @RequestParam("email") String email) throws MessagingException {
+        User user = userService.findByUsernameAndEmail(username, email);
+        if (user == null) {
+            CookieUtil.addMessage(response, "user", new Message(Message.TYPE_WARNING, "没有找到对应的用户信息"), "/");
+            return "redirect:/user/login?action=resetPassword";
+        }
+        PasswordGenerator passwordGenerator = new PasswordGenerator.Builder()
+                .useUpper(true)
+                .useLower(true)
+                .useDigits(true)
+                .build();
+        String newPassword = passwordGenerator.generate(12);
+        user.setPassword(newPassword);
+        userService.updatePassword(user);
+        mailService.sendResetPasswordEmail(user.getEmail(), user.getUsername(), newPassword);
+        CookieUtil.addMessage(response, "user", new Message(Message.TYPE_INFO, "密码已经重置，请查收密码重置邮件"), "/");
+        return "redirect:/user/login";
     }
 
     @PostMapping("/user/register")

@@ -58,7 +58,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
     private boolean isLoginRelated(String requestURI) {
         return requestURI.equals("/user/login")
                 || requestURI.equals("/user/register")
-                || requestURI.equals("/user/findpassword")
+                || requestURI.equals("/user/resetPassword")
                 || requestURI.equals("/user/activate")
                 || requestURI.equals("/user/logout");
     }

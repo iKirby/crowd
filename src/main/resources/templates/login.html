@@ -16,7 +16,7 @@
                     <li class="nav-item">
                         <a class="nav-link" id="login-tab" data-toggle="tab" href="#login" role="tab"
                            aria-controls="login" aria-selected="true"
-                           th:classappend="${(action != 'register' && action != 'findpassword') ? 'active' : ''}">登录</a>
+                           th:classappend="${(action != 'register' && action != 'resetPassword') ? 'active' : ''}">登录</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab"
@@ -24,14 +24,14 @@
                            th:classappend="${action == 'register' ? 'active' : ''}">注册</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="find-password-tab" data-toggle="tab" href="#find-password" role="tab"
-                           aria-controls="find-password" aria-selected="false"
-                           th:classappend="${action == 'findpassword' ? 'active' : ''}">找回密码</a>
+                        <a class="nav-link" id="reset-password-tab" data-toggle="tab" href="#reset-password" role="tab"
+                           aria-controls="reset-password" aria-selected="false"
+                           th:classappend="${action == 'resetPassword' ? 'active' : ''}">重置密码</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="loginTabContent">
                     <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab"
-                         th:classappend="${(action != 'register' && action != 'findpassword') ? 'show active' : ''}">
+                         th:classappend="${(action != 'register' && action != 'resetPassword') ? 'show active' : ''}">
                         <form method="post" th:action="@{/user/login}" th:object="${userLogin}">
                             <input type="hidden" name="from" th:value="${from}">
                             <div class="form-group">
@@ -73,18 +73,18 @@
                             <input id="btn-register" class="btn btn-primary" type="submit" value="注册">
                         </form>
                     </div>
-                    <div class="tab-pane fade" id="find-password" role="tabpanel" aria-labelledby="forgot-password-tab"
-                         th:classappend="${action == 'findpassword' ? 'show active' : ''}">
-                        <form>
+                    <div class="tab-pane fade" id="reset-password" role="tabpanel" aria-labelledby="forgot-password-tab"
+                         th:classappend="${action == 'resetPassword' ? 'show active' : ''}">
+                        <form method="post" th:action="@{/user/resetPassword}">
                             <div class="form-group">
-                                <label for="username-find-password">用户名</label>
-                                <input placeholder="用户名" type="text" id="username-find-password" name="username" class="form-control" required>
+                                <label for="username-reset-password">用户名</label>
+                                <input placeholder="用户名" type="text" id="username-reset-password" name="username" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="email-find-password">电子邮箱</label>
-                                <input placeholder="电子邮箱" type="email" id="email-find-password" name="email" class="form-control" required>
+                                <label for="email-reset-password">电子邮箱</label>
+                                <input placeholder="电子邮箱" type="email" id="email-reset-password" name="email" class="form-control" required>
                             </div>
-                            <input id="btn-find-password" class="btn btn-primary" type="submit" value="找回密码">
+                            <input id="btn-reset-password" class="btn btn-primary" type="submit" value="重置密码">
                         </form>
                     </div>
                 </div>
