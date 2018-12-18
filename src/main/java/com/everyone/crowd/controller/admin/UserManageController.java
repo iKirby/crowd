@@ -63,7 +63,7 @@ public class UserManageController {
                     user.setEmail(email);
                     userService.updateEmail(user);
                     mailService.sendValidationEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
-                    CookieUtil.addMessageCookie(response, "admin",
+                    CookieUtil.addMessage(response, "admin",
                             new Message(Message.TYPE_SUCCESS, "邮箱已经修改，请提醒用户验证新的邮箱地址"), "/admin");
                 }
                 break;
@@ -73,13 +73,13 @@ public class UserManageController {
                 userService.updatePassword(user);
                 user.setPassword("");
                 mailService.sendResetPasswordEmail(user.getEmail(), user.getUsername(), newPassword);
-                CookieUtil.addMessageCookie(response, "admin",
+                CookieUtil.addMessage(response, "admin",
                         new Message(Message.TYPE_SUCCESS, "密码已经重置，请告知用户查收密码重置邮件"), "/admin");
                 break;
             case "disable2FA":
                 user.setTwoFactor(null);
                 userService.updateTwoFactor(user);
-                CookieUtil.addMessageCookie(response, "admin",
+                CookieUtil.addMessage(response, "admin",
                         new Message(Message.TYPE_SUCCESS, "两步验证已停用"), "/admin");
                 break;
         }

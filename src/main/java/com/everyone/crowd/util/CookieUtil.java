@@ -29,7 +29,7 @@ public class CookieUtil {
         return value;
     }
 
-    public static void addMessageCookie(HttpServletResponse response, String prefix, Message message, String path) {
+    public static void addMessage(HttpServletResponse response, String prefix, Message message, String path) {
         try {
             Cookie messageContent = new Cookie(prefix + "_messageContent",
                     URLEncoder.encode(message.getContent(), StandardCharsets.UTF_8.name()));

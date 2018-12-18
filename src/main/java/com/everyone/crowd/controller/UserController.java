@@ -58,10 +58,10 @@ public class UserController {
         }
         if (action.equals("activate") && !activateCode.isEmpty()) {
             if (userService.activate(activateCode)) {
-                CookieUtil.addMessageCookie(response, "user",
+                CookieUtil.addMessage(response, "user",
                         new Message(Message.TYPE_SUCCESS, "账户激活成功，现在您可以登录了"), "/");
             } else {
-                CookieUtil.addMessageCookie(response, "user",
+                CookieUtil.addMessage(response, "user",
                         new Message(Message.TYPE_DANGER, "账户激活失败，激活码无效"), "/");
             }
         }
@@ -79,7 +79,7 @@ public class UserController {
         User userResult = userService.login(user);
         if (userResult != null) {
             if (!userResult.isActivated()) {
-                CookieUtil.addMessageCookie(response, "user",
+                CookieUtil.addMessage(response, "user",
                         new Message(Message.TYPE_WARNING, "账户尚未激活，请先激活"), "/");
             } else if (userResult.getTwoFactor() != null) {
                 session.setAttribute("userTo2FA", userResult);
@@ -93,10 +93,12 @@ public class UserController {
                 if (remember) {
                     addCookie(response, userResult);
                 }
+                CookieUtil.addMessage(response, "user",
+                        new Message(Message.TYPE_DEFAULT, "欢迎，" + userResult.getUsername()), "/");
                 return "redirect:" + from;
             }
         } else {
-            CookieUtil.addMessageCookie(response, "user",
+            CookieUtil.addMessage(response, "user",
                     new Message(Message.TYPE_DANGER, "用户名或密码错误"), "/");
         }
         user.setPassword("");
@@ -132,10 +134,12 @@ public class UserController {
                 addCookie(response, userResult);
             }
             session.removeAttribute("remember");
+            CookieUtil.addMessage(response, "user",
+                    new Message(Message.TYPE_DEFAULT, "欢迎，" + userResult.getUsername()), "/");
             return "redirect:" + from;
         } else {
             model.addAttribute("from", from);
-            CookieUtil.addMessageCookie(response, "user",
+            CookieUtil.addMessage(response, "user",
                     new Message(Message.TYPE_DANGER, "两步验证验证码错误"), "/");
             return "login-2fa";
         }
@@ -149,15 +153,15 @@ public class UserController {
                 userService.register(user);
                 mailService.sendActivateEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
                 model.addAttribute("result", "ok");
-                CookieUtil.addMessageCookie(response, "user",
+                CookieUtil.addMessage(response, "user",
                         new Message(Message.TYPE_SUCCESS, "注册成功，一封有关账户激活的邮件已经发送到您的电子邮箱"), "/");
                 user = new User();
             } else {
-                CookieUtil.addMessageCookie(response, "user",
+                CookieUtil.addMessage(response, "user",
                         new Message(Message.TYPE_WARNING, "密码和确认密码不匹配"), "/");
             }
         } else {
-            CookieUtil.addMessageCookie(response, "user",
+            CookieUtil.addMessage(response, "user",
                     new Message(Message.TYPE_WARNING, "用户名已被占用"), "/");
         }
         user.setPassword(null);
@@ -175,7 +179,7 @@ public class UserController {
         response.addCookie(cookie);
         session.removeAttribute("user");
         session.removeAttribute("userTo2FA");
-        CookieUtil.addMessageCookie(response, "user",
+        CookieUtil.addMessage(response, "user",
                 new Message(Message.TYPE_INFO, "已经退出登录"), "/");
         return "redirect:/";
     }
@@ -216,7 +220,7 @@ public class UserController {
                 user.setEmail(email);
                 userService.updateEmail(user);
                 mailService.sendValidationEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
-                CookieUtil.addMessageCookie(response, "user",
+                CookieUtil.addMessage(response, "user",
                         new Message(Message.TYPE_INFO, "邮箱已经更改，请尽快查收验证邮件并完成验证"), "/");
                 break;
             case "changePassword":
@@ -224,15 +228,15 @@ public class UserController {
                     if (newPassword.equals(confirmPassword)) {
                         user.setPassword(newPassword);
                         userService.updatePassword(user);
-                        CookieUtil.addMessageCookie(response, "user",
+                        CookieUtil.addMessage(response, "user",
                                 new Message(Message.TYPE_SUCCESS, "密码已经更改"), "/");
                         user.setPassword(null);
                     } else {
-                        CookieUtil.addMessageCookie(response, "user",
+                        CookieUtil.addMessage(response, "user",
                                 new Message(Message.TYPE_WARNING, "密码和确认密码不匹配"), "/");
                     }
                 } else {
-                    CookieUtil.addMessageCookie(response, "user",
+                    CookieUtil.addMessage(response, "user",
                             new Message(Message.TYPE_WARNING, "原密码不正确"), "/");
                 }
                 break;
@@ -241,10 +245,10 @@ public class UserController {
                     user.setTwoFactor(twoFactorToken);
                     userService.updateTwoFactor(user);
                     user.setTwoFactor("");
-                    CookieUtil.addMessageCookie(response, "user",
+                    CookieUtil.addMessage(response, "user",
                             new Message(Message.TYPE_SUCCESS, "两步验证已启用"), "/");
                 } else {
-                    CookieUtil.addMessageCookie(response, "user",
+                    CookieUtil.addMessage(response, "user",
                             new Message(Message.TYPE_WARNING, "两步验证验证码错误，无法启用"), "/");
                 }
                 break;
@@ -252,10 +256,10 @@ public class UserController {
                 if (userService.checkTwoFactor(user, twoFactorCode)) {
                     user.setTwoFactor(null);
                     userService.updateTwoFactor(user);
-                    CookieUtil.addMessageCookie(response, "user",
+                    CookieUtil.addMessage(response, "user",
                             new Message(Message.TYPE_SUCCESS, "两步验证已停用"), "/");
                 } else {
-                    CookieUtil.addMessageCookie(response, "user",
+                    CookieUtil.addMessage(response, "user",
                             new Message(Message.TYPE_WARNING, "两步验证验证码错误，无法停用"), "/");
                 }
                 break;
