@@ -19,7 +19,7 @@
                        th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
                     <th:block th:each="category : ${categoryMap}">
                         <a href="#" class="btn" role="button" th:text="${category.value}"
-                           th:href="@{/(category=${category.key})}"
+                           th:href="@{/demand/my(category=${category.key})}"
                            th:classappend="${categoryId == category.key ? 'btn-info' : 'btn-outline-info'}">分类</a>
                     </th:block>
                 </div>
