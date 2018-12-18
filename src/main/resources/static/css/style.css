@@ -133,6 +133,14 @@ code {
     background-color: #cce5ff;
 }
 
+#message-bar a {
+    color: #004085;
+}
+
+#message-bar a:hover {
+    color: #333!important;
+}
+
 #message-bar .container {
     padding: .75rem 1rem;
 }
@@ -142,9 +150,17 @@ code {
     background-color: #e2e3e5;
 }
 
+#message-bar.secondary a {
+    color: #383d41;
+}
+
 #message-bar.info {
     color: #0c5460;
     background-color: #d1ecf1;
+}
+
+#message-bar.info a {
+    color: #0c5460;
 }
 
 #message-bar.success {
@@ -152,9 +168,17 @@ code {
     background-color: #d4edda;
 }
 
+#message-bar.success a {
+    color: #155724;
+}
+
 #message-bar.warning {
     color: #856404;
     background-color: #fff3cd;
+}
+
+#message-bar.warning a {
+    color: #856404;
 }
 
 #message-bar.danger {
@@ -162,6 +186,9 @@ code {
     background-color: #f8d7da;
 }
 
+#message-bar.danger a {
+    color: #721c24;
+}
 
 .slide-up-fade-in {
     animation: slide-up-fade-in ease .5s;

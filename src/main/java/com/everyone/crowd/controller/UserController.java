@@ -177,7 +177,7 @@ public class UserController {
                 mailService.sendActivateEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
                 model.addAttribute("result", "ok");
                 CookieUtil.addMessage(response, "user",
-                        new Message(Message.TYPE_SUCCESS, "注册成功，一封有关账户激活的邮件已经发送到您的电子邮箱"), "/");
+                        new Message(Message.TYPE_SUCCESS, "注册成功，请查收账户激活邮件"), "/");
                 user = new User();
             } else {
                 CookieUtil.addMessage(response, "user",
