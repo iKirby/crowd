@@ -5,6 +5,7 @@ import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.entity.User;
 import com.everyone.crowd.service.MailService;
 import com.everyone.crowd.service.UserService;
+import com.everyone.crowd.util.CookieUtil;
 import com.everyone.crowd.util.PasswordGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class UserManageController {
@@ -51,7 +53,7 @@ public class UserManageController {
     }
 
     @GetMapping("/admin/user/edit/{id}")
-    public String userEdit(Model model, @PathVariable("id") Integer id,
+    public String userEdit(Model model, @PathVariable("id") Integer id, HttpServletResponse response,
                            @RequestParam(value = "action", defaultValue = "") String action,
                            @RequestParam(value = "email", defaultValue = "") String email) throws MessagingException {
         User user = userService.findById(id);
@@ -61,7 +63,8 @@ public class UserManageController {
                     user.setEmail(email);
                     userService.updateEmail(user);
                     mailService.sendValidationEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
-                    model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "邮箱已经修改，请提醒用户验证新的邮箱地址"));
+                    CookieUtil.addMessageCookie(response, "admin",
+                            new Message(Message.TYPE_SUCCESS, "邮箱已经修改，请提醒用户验证新的邮箱地址"), "/admin");
                 }
                 break;
             case "resetPassword":
@@ -70,12 +73,14 @@ public class UserManageController {
                 userService.updatePassword(user);
                 user.setPassword("");
                 mailService.sendResetPasswordEmail(user.getEmail(), user.getUsername(), newPassword);
-                model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "密码已经重置，请告知用户查收密码重置邮件"));
+                CookieUtil.addMessageCookie(response, "admin",
+                        new Message(Message.TYPE_SUCCESS, "密码已经重置，请告知用户查收密码重置邮件"), "/admin");
                 break;
             case "disable2FA":
                 user.setTwoFactor(null);
                 userService.updateTwoFactor(user);
-                model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "两步验证已停用"));
+                CookieUtil.addMessageCookie(response, "admin",
+                        new Message(Message.TYPE_SUCCESS, "两步验证已停用"), "/admin");
                 break;
         }
 

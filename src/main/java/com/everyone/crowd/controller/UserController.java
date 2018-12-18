@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @GetMapping("/user/login")
-    public String loginPage(Model model, HttpServletRequest request, HttpSession session,
+    public String loginPage(Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session,
                             @RequestParam(value = "action", defaultValue = "login") String action,
                             @RequestParam(value = "from", defaultValue = "/") String from,
                             @RequestParam(value = "activateCode", defaultValue = "") String activateCode) {
@@ -58,9 +58,11 @@ public class UserController {
         }
         if (action.equals("activate") && !activateCode.isEmpty()) {
             if (userService.activate(activateCode)) {
-                model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "激活成功，现在您可以登录了"));
+                CookieUtil.addMessageCookie(response, "user",
+                        new Message(Message.TYPE_SUCCESS, "账户激活成功，现在您可以登录了"), "/");
             } else {
-                model.addAttribute("message", new Message(Message.TYPE_DANGER, "账户激活失败，激活码无效"));
+                CookieUtil.addMessageCookie(response, "user",
+                        new Message(Message.TYPE_DANGER, "账户激活失败，激活码无效"), "/");
             }
         }
         model.addAttribute("from", from);
@@ -77,7 +79,8 @@ public class UserController {
         User userResult = userService.login(user);
         if (userResult != null) {
             if (!userResult.isActivated()) {
-                model.addAttribute("message", new Message(Message.TYPE_WARNING, "您的账户尚未激活，请先激活"));
+                CookieUtil.addMessageCookie(response, "user",
+                        new Message(Message.TYPE_WARNING, "账户尚未激活，请先激活"), "/");
             } else if (userResult.getTwoFactor() != null) {
                 session.setAttribute("userTo2FA", userResult);
                 session.setAttribute("remember", remember);
@@ -93,7 +96,8 @@ public class UserController {
                 return "redirect:" + from;
             }
         } else {
-            model.addAttribute("message", new Message(Message.TYPE_DANGER, "用户名或密码错误"));
+            CookieUtil.addMessageCookie(response, "user",
+                    new Message(Message.TYPE_DANGER, "用户名或密码错误"), "/");
         }
         user.setPassword("");
         model.addAttribute("from", from);
@@ -131,25 +135,30 @@ public class UserController {
             return "redirect:" + from;
         } else {
             model.addAttribute("from", from);
-            model.addAttribute("message", new Message(Message.TYPE_DANGER, "两步验证验证码错误，请重试"));
+            CookieUtil.addMessageCookie(response, "user",
+                    new Message(Message.TYPE_DANGER, "两步验证验证码错误"), "/");
             return "login-2fa";
         }
     }
 
     @PostMapping("/user/register")
-    public String register(Model model, User user, @RequestParam("confirmPassword") String confirmPassword) throws MessagingException {
+    public String register(Model model, HttpServletResponse response, User user,
+                           @RequestParam("confirmPassword") String confirmPassword) throws MessagingException {
         if (!userService.usernameExists(user.getUsername())) {
             if (confirmPassword.equals(user.getPassword())) {
                 userService.register(user);
                 mailService.sendActivateEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
                 model.addAttribute("result", "ok");
-                model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "注册成功，请按照电子邮件中的说明激活账户"));
+                CookieUtil.addMessageCookie(response, "user",
+                        new Message(Message.TYPE_SUCCESS, "注册成功，一封有关账户激活的邮件已经发送到您的电子邮箱"), "/");
                 user = new User();
             } else {
-                model.addAttribute("message", new Message(Message.TYPE_WARNING, "密码和确认密码不匹配，请重新输入"));
+                CookieUtil.addMessageCookie(response, "user",
+                        new Message(Message.TYPE_WARNING, "密码和确认密码不匹配"), "/");
             }
         } else {
-            model.addAttribute("message", new Message(Message.TYPE_WARNING, "用户名已被占用，请更换后重试"));
+            CookieUtil.addMessageCookie(response, "user",
+                    new Message(Message.TYPE_WARNING, "用户名已被占用"), "/");
         }
         user.setPassword(null);
         model.addAttribute("userRegister", user);
@@ -166,6 +175,8 @@ public class UserController {
         response.addCookie(cookie);
         session.removeAttribute("user");
         session.removeAttribute("userTo2FA");
+        CookieUtil.addMessageCookie(response, "user",
+                new Message(Message.TYPE_INFO, "已经退出登录"), "/");
         return "redirect:/";
     }
 
@@ -189,7 +200,7 @@ public class UserController {
     }
 
     @PostMapping("/user/profile")
-    public String userCenter(Model model, HttpSession session,
+    public String userCenter(Model model, HttpSession session, HttpServletResponse response,
                              @RequestParam(value = "page", defaultValue = "") String page,
                              @RequestParam(value = "action", defaultValue = "") String action,
                              @RequestParam(value = "password", required = false) String password,
@@ -205,20 +216,24 @@ public class UserController {
                 user.setEmail(email);
                 userService.updateEmail(user);
                 mailService.sendValidationEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
-                model.addAttribute("message", new Message(Message.TYPE_INFO, "邮箱已经更改，请尽快查收验证邮件并完成验证"));
+                CookieUtil.addMessageCookie(response, "user",
+                        new Message(Message.TYPE_INFO, "邮箱已经更改，请尽快查收验证邮件并完成验证"), "/");
                 break;
             case "changePassword":
                 if (userService.checkPassword(user, password)) {
                     if (newPassword.equals(confirmPassword)) {
                         user.setPassword(newPassword);
                         userService.updatePassword(user);
-                        model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "密码已更改"));
+                        CookieUtil.addMessageCookie(response, "user",
+                                new Message(Message.TYPE_SUCCESS, "密码已经更改"), "/");
                         user.setPassword(null);
                     } else {
-                        model.addAttribute("message", new Message(Message.TYPE_WARNING, "密码和确认密码不一致，请重试"));
+                        CookieUtil.addMessageCookie(response, "user",
+                                new Message(Message.TYPE_WARNING, "密码和确认密码不匹配"), "/");
                     }
                 } else {
-                    model.addAttribute("message", new Message(Message.TYPE_WARNING, "原密码不正确，请重试"));
+                    CookieUtil.addMessageCookie(response, "user",
+                            new Message(Message.TYPE_WARNING, "原密码不正确"), "/");
                 }
                 break;
             case "enable2FA":
@@ -226,18 +241,22 @@ public class UserController {
                     user.setTwoFactor(twoFactorToken);
                     userService.updateTwoFactor(user);
                     user.setTwoFactor("");
-                    model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "两步验证已启用"));
+                    CookieUtil.addMessageCookie(response, "user",
+                            new Message(Message.TYPE_SUCCESS, "两步验证已启用"), "/");
                 } else {
-                    model.addAttribute("message", new Message(Message.TYPE_WARNING, "两步验证验证码错误，请重新添加"));
+                    CookieUtil.addMessageCookie(response, "user",
+                            new Message(Message.TYPE_WARNING, "两步验证验证码错误，无法启用"), "/");
                 }
                 break;
             case "disable2FA":
                 if (userService.checkTwoFactor(user, twoFactorCode)) {
                     user.setTwoFactor(null);
                     userService.updateTwoFactor(user);
-                    model.addAttribute("message", new Message(Message.TYPE_SUCCESS, "两步验证已停用"));
+                    CookieUtil.addMessageCookie(response, "user",
+                            new Message(Message.TYPE_SUCCESS, "两步验证已停用"), "/");
                 } else {
-                    model.addAttribute("message", new Message(Message.TYPE_WARNING, "两步验证验证码错误，请重试"));
+                    CookieUtil.addMessageCookie(response, "user",
+                            new Message(Message.TYPE_WARNING, "两步验证验证码错误，无法停用"), "/");
                 }
                 break;
         }
@@ -261,9 +280,9 @@ public class UserController {
     @GetMapping("/user/validateEmail")
     public String validateEmail(Model model, @RequestParam("validateCode") String validateCode) {
         if (userService.activate(validateCode)) {
-            model.addAttribute("messageText", "您的邮箱已经成功验证");
+            model.addAttribute("message", "您的邮箱已经成功验证");
         } else {
-            model.addAttribute("messageText", "邮箱验证失败，验证码无效");
+            model.addAttribute("message", "邮箱验证失败，验证码无效");
         }
         return "validateemail";
     }
