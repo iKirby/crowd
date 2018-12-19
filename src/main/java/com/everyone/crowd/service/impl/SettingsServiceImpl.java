@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class SettingsServiceImpl implements SettingsService {
 
@@ -36,6 +40,37 @@ public class SettingsServiceImpl implements SettingsService {
         } else {
             settingsMapper.put(key, value);
         }
+    }
 
+    @Override
+    @Transactional
+    public void setAll(Map<String, String> settings) {
+        for (Map.Entry<String, String> setting : settings.entrySet()) {
+            if (settingsMapper.get(setting.getKey()) != null) {
+                settingsMapper.set(setting.getKey(), setting.getValue());
+            } else {
+                settingsMapper.put(setting.getKey(), setting.getValue());
+            }
+        }
+    }
+
+    @Override
+    public Map<String, String> getAll() {
+        List<Map> result = settingsMapper.findAll();
+        Map<String, String> settings = new HashMap<>();
+        for (Object o : result) {
+            Map<String, String> setting = (Map<String, String>) o;
+            settings.put(setting.get("key"), setting.get("value"));
+        }
+        return settings;
+    }
+
+    @Override
+    public Map<String, String> get(String... varargs) {
+        Map<String, String> settings = new HashMap<>();
+        for (String key : varargs) {
+            settings.put(key, settingsMapper.get(key));
+        }
+        return settings;
     }
 }

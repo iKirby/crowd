@@ -8,34 +8,15 @@
 <nav th:replace="fragments/header :: navFragment"></nav>
 
 <main role="main">
-    <div id="mainCarousel" class="carousel slide" data-ride="carousel" th:if="${!isSearch}">
+    <div id="mainCarousel" class="carousel slide" data-ride="carousel" th:if="${carouselTitle}">
         <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="" alt="First slide" th:src="@{/img/slide/slide-1.jpg}">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5 class="font-weight-bold">First slide label</h5>
-                    <p>
-                        <strong>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</strong>
-                    </p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="" alt="Second slide" th:src="@{/img/slide/slide-2.jpg}">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5 class="font-weight-bold">Second slide label</h5>
-                    <p>
-                        <strong>Deserunt, magnam dolorum minus quidem molestiae dolorem.</strong>
-                    </p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src="" alt="Third slide" th:src="@{/img/slide/slide-3.jpg}">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5 class="font-weight-bold">Third slide label</h5>
-                    <p>
-                        <strong>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</strong>
-                    </p>
-                </div>
+            <div class="carousel-item" th:each="carouselLabel, it : ${carouselTitle}" th:classappend="${it.index == 0 ? 'active' : ''}">
+                <a target="_blank" th:href="${carouselLink.get(it.index)}">
+                    <img class="d-block w-100" src="" alt="First slide" th:src="${carouselImg.get(it.index)}">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="font-weight-bold" th:text="${carouselLabel}">First slide label</h5>
+                    </div>
+                </a>
             </div>
         </div>
         <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
