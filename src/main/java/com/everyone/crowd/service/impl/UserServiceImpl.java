@@ -47,7 +47,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User login(String cookie) {
-        return userMapper.findByCookie(cookie);
+        User user = userMapper.findByCookie(cookie);
+        if (user != null) {
+            user.setPassword(null);
+            user.setTwoFactor(user.getTwoFactor() != null ? "" : null);
+        }
+        return user;
     }
 
     @Override

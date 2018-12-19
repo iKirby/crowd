@@ -56,7 +56,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin login(String cookie) {
-        return adminMapper.findByCookie(cookie);
+        Admin admin = adminMapper.findByCookie(cookie);
+        if (admin != null) {
+            admin.setPassword(null);
+            admin.setTwoFactor(admin.getTwoFactor() != null ? "" : null);
+        }
+        return admin;
     }
 
     @Override

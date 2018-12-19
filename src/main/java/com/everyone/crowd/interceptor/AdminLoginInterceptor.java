@@ -2,6 +2,7 @@ package com.everyone.crowd.interceptor;
 
 import com.everyone.crowd.entity.Admin;
 import com.everyone.crowd.service.AdminService;
+import com.everyone.crowd.util.CookieUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -17,16 +18,24 @@ public class AdminLoginInterceptor implements HandlerInterceptor {
         this.adminService = adminService;
     }
 
+    // TODO improve URI check logic
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
         boolean isLoginRelated = isLoginRelated(requestURI);
+
+        String cookie = CookieUtil.getCookieValue("ADMIN_LOGIN", request.getCookies());
+        if (!cookie.isEmpty()) {
+            Admin admin = adminService.login(cookie);
+            if (admin != null) {
+                request.getSession().setAttribute("admin", admin);
+            }
+        }
+
         if (request.getSession().getAttribute("admin") != null) {
             if (requestURI.equals("/admin/logout")) {
                 return true;
             }
-            Admin admin = (Admin) request.getSession().getAttribute("admin");
-            request.getSession().setAttribute("admin", adminService.findById(admin.getId()));
             if (isLoginRelated) {
                 String from = request.getParameter("from");
                 if (from != null && isLoginRelated(from)) {

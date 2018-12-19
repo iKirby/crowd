@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -34,16 +33,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/login")
-    public String loginPage(Model model, HttpServletRequest request, HttpSession session,
-                            @RequestParam(value = "from", defaultValue = "/admin/dashboard") String from) {
-        String aCookie = CookieUtil.getCookieValue("ADMIN_LOGIN", request.getCookies());
-        if (!aCookie.isEmpty()) {
-            Admin adminResult = adminService.login(aCookie);
-            if (adminResult != null) {
-                session.setAttribute("admin", adminResult);
-                return "redirect:" + from;
-            }
-        }
+    public String loginPage(Model model, @RequestParam(value = "from", defaultValue = "/admin/dashboard") String from) {
         model.addAttribute("from", from);
         model.addAttribute("adminLogin", new Admin());
         return "admin/login";

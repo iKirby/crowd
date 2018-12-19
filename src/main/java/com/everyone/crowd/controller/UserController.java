@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -45,18 +44,10 @@ public class UserController {
     }
 
     @GetMapping("/user/login")
-    public String loginPage(Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session,
+    public String loginPage(Model model, HttpServletResponse response,
                             @RequestParam(value = "action", defaultValue = "login") String action,
                             @RequestParam(value = "from", defaultValue = "/") String from,
                             @RequestParam(value = "activateCode", defaultValue = "") String activateCode) {
-        String uCookie = CookieUtil.getCookieValue("USR_LOGIN", request.getCookies());
-        if (!uCookie.isEmpty()) {
-            User userResult = userService.login(uCookie);
-            if (userResult != null) {
-                session.setAttribute("user", userResult);
-                return "redirect:" + from;
-            }
-        }
         if (action.equals("activate") && !activateCode.isEmpty()) {
             if (userService.activate(activateCode)) {
                 CookieUtil.addMessage(response, "user",
