@@ -86,7 +86,7 @@
                                             <input type="hidden" name="twoFactorKey" th:value="${twoFactorKey}">
                                             <div class="form-group">
                                                 <label for="2fa-code">两步验证代码</label>
-                                                <input placeholder="输入由身份验证器生成的验证码" type="text" id="2fa-code" name="twoFactorCode"
+                                                <input placeholder="输入由身份验证器生成的验证码" type="number" id="2fa-code" name="twoFactorCode"
                                                        class="form-control" required>
                                             </div>
                                             <input class="btn btn-primary" type="submit" value="启用两步验证">
@@ -101,7 +101,7 @@
                                             <input type="hidden" name="action" value="disable2FA">
                                             <div class="form-group">
                                                 <label for="2fa-code-disable">两步验证代码</label>
-                                                <input placeholder="输入由身份验证器生成的验证码" type="text" id="2fa-code-disable" name="twoFactorCode"
+                                                <input placeholder="输入由身份验证器生成的验证码" type="number" id="2fa-code-disable" name="twoFactorCode"
                                                        class="form-control" required>
                                             </div>
                                             <input class="btn btn-primary" type="submit" value="停用两步验证">

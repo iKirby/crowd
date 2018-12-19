@@ -2,7 +2,7 @@
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="admin/fragments/head :: headFragment(${title})">
     <meta charset="UTF-8">
-    <title th:text="${title}">编辑需求</title>
+    <title th:text="${title}">编辑资料</title>
 </head>
 <body class="">
 <div class="page">
@@ -12,7 +12,7 @@
             <form class="container" method="post" enctype="multipart/form-data"
                   th:action="@{/admin/{user}/edit(user=${user})}" th:object="${profile}">
                 <div class="page-header">
-                    <h1 class="page-title" th:text="${title}">编辑需求</h1>
+                    <h1 class="page-title" th:text="${title}">编辑资料</h1>
                 </div>
                 <div class="row">
                     <div class="col-lg-9">
@@ -42,7 +42,7 @@
                                     <input type="file" accept=".jpg,.png" id="profile-photo" class="form-control"
                                            name="photo"
                                            th:required="${profile.status == null}">
-                                    <img class="avatar-placeholder d-inline-block mt-2" style="max-width: 150px" th:src="@{'/uploads/' + ${profile.photo}}" alt="userAvatar">
+                                    <img src="" class="avatar-placeholder d-inline-block mt-2" style="max-width: 150px" th:src="@{'/uploads/' + ${profile.photo}}" alt="userAvatar">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="profile-bio">简介</label>

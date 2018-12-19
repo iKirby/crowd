@@ -24,7 +24,7 @@ public class AppConfig implements WebMvcConfigurer {
         registry.addInterceptor(userLoginInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/js/**", "/css/**", "/font/**", "/img/**")
-                .excludePathPatterns("/error", "/admin/**");
+                .excludePathPatterns("/error", "/uploads/**", "/get/**", "/admin/**");
         registry.addInterceptor(adminLoginInterceptor)
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/css/**", "/admin/fonts/**", "/admin/js/**", "/admin/plugins/**");

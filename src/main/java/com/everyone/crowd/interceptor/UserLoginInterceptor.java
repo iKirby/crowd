@@ -38,7 +38,7 @@ public class UserLoginInterceptor implements HandlerInterceptor {
             }
             return true;
         } else if (request.getSession().getAttribute("userTo2FA") != null) {
-            if (requestURI.equals("/user/2fa")) {
+            if (requestURI.equals("/user/2fa") || requestURI.equals("/user/logout")) {
                 return true;
             }
             if (isLoginRelated) {

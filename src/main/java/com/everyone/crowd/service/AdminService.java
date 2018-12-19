@@ -12,4 +12,14 @@ public interface AdminService {
     void logout(Admin admin);
 
     void updatePassword(Admin admin);
+
+    Admin findById(Integer id);
+
+    void updateEmail(Admin admin);
+
+    void updateTwoFactor(Admin admin);
+
+    boolean checkPassword(Admin admin, String password);
+
+    boolean checkTwoFactor(Admin admin, int twoFACode);
 }

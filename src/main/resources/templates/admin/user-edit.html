@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="admin/fragments/head :: headFragment('修改用户信息')">
+<head th:replace="admin/fragments/head :: headFragment('编辑用户信息')">
     <meta charset="UTF-8">
-    <title>修改用户信息</title>
+    <title>编辑用户信息</title>
 </head>
 <body class="">
 <div class="page">
@@ -52,12 +52,12 @@
                         <div class="card">
                             <div class="card-header">更多操作</div>
                             <div class="card-body">
-                                <a class="btn btn-outline-danger d-block"
+                                <a class="btn btn-outline-danger btn-block"
                                    th:href="@{/admin/user/delete/{id}(id=${user.id})}">删除用户</a>
-                                <a class="btn btn-outline-primary d-block mt-3"
+                                <a class="btn btn-outline-primary btn-block"
                                    th:href="@{/admin/user/developerproffile/edit/{id}(id=${user.id})}"
                                    th:if="${user.developer}">开发者资料</a>
-                                <a class="btn btn-outline-primary d-block mt-3"
+                                <a class="btn btn-outline-primary btn-block"
                                    th:href="@{/admin/user/customerprofile/edit/{id}(id=${user.id})}"
                                    th:if="${user.customer}">需求方资料</a>
                             </div>

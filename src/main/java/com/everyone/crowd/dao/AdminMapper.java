@@ -23,4 +23,10 @@ public interface AdminMapper {
     @Update("UPDATE t_admins SET cookie = #{cookie} WHERE id = #{id}")
     int updateCookie(@Param("id") Integer id, @Param("cookie") String cookie);
 
+    @Update("UPDATE t_admins SET email = #{email} WHERE id = #{id}")
+    int updateEmail(@Param("id") Integer id, @Param("email") String email);
+
+    @Update("UPDATE t_admins SET two_factor = #{twoFactor} WHERE id = #{id}")
+    int updateTwoFactor(@Param("id") Integer id, @Param("twoFactor") String twoFactor);
+
 }

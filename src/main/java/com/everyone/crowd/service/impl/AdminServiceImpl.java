@@ -30,8 +30,9 @@ public class AdminServiceImpl implements AdminService {
                     String cookie = admin.getUsername() + UUID.randomUUID().toString();
                     adminMapper.updateCookie(admin.getId(), cookie);
                     admin.setCookie(cookie);
+                } else {
+                    admin.setTwoFactor("");
                 }
-                admin.setTwoFactor(null);
                 admin.setPassword(null);
                 return admin;
             }
@@ -47,7 +48,8 @@ public class AdminServiceImpl implements AdminService {
             adminMapper.updateCookie(admin.getId(), cookie);
             admin.setCookie(cookie);
             admin.setTwoFactor("");
-            admin.setCookie(null);
+            admin.setPassword(null);
+            return admin;
         }
         return null;
     }
@@ -65,7 +67,39 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public void updatePassword(Admin admin) {
+        admin.setPassword(MD5Util.saltEncrypt(admin.getPassword()));
         adminMapper.updatePassword(admin.getId(), admin.getPassword());
     }
 
+    @Override
+    public Admin findById(Integer id) {
+        Admin admin = adminMapper.findById(id);
+        if (admin != null) {
+            admin.setPassword(null);
+            admin.setTwoFactor(admin.getTwoFactor() != null ? "" : null);
+        }
+        return admin;
+    }
+
+    @Override
+    @Transactional
+    public void updateEmail(Admin admin) {
+        adminMapper.updateEmail(admin.getId(), admin.getEmail());
+    }
+
+    @Override
+    @Transactional
+    public void updateTwoFactor(Admin admin) {
+        adminMapper.updateTwoFactor(admin.getId(), admin.getTwoFactor());
+    }
+
+    @Override
+    public boolean checkPassword(Admin admin, String password) {
+        return MD5Util.verifySaltedString(adminMapper.findById(admin.getId()).getPassword(), password);
+    }
+
+    @Override
+    public boolean checkTwoFactor(Admin admin, int twoFACode) {
+        return ga.authorize(adminMapper.findById(admin.getId()).getTwoFactor(), twoFACode);
+    }
 }

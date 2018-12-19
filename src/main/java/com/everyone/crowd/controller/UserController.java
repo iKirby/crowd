@@ -124,9 +124,6 @@ public class UserController {
     public String twoFactorLogin(Model model, HttpServletResponse response, HttpSession session,
                                  @RequestParam(value = "twoFactorCode") int twoFactorCode,
                                  @RequestParam(value = "from", defaultValue = "/") String from) {
-        if (session.getAttribute("userTo2FA") == null) {
-            return "redirect:" + from;
-        }
         User userResult = userService.twoFactorAuth((User) session.getAttribute("userTo2FA"), twoFactorCode);
         if (userResult != null) {
             session.removeAttribute("userTo2FA");
@@ -256,7 +253,7 @@ public class UserController {
                         user.setPassword(null);
                     } else {
                         CookieUtil.addMessage(response, "user",
-                                new Message(Message.TYPE_WARNING, "密码和确认密码不匹配"), "/");
+                                new Message(Message.TYPE_WARNING, "新密码和确认密码不匹配"), "/");
                     }
                 } else {
                     CookieUtil.addMessage(response, "user",
