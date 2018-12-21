@@ -36,4 +36,7 @@ public interface FeedbackMapper {
 
     @Update("UPDATE t_feedbacks SET reply = #{reply} WHERE id = #{id}")
     int reply(@Param("id") Integer id, @Param("reply") String reply);
+
+    @Delete("DELETE FROM t_feedbacks WHERE id = #{id}")
+    int delete(@Param("id") Integer id);
 }

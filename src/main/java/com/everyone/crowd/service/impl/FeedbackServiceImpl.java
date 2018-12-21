@@ -71,4 +71,10 @@ public class FeedbackServiceImpl implements FeedbackService {
     public void reply(Integer id, String reply) {
         feedbackMapper.reply(id, reply);
     }
+
+    @Override
+    @Transactional
+    public void delete(Integer id) {
+        feedbackMapper.delete(id);
+    }
 }

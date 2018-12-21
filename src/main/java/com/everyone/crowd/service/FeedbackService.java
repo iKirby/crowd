@@ -16,4 +16,6 @@ public interface FeedbackService {
     int submit(Feedback feedback);
 
     void reply(Integer id, String reply);
+
+    void delete(Integer id);
 }
