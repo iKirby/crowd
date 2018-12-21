@@ -37,7 +37,7 @@ public class FeedbackManageController {
     public String viewFeedback(Model model, @PathVariable("id") Integer id) {
         Feedback feedback = feedbackService.findById(id);
         model.addAttribute("feedback", feedback);
-        model.addAttribute("username", userService.findById(id).getUsername());
+        model.addAttribute("username", userService.findById(feedback.getUserId()).getUsername());
         return "admin/feedback-view";
     }
 

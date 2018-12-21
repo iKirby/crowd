@@ -44,7 +44,11 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <div class="form-label">用户</div>
+                                    <label class="form-label">反馈时间</label>
+                                    <p th:text="${#dates.format(feedback.submitTime, 'yyyy-MM-dd HH:mm')}"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">用户</label>
                                     <p th:text="${username}"></p>
                                 </div>
                                 <a class="btn btn-outline-danger btn-block"
