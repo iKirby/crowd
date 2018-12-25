@@ -67,6 +67,11 @@
                             </div>
                         </li>
                         <li class="nav-item">
+                            <a href="#" class="nav-link" th:href="@{/admin/announcement}"
+                               th:classappend="${#request.requestURI.contains('/announcement') ? 'active' : ''}">
+                                <i class="fe fe-align-left"></i>公告</a>
+                        </li>
+                        <li class="nav-item">
                             <a href="#" class="nav-link" th:href="@{/admin/feedback}"
                                th:classappend="${#request.requestURI.contains('/feedback') ? 'active' : ''}">
                                 <i class="fe fe-message-square"></i>反馈</a>
