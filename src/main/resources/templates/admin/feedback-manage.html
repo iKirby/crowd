@@ -60,10 +60,10 @@
                             </div>
                             <div class="card-footer">
                                 <a href="#" class="btn btn-sm btn-secondary"
-                                   th:href="@{'/admin/feedback?page=' + ${feedbacks.currentPage - 1}}"
+                                   th:href="@{/admin/feedback(page=${feedbacks.currentPage - 1})}"
                                    th:if="${!feedbacks.isFirst()}">&laquo; 上一页</a>
                                 <a href="#" class="btn btn-sm btn-secondary"
-                                   th:href="@{'/admin/feedback?page=' + ${feedbacks.currentPage + 1}}"
+                                   th:href="@{/admin/feedback(page=${feedbacks.currentPage + 1})}"
                                    th:if="${!feedbacks.isLast()}">下一页 &raquo;</a>
                             </div>
                         </div>
