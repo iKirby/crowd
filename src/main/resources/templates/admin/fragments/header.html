@@ -43,35 +43,32 @@
             <div class="row align-items-center">
                 <div class="col-lg order-lg-first">
                     <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
-                        <li class="nav-item">
+                        <li class="nav-item dropdown">
                             <a href="#" class="nav-link" th:href="@{/admin/dashboard}"
                                th:classappend="${#request.requestURI.contains('/dashboard') ? 'active' : ''}">
                                 <i class="fe fe-home"></i>仪表板</a>
                         </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link" th:href="@{/admin/demand}"
                                th:classappend="${#request.requestURI.contains('/demand') ? 'active' : ''}">
-                                <i class="fe fe-box"></i> 需求</a>
-                            <div class="dropdown-menu dropdown-menu-arrow">
-                                <a href="#" class="dropdown-item " th:href="@{/admin/demand}">需求管理</a>
-                                <a href="#" class="dropdown-item ">统计信息</a>
-                            </div>
+                                <i class="fe fe-box"></i>需求</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
+                            <a href="#" class="nav-link" th:href="@{/admin/bid}"
                                th:classappend="${#request.requestURI.contains('/bid') ? 'active' : ''}">
                                 <i class="fe fe-target"></i>竞标</a>
-                            <div class="dropdown-menu dropdown-menu-arrow">
-                                <a href="#" class="dropdown-item " th:href="@{/admin/bid}">竞标管理</a>
-                                <a href="#" class="dropdown-item ">统计信息</a>
-                            </div>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item dropdown">
+                            <a href="#" class="nav-link" th:href="@{/admin/order}"
+                               th:classappend="${#request.requestURI.contains('/order') ? 'active' : ''}">
+                                <i class="fe fe-tag"></i>订单</a>
+                        </li>
+                        <li class="nav-item dropdown">
                             <a href="#" class="nav-link" th:href="@{/admin/announcement}"
                                th:classappend="${#request.requestURI.contains('/announcement') ? 'active' : ''}">
                                 <i class="fe fe-align-left"></i>公告</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item dropdown">
                             <a href="#" class="nav-link" th:href="@{/admin/feedback}"
                                th:classappend="${#request.requestURI.contains('/feedback') ? 'active' : ''}">
                                 <i class="fe fe-message-square"></i>反馈</a>
@@ -79,7 +76,7 @@
                         <li class="nav-item dropdown">
                             <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
                                th:classappend="${#request.requestURI.contains('/user') ? 'active' : ''}">
-                                <i class="fe fe-users"></i> 用户</a>
+                                <i class="fe fe-users"></i>用户</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
                                 <a href="#" class="dropdown-item " th:href="@{/admin/user}">用户管理</a>
                                 <a href="#" class="dropdown-item " th:href="@{/admin/user/developerprofile}">开发者管理</a>
@@ -89,8 +86,16 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
+                               th:classappend="${#request.requestURI.contains('/stat') ? 'active' : ''}">
+                                <i class="fe fe-pie-chart"></i>统计</a>
+                            <div class="dropdown-menu dropdown-menu-arrow">
+                                <a href="#" class="dropdown-item " th:href="@{/admin/stat}">placeholder</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
                                th:classappend="${#request.requestURI.contains('/system') ? 'active' : ''}">
-                                <i class="fe fe-settings"></i> 系统</a>
+                                <i class="fe fe-settings"></i>系统</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
                                 <a href="#" class="dropdown-item " th:href="@{/admin/system/settings}">系统设置</a>
                                 <a href="#" class="dropdown-item ">数据管理</a>
