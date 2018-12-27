@@ -18,6 +18,9 @@ public interface CustomerProfileMapper {
     @Select("SELECT * FROM t_customerprofiles LIMIT #{offset}, #{size}")
     List<CustomerProfile> findAll(@Param("offset") int offset, @Param("size") int size);
 
+    @Select("SELECT * FROM t_customerprofiles")
+    List<CustomerProfile> findAllMap();
+
     @Insert("INSERT INTO t_customerprofiles (user_id, name, email, phone, photo, addr, alipay, bio, cert, status) VALUES (#{userId}, #{name}, #{email}, #{phone}, #{photo},#{addr},#{alipay},#{bio},#{cert}, #{status})")
     int insert(CustomerProfile customerProfile);
 

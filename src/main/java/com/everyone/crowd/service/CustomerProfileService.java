@@ -12,6 +12,8 @@ public interface CustomerProfileService {
 
     Page<CustomerProfile> findAll(int pageSize, int page);
 
+    Map<Integer, String> getIdNameMap();
+
     Page<CustomerProfile> findByName(String name, int pageSize, int page);
 
     void insert(CustomerProfile customerProfile);
