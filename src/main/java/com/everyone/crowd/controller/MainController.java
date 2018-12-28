@@ -72,6 +72,7 @@ public class MainController {
         model.addAttribute("isSearch", false);
         model.addAttribute("announcements", announcementService.findAll(10, 1));
         model.addAttribute("title", "需求大厅");
+        model.addAttribute("keyword", "");
 
         if (page == 1 && categoryId == 0) {
             Map<String, String> carouselSettings = settingsService.get("carousel_title", "carousel_img", "carousel_link");
@@ -194,6 +195,7 @@ public class MainController {
         model.addAttribute("categoryMap", categoryService.getIdNameMap());
         model.addAttribute("isSearch", true);
         model.addAttribute("announcements", announcementService.findAll(10, 1));
+        model.addAttribute("keyword", keyword == null ? "" : keyword);
         model.addAttribute("title", "搜索结果");
         return "index";
     }

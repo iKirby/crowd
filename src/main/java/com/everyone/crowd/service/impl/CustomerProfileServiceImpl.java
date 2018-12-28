@@ -39,6 +39,15 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     }
 
     @Override
+    public Map<Integer, String> getIdNameMap() {
+        Map<Integer, String> idNameMap = new HashMap<>();
+        for (CustomerProfile customerProfile : customerProfileMapper.findAllMap()) {
+            idNameMap.put(customerProfile.getUserId(), customerProfile.getName());
+        }
+        return idNameMap;
+    }
+
+    @Override
     public Page<CustomerProfile> findByName(String name, int pageSize, int page) {
         int total = customerProfileMapper.countByName(name);
         List<CustomerProfile> content = customerProfileMapper.findByName(name, pageSize * (page - 1), pageSize);

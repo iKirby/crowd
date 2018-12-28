@@ -26,6 +26,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Page<Order> findAll(int pageSize, int page) {
+        int total = orderMapper.countAll();
+        List<Order> content = orderMapper.findAll(pageSize * (page - 1), pageSize);
+        Page<Order> orderPage = new Page<>();
+        orderPage.setContent(content);
+        orderPage.setCurrentPage(page);
+        orderPage.setTotal(total);
+        orderPage.setPageSize(pageSize);
+        return orderPage;
+    }
+
+    @Override
     public Order findById(Integer id) {
         return orderMapper.findById(id);
     }

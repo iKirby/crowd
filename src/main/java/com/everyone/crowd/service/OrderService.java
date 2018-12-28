@@ -9,6 +9,8 @@ import java.util.Map;
 
 public interface OrderService {
 
+    Page<Order> findAll(int pageSize, int page);
+
     Order findById(Integer id);
 
     Page<Order> findByDevId(Integer devId, int pageSize, int page);

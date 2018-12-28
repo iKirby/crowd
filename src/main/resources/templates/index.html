@@ -141,7 +141,7 @@
                         <form th:action="@{/demand/search}">
                             <div class="form-group">
                                 <input placeholder="输入关键词并按下 Enter ..." type="text" id="inputSearch"
-                                       class="form-control" name="keyword">
+                                       class="form-control" name="keyword" th:value="${keyword}">
                             </div>
                             <input type="submit" class="btn btn-primary" value="搜索">
                         </form>
