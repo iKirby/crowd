@@ -78,7 +78,7 @@ public class VerifyRequestServiceImpl implements VerifyRequestService {
             if (passed) userMapper.setDeveloper(request.getUserId(), true);
         } else {
             customerProfileMapper.updateStatus(request.getUserId(), status);
-            if (passed) userMapper.setDeveloper(request.getUserId(), false);
+            if (passed) userMapper.setCustomer(request.getUserId(), true);
         }
         verifyRequestMapper.process(id);
     }
