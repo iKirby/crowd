@@ -248,7 +248,7 @@ public class UserController {
                     }
                 } else {
                     CookieUtil.addMessage(response, "user",
-                            new Message(Message.TYPE_WARNING, "原密码不正确"), "/");
+                            new Message(Message.TYPE_WARNING, "当前密码不正确"), "/");
                 }
                 break;
             case "enable2FA":

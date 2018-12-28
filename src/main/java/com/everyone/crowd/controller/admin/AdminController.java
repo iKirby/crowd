@@ -143,7 +143,7 @@ public class AdminController {
                         CookieUtil.addMessage(response, "admin", new Message(Message.TYPE_WARNING, "新密码和确认密码不匹配"), "/admin");
                     }
                 } else {
-                    CookieUtil.addMessage(response, "admin", new Message(Message.TYPE_WARNING, "原密码不正确"), "/admin");
+                    CookieUtil.addMessage(response, "admin", new Message(Message.TYPE_WARNING, "当前密码不正确"), "/admin");
                 }
                 break;
             case "enable2FA":
