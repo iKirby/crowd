@@ -39,7 +39,8 @@
                                     </thead>
                                     <tbody>
                                     <tr th:each="order : ${orders.content}">
-                                        <td th:text="${demandMap.get(order.demandId)}"></td>
+                                        <td><a class="text-inherit" th:href="@{/admin/order/view/{id}(id=${order.id})}"
+                                               th:text="${demandMap.get(order.demandId)}">title</a></td>
                                         <td th:text="${customerProfileMap.get(order.customerId)}"></td>
                                         <td th:text="${devProfileMap.get(order.devId)}"></td>
                                         <td th:text="${order.price}"></td>
