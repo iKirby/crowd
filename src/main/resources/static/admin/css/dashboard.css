@@ -17065,6 +17065,7 @@ svg {
 
 #message-bar a:hover {
   color: #333!important;
+  text-decoration: none;
 }
 
 #message-bar .container {

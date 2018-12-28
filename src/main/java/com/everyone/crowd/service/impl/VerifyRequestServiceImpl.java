@@ -2,6 +2,7 @@ package com.everyone.crowd.service.impl;
 
 import com.everyone.crowd.dao.CustomerProfileMapper;
 import com.everyone.crowd.dao.DevProfileMapper;
+import com.everyone.crowd.dao.UserMapper;
 import com.everyone.crowd.dao.VerifyRequestMapper;
 import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.entity.VerifyRequest;
@@ -19,14 +20,17 @@ public class VerifyRequestServiceImpl implements VerifyRequestService {
     private final VerifyRequestMapper verifyRequestMapper;
     private final DevProfileMapper devProfileMapper;
     private final CustomerProfileMapper customerProfileMapper;
+    private final UserMapper userMapper;
 
     @Autowired
     public VerifyRequestServiceImpl(VerifyRequestMapper verifyRequestMapper,
                                     DevProfileMapper devProfileMapper,
-                                    CustomerProfileMapper customerProfileMapper) {
+                                    CustomerProfileMapper customerProfileMapper,
+                                    UserMapper userMapper) {
         this.verifyRequestMapper = verifyRequestMapper;
         this.devProfileMapper = devProfileMapper;
         this.customerProfileMapper = customerProfileMapper;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -71,8 +75,10 @@ public class VerifyRequestServiceImpl implements VerifyRequestService {
         String status = passed ? ProfileStatus.VERIFIED.name() : ProfileStatus.FAILED.name();
         if (request.getType().equals(UserType.DEVELOPER.name())) {
             devProfileMapper.updateStatus(request.getUserId(), status);
+            if (passed) userMapper.setDeveloper(request.getUserId(), true);
         } else {
             customerProfileMapper.updateStatus(request.getUserId(), status);
+            if (passed) userMapper.setDeveloper(request.getUserId(), false);
         }
         verifyRequestMapper.process(id);
     }
