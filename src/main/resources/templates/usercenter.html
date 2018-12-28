@@ -144,6 +144,10 @@
                                     您还未申请开发者认证，认证后才可使用相关功能。
                                     <a href="#" class="alert-link float-right" th:href="@{/user/profile/verify}">申请认证</a>
                                 </div>
+                                <div class="alert alert-info" th:if="${devProfile.status == 'FAILED'}">
+                                    您的开发者认证申请未通过，请重新申请。
+                                    <a href="#" class="alert-link float-right" th:href="@{/user/profile/verify}">申请认证</a>
+                                </div>
                                 <div class="shadow-sm p-3 mb-3 bg-white">
                                     <form method="post" enctype="multipart/form-data"
                                           th:action="@{/user/profile/updateDev}" th:object="${devProfile}">
@@ -229,6 +233,10 @@
                                 </div>
                                 <div class="alert alert-info" th:if="${customerProfile.status == 'UNVERIFIED'}">
                                     您还未申请需求方认证，认证后才可使用相关功能。
+                                    <a href="#" class="alert-link float-right" th:href="@{/user/profile/verify}">申请认证</a>
+                                </div>
+                                <div class="alert alert-info" th:if="${customerProfile.status == 'FAILED'}">
+                                    您的需求方认证申请未通过，请重新申请。
                                     <a href="#" class="alert-link float-right" th:href="@{/user/profile/verify}">申请认证</a>
                                 </div>
                                 <div class="shadow-sm p-3 mb-3 bg-white">
