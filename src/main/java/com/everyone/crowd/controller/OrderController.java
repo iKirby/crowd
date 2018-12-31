@@ -7,6 +7,7 @@ import com.everyone.crowd.entity.exception.NotFoundException;
 import com.everyone.crowd.entity.status.DemandStatus;
 import com.everyone.crowd.entity.status.OrderStatus;
 import com.everyone.crowd.service.*;
+import com.everyone.crowd.util.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
@@ -159,5 +161,34 @@ public class OrderController {
         } else {
             throw new NotAcceptableException("请求非法，无法处理支付");
         }
+    }
+
+    @GetMapping("/order/accept/{id}")
+    public String acceptOrder(HttpSession session, HttpServletResponse response,
+                              @PathVariable("id") Integer id, @RequestParam("action") String action) {
+        Order order = orderService.findById(id);
+        if (order == null) throw new NotFoundException("找不到请求的订单信息");
+        User user = (User) session.getAttribute("user");
+        boolean success = false;
+        switch (action) {
+            case "request":
+                if (user.getId().equals(order.getDevId()) && order.getStatus().equals(OrderStatus.PAID.name())) {
+                    orderService.updateStatus(id, OrderStatus.PENDING.name());
+                    CookieUtil.addMessage(response, "user",
+                            new Message(Message.TYPE_SUCCESS, "申请成功，请等待需求方验收"), "/");
+                    success = true;
+                }
+                break;
+            case "pass":
+                if (user.getId().equals(order.getCustomerId()) && order.getStatus().equals(OrderStatus.PENDING.name())) {
+                    orderService.completeOrder(id, new Date());
+                    CookieUtil.addMessage(response, "user",
+                            new Message(Message.TYPE_SUCCESS, "已经通过验收"), "/");
+                    success = true;
+                }
+                break;
+        }
+        if (!success) throw new NotAcceptableException("请求非法，无法处理验收过程");
+        return "redirect:/order/view/" + id;
     }
 }

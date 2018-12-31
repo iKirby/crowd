@@ -32,14 +32,11 @@
                 </div>
                 <div class="shadow-sm p-3 mb-3 bg-white">
                     <div class="text-black-50">订单时间</div>
-                    <div class="sh4" th:text="${#dates.format(order.orderTime, 'yyyy-MM-dd HH:mm')}">2019-01-01 13:24
-                    </div>
+                    <div class="sh4" th:text="${#dates.format(order.orderTime, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
                 <div class="shadow-sm p-3 mb-3 bg-white" th:if="${order.completeTime != null}">
                     <div class="text-black-50">完成时间</div>
-                    <div class="sh4" th:text="${#dates.format(order.completeTime, 'yyyy-MM-dd HH:mm')}">2019-01-01
-                        13:25
-                    </div>
+                    <div class="sh4" th:text="${#dates.format(order.completeTime, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
                 <div class="shadow-sm p-3 mb-3 bg-white">
                     <div class="text-black-50">状态</div>
@@ -52,12 +49,18 @@
                 <div class="card">
                     <div class="card-header">操作</div>
                     <div class="card-body">
-                        <a class="btn btn-outline-primary d-block" th:href="@{/demand/view/{id}(id=${demand.id})}">查看需求</a>
+                        <a class="btn btn-outline-primary btn-block" th:href="@{/demand/view/{id}(id=${demand.id})}">查看需求</a>
                         <th:block th:if="${isCustomer}">
-                            <a class="btn btn-outline-danger d-block mt-2" th:href="@{/order/delete/{id}(id=${order.id})}"
+                            <a class="btn btn-outline-danger btn-block" th:href="@{/order/delete/{id}(id=${order.id})}"
                                th:if="${order.status == 'UNPAID'}">删除订单</a>
-                            <a class="btn btn-outline-success d-block mt-2" th:href="@{/order/pay/{id}(id=${order.id})}"
+                            <a class="btn btn-outline-success btn-block" th:href="@{/order/pay/{id}(id=${order.id})}"
                                th:if="${order.status == 'UNPAID'}">付款</a>
+                            <a class="btn btn-outline-success btn-block" th:href="@{/order/accept/{id}(id=${order.id}, action='pass')}"
+                               th:if="${order.status == 'PENDING'}">验收通过</a>
+                        </th:block>
+                        <th:block th:if="${isDev}">
+                            <a class="btn btn-outline-success btn-block" th:href="@{/order/accept/{id}(id=${order.id}, action='request')}"
+                               th:if="${order.status == 'PAID'}">申请验收</a>
                         </th:block>
                     </div>
                 </div>

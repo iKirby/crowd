@@ -83,7 +83,6 @@ public interface OrderMapper {
     @Update("UPDATE t_ordercomments SET dev_comment = #{decComment} WHERE order_id = #{orderId}")
     int updateDevComment(@Param("orderId") Integer orderId, @Param("devComment") String devComment);
 
-
-    @Select("SELECT COUNT(*) FROM t_orders")
+    @Select("SELECT COUNT(id) FROM t_orders")
     int countAll();
 }

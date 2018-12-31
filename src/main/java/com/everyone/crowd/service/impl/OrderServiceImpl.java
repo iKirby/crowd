@@ -117,6 +117,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void completeOrder(Integer id, Date completeTime) {
+        orderMapper.updateStatus(id, OrderStatus.COMPLETED.name());
         orderMapper.completeOrder(id, completeTime);
     }
 
@@ -162,6 +163,7 @@ public class OrderServiceImpl implements OrderService {
         Map<String, String> orderStatusMap = new HashMap<>();
         orderStatusMap.put(OrderStatus.UNPAID.name(), "未付款");
         orderStatusMap.put(OrderStatus.PAID.name(), "进行中");
+        orderStatusMap.put(OrderStatus.PENDING.name(), "等待验收");
         orderStatusMap.put(OrderStatus.COMPLETED.name(), "已完成");
         return orderStatusMap;
     }
