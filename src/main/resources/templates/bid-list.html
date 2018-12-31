@@ -20,12 +20,15 @@
                 </div>
                 <div class="alert alert-info" th:if="${demand.status == 'PASS'}">
                     此需求还在竞标阶段。
-                    <a href="#" class="alert-link float-right" th:href="@{/bid/join/{id}(id=${demand.id})}">参与竞标</a>
+                    <a href="#" class="alert-link float-right" th:href="@{/bid/join/{id}(id=${demand.id})}"
+                       th:if="${demand.customerId != session.user.id}">参与竞标</a>
                 </div>
                 <div class="card-list" th:each="bid : ${bids.content}">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <h5 class="card-title"><a th:href="@{/bid/detail/{id}(id=${bid.id})}" th:text="${'￥' + bid.price}">￥5500.0</a></h5>
+                            <h5 class="card-title">
+                                <a th:href="@{/bid/detail/{id}(id=${bid.id})}" th:text="${'￥' + bid.price}">￥5500.0</a>
+                            </h5>
                             <p class="card-text" th:text="${'竞标人: ' + devIdNameMap.get(bid.devId)}">Username</p>
                         </div>
                     </div>

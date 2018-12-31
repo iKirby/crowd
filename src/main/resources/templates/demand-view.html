@@ -40,14 +40,35 @@
                     <div class="text-black-50">附件</div>
                     <div class="sh4"><a href="#" th:href="${'/uploads/' + demand.attachment}">下载附件</a></div>
                 </div>
-                <div class="p-3 mb-3 bg-white" th:if="${demand.status == 'PASS'}">
-                    <div class="text-black-50">对此需求感兴趣？参与竞标即有机会承包项目。</div>
-                    <a href="#" class="btn btn-primary" th:classappend="${demand.status == 'PASS' ? '' : 'disabled'}"
-                       th:href="@{/bid/join/{id}(id=${demand.id})}">参与竞标</a>
-                </div>
-                <div class="p-3 mb-3 bg-white" th:if="${demand.status != 'PASS'}">
-                    <div class="text-black-50">此需求未开放竞标。</div>
-                </div>
+                <th:block th:if="${session.user.developer}">
+                    <th:block th:if="${demand.customerId != session.user.id}">
+                        <div class="p-3 mb-3 bg-white" th:if="${demand.status == 'PASS'}">
+                            <div class="text-black-50">对此需求感兴趣？参与竞标即有机会承包项目。</div>
+                            <a href="#" class="btn btn-primary" th:classappend="${demand.status == 'PASS' ? '' : 'disabled'}"
+                               th:href="@{/bid/join/{id}(id=${demand.id})}">参与竞标</a>
+                        </div>
+                        <div class="p-3 mb-3 bg-white" th:if="${demand.status != 'PASS'}">
+                            <div class="text-black-50">此需求未开放竞标。</div>
+                        </div>
+                    </th:block>
+                    <div class="p-3 mb-3 bg-white" th:if="${demand.customerId == session.user.id}">
+                        <div class="text-black-50">自己不能参与自己的需求的竞标。</div>
+                    </div>
+                </th:block>
+                <th:block th:if="${!session.user.developer}">
+                    <th:block th:if="${demand.customerId != session.user.id}">
+                        <div class="p-3 mb-3 bg-white" th:if="${demand.status == 'PASS'}">
+                            <div class="text-black-50">您还不是开发者，无法参与竞标。</div>
+                            <a href="#" class="btn btn-primary" th:href="@{/user/profile(page=dev)}">认证开发者</a>
+                        </div>
+                        <div class="p-3 mb-3 bg-white" th:if="${demand.status != 'PASS'}">
+                            <div class="text-black-50">此需求未开放竞标。</div>
+                        </div>
+                    </th:block>
+                    <div class="p-3 mb-3 bg-white" th:if="${demand.customerId == session.user.id}">
+                        <div class="text-black-50">自己不能参与自己的需求的竞标。</div>
+                    </div>
+                </th:block>
             </div> <!-- /Left column -->
 
             <!-- Right column -->

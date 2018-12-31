@@ -127,6 +127,7 @@ public class OrderController {
             model.addAttribute("demand", demandService.findById(order.getDemandId()));
             model.addAttribute("orderStatusMap", orderService.getOrderStatusMap());
             model.addAttribute("isCustomer", isCustomer);
+            model.addAttribute("isDev", isDev);
             return "order-view";
         } else {
             throw new ForbiddenException("当前账户无法查看此订单");

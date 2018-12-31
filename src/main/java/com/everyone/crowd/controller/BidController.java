@@ -2,7 +2,9 @@ package com.everyone.crowd.controller;
 
 import com.everyone.crowd.entity.*;
 import com.everyone.crowd.entity.exception.ForbiddenException;
+import com.everyone.crowd.entity.exception.NotAcceptableException;
 import com.everyone.crowd.entity.exception.NotFoundException;
+import com.everyone.crowd.entity.status.DemandStatus;
 import com.everyone.crowd.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -39,9 +41,15 @@ public class BidController {
     }
 
     @GetMapping("/bid/join/{id}")
-    public String joinBid(Model model, @PathVariable("id") Integer demandId) {
+    public String joinBid(Model model, HttpSession session, @PathVariable("id") Integer demandId) {
+        User user = (User) session.getAttribute("user");
+        if (!user.isDeveloper()) throw new NotAcceptableException("您不是开发者，无法参与竞标");
+
         Demand demand = demandService.findById(demandId);
         if (demand == null) throw new NotFoundException("找不到请求的需求信息");
+        if (user.getId().equals(demand.getCustomerId())) throw new NotAcceptableException("自己不能参加自己的需求的竞标");
+        if (!demand.getStatus().equals(DemandStatus.PASS.name())) throw new NotAcceptableException("此需求未开放竞标");
+
         model.addAttribute("demand", demand);
         model.addAttribute("bid", new Bid() {{
             setDemandId(demandId);
@@ -54,6 +62,7 @@ public class BidController {
     @PostMapping("/bid/join")
     public String joinBid(Bid bid, HttpSession session) {
         User user = (User) session.getAttribute("user");
+        if (!user.isDeveloper()) throw new NotAcceptableException("您不是开发者，无法参与竞标");
         bid.setDevId(user.getId());
         bidService.participate(bid);
         return "redirect:/bid/view/" + bid.getDemandId();
