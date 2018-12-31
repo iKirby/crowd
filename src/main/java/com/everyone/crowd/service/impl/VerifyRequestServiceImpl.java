@@ -75,9 +75,11 @@ public class VerifyRequestServiceImpl implements VerifyRequestService {
         String status = passed ? ProfileStatus.VERIFIED.name() : ProfileStatus.FAILED.name();
         if (request.getType().equals(UserType.DEVELOPER.name())) {
             devProfileMapper.updateStatus(request.getUserId(), status);
+            devProfileMapper.updateCert(request.getUserId(), request.getRealName());
             if (passed) userMapper.setDeveloper(request.getUserId(), true);
         } else {
             customerProfileMapper.updateStatus(request.getUserId(), status);
+            customerProfileMapper.updateCert(request.getUserId(), request.getRealName());
             if (passed) userMapper.setCustomer(request.getUserId(), true);
         }
         verifyRequestMapper.process(id);
