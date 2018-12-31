@@ -47,6 +47,7 @@ public class ProfileController {
             } else {
                 FileUtil.deleteFile(uploadPath, current.getPhoto());
             }
+            devProfile.setLevel(current.getLevel());
             devProfile.setStatus(current.getStatus());
             devProfileService.update(devProfile);
         } else {
@@ -67,6 +68,7 @@ public class ProfileController {
             } else {
                 FileUtil.deleteFile(uploadPath, current.getPhoto());
             }
+            customerProfile.setLevel(current.getLevel());
             customerProfile.setStatus(current.getStatus());
             customerProfileService.update(customerProfile);
         } else {
