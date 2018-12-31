@@ -30,6 +30,9 @@ public class AdminLoginInterceptor implements HandlerInterceptor {
             if (admin != null) {
                 request.getSession().setAttribute("admin", admin);
             }
+        } else if (request.getSession().getAttribute("admin") != null) {
+            Admin admin = (Admin) request.getSession().getAttribute("admin");
+            request.getSession().setAttribute("admin", adminService.findById(admin.getId()));
         }
 
         if (request.getSession().getAttribute("admin") != null) {

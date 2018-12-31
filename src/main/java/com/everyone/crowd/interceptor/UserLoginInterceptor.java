@@ -30,6 +30,9 @@ public class UserLoginInterceptor implements HandlerInterceptor {
             if (user != null) {
                 request.getSession().setAttribute("user", user);
             }
+        } else if (request.getSession().getAttribute("user") != null) {
+            User user = (User) request.getSession().getAttribute("user");
+            request.getSession().setAttribute("user", userService.findById(user.getId()));
         }
 
         if (request.getSession().getAttribute("user") != null) {
