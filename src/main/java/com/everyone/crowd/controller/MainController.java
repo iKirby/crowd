@@ -118,9 +118,11 @@ public class MainController {
     }
 
     @GetMapping("/demand/edit/{id}")
-    public String editDemand(Model model, @PathVariable("id") Integer id) {
+    public String editDemand(Model model, HttpSession session, @PathVariable("id") Integer id) {
         Demand demand = demandService.findById(id);
         if (demand == null) throw new NotFoundException("找不到请求的需求信息");
+        User user = (User) session.getAttribute("user");
+        if (!demand.getCustomerId().equals(user.getId())) throw new NotAcceptableException("您无法编辑此需求");
         model.addAttribute("demand", demand);
         model.addAttribute("categories", categoryService.findAll());
         return "demand-update";
@@ -131,6 +133,7 @@ public class MainController {
         User user = (User) session.getAttribute("user");
         demand.setCustomerId(user.getId());
         Demand current = demandService.findById(demand.getId());
+        if (!current.getCustomerId().equals(user.getId())) throw new NotAcceptableException("您无法编辑此需求");
         if (demand.getAttachment() == null) {
             demand.setAttachment(current.getAttachment());
         } else {
