@@ -52,7 +52,9 @@ public class OrderManageController {
         model.addAttribute("demandMap", demandService.getIdNameMap());
         model.addAttribute("devProfileMap", devProfileService.getIdNameMap());
         model.addAttribute("customerProfileMap", customerProfileService.getIdNameMap());
-        model.addAttribute("statusMap",  orderService.getOrderStatusMap());
+        model.addAttribute("statusMap", orderService.getOrderStatusMap());
+        model.addAttribute("comment", orderService.findCommentByOrderId(id));
+
         return "admin/order-view";
     }
 }
