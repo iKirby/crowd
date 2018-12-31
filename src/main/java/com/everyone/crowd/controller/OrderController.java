@@ -130,6 +130,8 @@ public class OrderController {
             model.addAttribute("orderStatusMap", orderService.getOrderStatusMap());
             model.addAttribute("isCustomer", isCustomer);
             model.addAttribute("isDev", isDev);
+            OrderComment comment = orderService.findCommentByOrderId(id);
+            model.addAttribute("comment", comment != null ? comment : new OrderComment());
             return "order-view";
         } else {
             throw new ForbiddenException("当前账户无法查看此订单");
@@ -189,6 +191,38 @@ public class OrderController {
                 break;
         }
         if (!success) throw new NotAcceptableException("请求非法，无法处理验收过程");
+        return "redirect:/order/view/" + id;
+    }
+
+    @PostMapping("/order/comment")
+    public String orderComment(HttpSession session, HttpServletResponse response,
+                               @RequestParam("orderId") Integer id, @RequestParam("type") String type,
+                               @RequestParam("comment") String comment) {
+        User user = (User) session.getAttribute("user");
+        Order order = orderService.findById(id);
+        if (order == null) throw new NotFoundException("找不到请求的订单信息");
+        OrderComment orderComment = orderService.findCommentByOrderId(id);
+        switch (type) {
+            case "dev":
+                if (!order.getDevId().equals(user.getId())) throw new NotAcceptableException("非法请求，无法发表评价");
+                if (orderComment == null || orderComment.getDevComment() == null) {
+                    orderService.devComment(id, comment);
+                } else {
+                    throw new NotAcceptableException("不能重复发表评价");
+                }
+                break;
+            case "customer":
+                if (!order.getCustomerId().equals(user.getId())) throw new NotAcceptableException("非法请求，无法发表评价");
+                if (orderComment == null || orderComment.getCustomerComment() == null) {
+                    orderService.customerComment(id, comment);
+                } else {
+                    throw new NotAcceptableException("不能重复发表评价");
+                }
+                break;
+            default:
+                throw new NotAcceptableException("无法处理请求");
+        }
+        CookieUtil.addMessage(response, "user", new Message(Message.TYPE_SUCCESS, "评价已经发表"), "/");
         return "redirect:/order/view/" + id;
     }
 }

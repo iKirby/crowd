@@ -80,7 +80,7 @@ public interface OrderMapper {
     @Update("UPDATE t_ordercomments SET customer_comment = #{customerComment} WHERE order_id = #{orderId}")
     int updateCustomerComment(@Param("orderId") Integer orderId, @Param("customerComment") String customerComment);
 
-    @Update("UPDATE t_ordercomments SET dev_comment = #{decComment} WHERE order_id = #{orderId}")
+    @Update("UPDATE t_ordercomments SET dev_comment = #{devComment} WHERE order_id = #{orderId}")
     int updateDevComment(@Param("orderId") Integer orderId, @Param("devComment") String devComment);
 
     @Select("SELECT COUNT(id) FROM t_orders")
