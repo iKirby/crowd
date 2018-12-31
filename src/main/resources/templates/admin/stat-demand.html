@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('需求统计信息')">
+    <meta charset="UTF-8">
+    <title>需求统计信息</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">
+                        需求统计信息
+                    </h1>
+                </div>
+                <div class="row row-cards">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="chart-demands" style="height: 400px"></div>
+                            </div>
+                            <script th:inline="javascript">
+                                require(['c3', 'jquery'], function (c3, $) {
+                                    let pie = false;
+                                    $(document).ready(function () {
+                                        c3.generate({
+                                            bindto: '#chart-demands',
+                                            data: {
+                                                columns: [
+                                                    ['data1', /*[[${pending}]]*/ 5],
+                                                    ['data2', /*[[${pass}]]*/ 10],
+                                                    ['data3', /*[[${contracted}]]*/ 15],
+                                                    ['data4', /*[[${fail}]]*/ 20]
+                                                ],
+                                                type: 'bar',
+                                                colors: {
+                                                    'data1': tabler.colors["blue-darker"],
+                                                    'data2': tabler.colors["blue-dark"],
+                                                    'data3': tabler.colors["blue"],
+                                                    'data4': tabler.colors["blue-light"],
+                                                },
+                                                names: {
+                                                    'data1': '待审核',
+                                                    'data2': '竞标中',
+                                                    'data3': '已被承包',
+                                                    'data4': '审核不通过'
+                                                },
+                                                onclick: function () {
+                                                    if (pie) {
+                                                        this.transform('bar');
+                                                        pie = false;
+                                                    } else {
+                                                        this.transform('pie');
+                                                        pie = true;
+                                                    }
+                                                }
+                                            },
+                                            axis: {
+                                                x: {
+                                                    type: 'category',
+                                                    categories: ['需求状态']
+                                                },
+                                                y: {
+                                                    tick: {
+                                                        format: function (x) {
+                                                            return x % 1 === 0 ? x : '';
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            tooltip: {
+                                                format: {
+                                                    title: function () {
+                                                        return '需求数量统计';
+                                                    }
+                                                },
+                                                grouped: false
+                                            }
+                                        });
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" th:replace="admin/fragments/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

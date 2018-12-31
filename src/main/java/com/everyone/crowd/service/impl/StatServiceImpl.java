@@ -34,6 +34,16 @@ public class StatServiceImpl implements StatService {
     }
 
     @Override
+    public int getDemandsCount() {
+        return demandMapper.countAll();
+    }
+
+    @Override
+    public int getDemandsCount(String status) {
+        return demandMapper.countByStatus(status);
+    }
+
+    @Override
     public int getOrdersCount(Date startDate) {
         return orderMapper.countByTimeAfter(startDate);
     }
