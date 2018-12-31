@@ -1,16 +1,21 @@
 package com.everyone.crowd.controller.admin;
 
+import com.everyone.crowd.entity.Message;
 import com.everyone.crowd.entity.Order;
+import com.everyone.crowd.entity.OrderComment;
 import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.service.CustomerProfileService;
 import com.everyone.crowd.service.DemandService;
 import com.everyone.crowd.service.DevProfileService;
 import com.everyone.crowd.service.OrderService;
+import com.everyone.crowd.util.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class OrderManageController {
@@ -20,13 +25,14 @@ public class OrderManageController {
     private final CustomerProfileService customerProfileService;
 
 
-    public OrderManageController(OrderService orderService, DemandService demandService, DevProfileService devProfileService, CustomerProfileService customerProfileService) {
+    public OrderManageController(OrderService orderService,
+                                 DemandService demandService,
+                                 DevProfileService devProfileService,
+                                 CustomerProfileService customerProfileService) {
         this.orderService = orderService;
         this.demandService = demandService;
         this.devProfileService = devProfileService;
         this.customerProfileService = customerProfileService;
-
-
     }
 
     @GetMapping("/admin/order")
@@ -41,8 +47,9 @@ public class OrderManageController {
     }
 
     @GetMapping("/admin/order/delete/{id}")
-    public String deleteOrder(@PathVariable("id") Integer id) {
+    public String deleteOrder(HttpServletResponse response, @PathVariable("id") Integer id) {
         orderService.delete(id);
+        CookieUtil.addMessage(response, "admin", new Message(Message.TYPE_SUCCESS, "订单已经删除"), "/admin");
         return "redirect:/admin/order";
     }
 
@@ -53,8 +60,8 @@ public class OrderManageController {
         model.addAttribute("devProfileMap", devProfileService.getIdNameMap());
         model.addAttribute("customerProfileMap", customerProfileService.getIdNameMap());
         model.addAttribute("statusMap", orderService.getOrderStatusMap());
-        model.addAttribute("comment", orderService.findCommentByOrderId(id));
-
+        OrderComment comment = orderService.findCommentByOrderId(id);
+        model.addAttribute("comment", comment != null ? comment : new OrderComment());
         return "admin/order-view";
     }
 }
