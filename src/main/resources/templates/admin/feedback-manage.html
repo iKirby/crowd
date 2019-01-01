@@ -28,6 +28,7 @@
                                     <thead>
                                     <tr>
                                         <th>标题</th>
+                                        <th>状态</th>
                                         <th class="w-1"></th>
                                         <th class="w-1"></th>
                                     </tr>
@@ -36,6 +37,7 @@
                                     <tr th:each="feedback : ${feedbacks.content}">
                                         <td><a class="text-inherit" th:href="@{/admin/feedback/view/{id}(id=${feedback.id})}"
                                                th:text="${feedback.title}">title</a></td>
+                                        <td th:text="${feedback.reply != null ? '已回复' : '未回复'}"></td>
                                         <td>
                                             <a class="icon" th:href="@{/admin/feedback/edit/{id}(id=${feedback.id})}">
                                                 <i class="fe fe-edit"></i>
