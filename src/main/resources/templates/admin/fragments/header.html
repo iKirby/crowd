@@ -45,37 +45,37 @@
                     <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link" th:href="@{/admin/dashboard}"
-                               th:classappend="${#request.requestURI.contains('/dashboard') ? 'active' : ''}">
+                               th:classappend="${#request.requestURI.contains('/admin/dashboard') ? 'active' : ''}">
                                 <i class="fe fe-home"></i>仪表板</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link" th:href="@{/admin/demand}"
-                               th:classappend="${#request.requestURI.contains('/demand') ? 'active' : ''}">
+                               th:classappend="${#request.requestURI.contains('/admin/demand') ? 'active' : ''}">
                                 <i class="fe fe-box"></i>需求</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link" th:href="@{/admin/bid}"
-                               th:classappend="${#request.requestURI.contains('/bid') ? 'active' : ''}">
+                               th:classappend="${#request.requestURI.contains('/admin/bid') ? 'active' : ''}">
                                 <i class="fe fe-target"></i>竞标</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link" th:href="@{/admin/order}"
-                               th:classappend="${#request.requestURI.contains('/order') ? 'active' : ''}">
+                               th:classappend="${#request.requestURI.contains('/admin/order') ? 'active' : ''}">
                                 <i class="fe fe-tag"></i>订单</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link" th:href="@{/admin/announcement}"
-                               th:classappend="${#request.requestURI.contains('/announcement') ? 'active' : ''}">
+                               th:classappend="${#request.requestURI.contains('/admin/announcement') ? 'active' : ''}">
                                 <i class="fe fe-align-left"></i>公告</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link" th:href="@{/admin/feedback}"
-                               th:classappend="${#request.requestURI.contains('/feedback') ? 'active' : ''}">
+                               th:classappend="${#request.requestURI.contains('/admin/feedback') ? 'active' : ''}">
                                 <i class="fe fe-message-square"></i>反馈</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
-                               th:classappend="${#request.requestURI.contains('/user') ? 'active' : ''}">
+                               th:classappend="${#request.requestURI.contains('/admin/user') ? 'active' : ''}">
                                 <i class="fe fe-users"></i>用户</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
                                 <a href="#" class="dropdown-item " th:href="@{/admin/user}">用户管理</a>
@@ -86,7 +86,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
-                               th:classappend="${#request.requestURI.contains('/stat') ? 'active' : ''}">
+                               th:classappend="${#request.requestURI.contains('/admin/stat') ? 'active' : ''}">
                                 <i class="fe fe-pie-chart"></i>统计</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
                                 <a href="#" class="dropdown-item " th:href="@{/admin/stat/demand}">需求统计</a>
@@ -94,7 +94,7 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
-                               th:classappend="${#request.requestURI.contains('/system') ? 'active' : ''}">
+                               th:classappend="${#request.requestURI.contains('/admin/system') ? 'active' : ''}">
                                 <i class="fe fe-settings"></i>系统</a>
                             <div class="dropdown-menu dropdown-menu-arrow">
                                 <a href="#" class="dropdown-item " th:href="@{/admin/system/settings}">系统设置</a>
