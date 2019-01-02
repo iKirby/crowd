@@ -5,12 +5,16 @@ import com.everyone.crowd.entity.Feedback;
 import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.service.FeedbackService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = "feedback")
 public class FeedbackServiceImpl implements FeedbackService {
     private final FeedbackMapper feedbackMapper;
 
@@ -20,6 +24,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
+    @Cacheable(key = "#p0")
     public Feedback findById(Integer id) {
         return feedbackMapper.findById(id);
     }
@@ -68,12 +73,14 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     @Transactional
+    @CacheEvict(key = "#p0")
     public void reply(Integer id, String reply) {
         feedbackMapper.reply(id, reply);
     }
 
     @Override
     @Transactional
+    @CacheEvict(key = "#p0")
     public void delete(Integer id) {
         feedbackMapper.delete(id);
     }

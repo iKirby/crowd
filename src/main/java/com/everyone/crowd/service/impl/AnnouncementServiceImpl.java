@@ -5,12 +5,16 @@ import com.everyone.crowd.entity.Announcement;
 import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.service.AnnouncementService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@CacheConfig(cacheNames = "announcement")
 public class AnnouncementServiceImpl implements AnnouncementService {
 
     private final AnnouncementMapper announcementMapper;
@@ -28,17 +32,20 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     @Transactional
+    @CacheEvict(key = "#p0")
     public void delete(Integer id) {
         announcementMapper.delete(id);
     }
 
     @Override
     @Transactional
+    @CacheEvict(key = "#p0.id")
     public void update(Announcement announcement) {
         announcementMapper.update(announcement);
     }
 
     @Override
+    @Cacheable(key = "#p0")
     public Announcement findById(Integer id) {
         return announcementMapper.findById(id);
     }

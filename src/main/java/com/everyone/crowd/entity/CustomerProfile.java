@@ -19,6 +19,4 @@ public class CustomerProfile {
     private int level;
     private String cert;
     private String status;
-
-
 }

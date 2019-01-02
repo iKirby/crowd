@@ -79,18 +79,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public void logout(User user) {
-        userMapper.updateCookie(user.getId(), null);
-    }
-
-    @Override
-    @Transactional
-    public void update(User user) {
-        userMapper.update(user);
-    }
-
-    @Override
     public boolean usernameExists(String username) {
         return userMapper.countExists(username) > 0;
     }

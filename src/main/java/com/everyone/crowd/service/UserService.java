@@ -13,10 +13,6 @@ public interface UserService {
 
     int register(User user);
 
-    void logout(User user);
-
-    void update(User user);
-
     boolean usernameExists(String username);
 
     boolean activate(String activateCode);
