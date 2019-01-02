@@ -42,10 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Caching(evict = {
             @CacheEvict(key = "'categories'"),
             @CacheEvict(key = "'categoriesIdNameMap'"),
-            @CacheEvict(key = "#p0")
+            @CacheEvict(key = "#p0.id")
     })
-    public void update(Integer id, String name, String description) {
-        categoryMapper.update(id, name, description);
+    public void update(Category category) {
+        categoryMapper.update(category);
     }
 
     @Override

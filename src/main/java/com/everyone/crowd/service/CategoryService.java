@@ -11,7 +11,7 @@ public interface CategoryService {
 
     Category findById(Integer id);
 
-    void update(Integer id, String name, String description);
+    void update(Category category);
 
     int insert(Category category);
 

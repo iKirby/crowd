@@ -15,7 +15,7 @@ public interface CategoryMapper {
     Category findById(@Param("id") Integer id);
 
     @Update("UPDATE t_category SET name=#{name},description=#{description} WHERE id = #{id}")
-    int update(@Param("id") Integer id, @Param("name") String name, @Param("description") String description);
+    int update(Category category);
 
     @Insert("INSERT INTO t_category(name, description) VALUES (#{name}, #{description})")
     int insert(Category category);

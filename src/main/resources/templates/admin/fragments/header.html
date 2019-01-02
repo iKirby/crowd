@@ -49,9 +49,13 @@
                                 <i class="fe fe-home"></i>仪表板</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a href="#" class="nav-link" th:href="@{/admin/demand}"
+                            <a href="javascript:void(0)" class="nav-link" data-toggle="dropdown"
                                th:classappend="${#request.requestURI.contains('/admin/demand') ? 'active' : ''}">
                                 <i class="fe fe-box"></i>需求</a>
+                            <div class="dropdown-menu dropdown-menu-arrow">
+                                <a href="#" class="dropdown-item " th:href="@{/admin/demand}">需求管理</a>
+                                <a href="#" class="dropdown-item " th:href="@{/admin/demand/category}">分类管理</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link" th:href="@{/admin/bid}"
