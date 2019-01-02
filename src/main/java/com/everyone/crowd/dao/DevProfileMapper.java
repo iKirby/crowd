@@ -28,16 +28,16 @@ public interface DevProfileMapper {
     @Update("UPDATE t_devprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, level = #{level},cert = #{cert},status = #{status} WHERE user_id = #{userId}")
     int update(DevProfile devProfile);
 
-    @Delete("DELETE from t_devprofiles where user_id=#{user_id}")
+    @Delete("DELETE from t_devprofiles WHERE user_id=#{user_id}")
     int delete(@Param("user_id") Integer user_id);
 
-    @Update("UPDATE t_devprofiles SET status=#{status} where user_id = #{user_id}")
+    @Update("UPDATE t_devprofiles SET status=#{status} WHERE user_id = #{user_id}")
     int updateStatus(@Param("user_id") Integer user_id, @Param("status") String status);
 
-    @Update("UPDATE t_devprofiles SET level=#{level} where user_id = #{user_id}")
-    int updateLevel(@Param("user_id") Integer user_id, @Param("level") int level);
+    @Update("UPDATE t_devprofiles SET level = level + 1 WHERE user_id = #{user_id}")
+    int updateLevel(@Param("user_id") Integer user_id);
 
-    @Update("UPDATE t_devprofiles SET cert = #{cert} where user_id = #{userId}")
+    @Update("UPDATE t_devprofiles SET cert = #{cert} WHERE user_id = #{userId}")
     int updateCert(@Param("userId") Integer userId, @Param("verify") String cert);
 
     @Select("SELECT COUNT(user_id) FROM t_devprofiles")

@@ -24,7 +24,5 @@ public interface DevProfileService {
 
     void updateStatus(Integer user_id, String status);
 
-    void updateLevel(Integer user_id, int level);
-
     Map<Integer, String> getIdNameMap(List<Integer> ids);
 }

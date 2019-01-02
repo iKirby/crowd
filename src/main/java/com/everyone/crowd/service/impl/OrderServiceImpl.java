@@ -1,5 +1,7 @@
 package com.everyone.crowd.service.impl;
 
+import com.everyone.crowd.dao.CustomerProfileMapper;
+import com.everyone.crowd.dao.DevProfileMapper;
 import com.everyone.crowd.dao.OrderMapper;
 import com.everyone.crowd.entity.Order;
 import com.everyone.crowd.entity.OrderComment;
@@ -19,10 +21,16 @@ import java.util.Map;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderMapper orderMapper;
+    private final DevProfileMapper devProfileMapper;
+    private final CustomerProfileMapper customerProfileMapper;
 
     @Autowired
-    public OrderServiceImpl(OrderMapper orderMapper) {
+    public OrderServiceImpl(OrderMapper orderMapper,
+                            DevProfileMapper devProfileMapper,
+                            CustomerProfileMapper customerProfileMapper) {
         this.orderMapper = orderMapper;
+        this.devProfileMapper = devProfileMapper;
+        this.customerProfileMapper = customerProfileMapper;
     }
 
     @Override
@@ -119,6 +127,9 @@ public class OrderServiceImpl implements OrderService {
     public void completeOrder(Integer id, Date completeTime) {
         orderMapper.updateStatus(id, OrderStatus.COMPLETED.name());
         orderMapper.completeOrder(id, completeTime);
+        Order order = orderMapper.findById(id);
+        devProfileMapper.updateLevel(order.getDevId());
+        customerProfileMapper.updateLevel(order.getCustomerId());
     }
 
     @Override

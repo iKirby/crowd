@@ -84,12 +84,6 @@ public class DevProfileServiceImpl implements DevProfileService {
     }
 
     @Override
-    @Transactional
-    public void updateLevel(Integer user_id, int level) {
-        devProfileMapper.updateLevel(user_id, level);
-    }
-
-    @Override
     public Map<Integer, String> getIdNameMap(List<Integer> ids) {
         List<DevProfile> devProfiles = devProfileMapper.findByIds(ids);
         Map<Integer, String> map = new HashMap<>();

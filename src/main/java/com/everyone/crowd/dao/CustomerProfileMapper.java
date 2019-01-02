@@ -27,16 +27,16 @@ public interface CustomerProfileMapper {
     @Update("UPDATE t_customerprofiles SET name = #{name}, email = #{email}, phone = #{phone}, photo = #{photo}, addr = #{addr}, alipay = #{alipay}, bio = #{bio}, level = #{level},cert = #{cert},status = #{status} WHERE user_id = #{userId}")
     int update(CustomerProfile customerProfile);
 
-    @Delete("DELETE  from t_customerprofiles where  user_id=#{user_id}")
+    @Delete("DELETE  from t_customerprofiles WHERE user_id=#{user_id}")
     int delete(@Param("user_id") Integer user_id);
 
-    @Update("UPDATE t_customerprofiles set status=#{status} where user_id = #{user_id}")
+    @Update("UPDATE t_customerprofiles set status=#{status} WHERE user_id = #{user_id}")
     int updateStatus(@Param("user_id") Integer user_id, @Param("status") String status);
 
-    @Update("UPDATE t_customerprofiles set level=#{level} where user_id = #{user_id}")
-    int updateLevel(@Param("user_id") Integer user_id, @Param("level") int level);
+    @Update("UPDATE t_customerprofiles set level = level + 1 WHERE user_id = #{user_id}")
+    int updateLevel(@Param("user_id") Integer user_id);
 
-    @Update("UPDATE t_customerprofiles SET cert = #{cert} where user_id = #{userId}")
+    @Update("UPDATE t_customerprofiles SET cert = #{cert} WHERE user_id = #{userId}")
     int updateCert(@Param("userId") Integer userId, @Param("verify") String cert);
 
     @Select("SELECT COUNT(user_id) FROM t_customerprofiles")

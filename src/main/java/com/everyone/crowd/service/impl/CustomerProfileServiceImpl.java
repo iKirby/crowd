@@ -84,12 +84,6 @@ public class CustomerProfileServiceImpl implements CustomerProfileService {
     }
 
     @Override
-    @Transactional
-    public void updateLevel(Integer user_id, int level) {
-        customerProfileMapper.updateLevel(user_id, level);
-    }
-
-    @Override
     public Map<Integer, String> getIdNameMap(List<Integer> ids) {
         List<CustomerProfile> customerProfiles = customerProfileMapper.findByIds(ids);
         Map<Integer, String> map = new HashMap<>();
