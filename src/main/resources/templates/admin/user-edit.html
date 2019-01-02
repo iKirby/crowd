@@ -18,12 +18,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <form th:action="@{/admin/user/edit/{id}(id=${user.id})}">
+                                    <input type="hidden" name="action" value="changeEmail">
                                     <div class="form-group">
                                         <label class="form-label" for="email">电子邮箱</label>
                                         <div class="input-group">
-                                            <input type="hidden" value="changeEmail" name="action">
                                             <input placeholder="电子邮箱" type="email" name="email" id="email" class="form-control"
-                                                   th:value="${user.email}">
+                                                   required th:value="${user.email}">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary" type="submit">修改</button>
                                             </div>

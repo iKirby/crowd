@@ -21,11 +21,13 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label class="form-label" for="category-name">分类名</label>
-                                        <input class="form-control" type="text" id="category-name" th:field="*{name}">
+                                        <input class="form-control" type="text" id="category-name" required
+                                               th:field="*{name}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="category-desc">描述</label>
-                                        <input class="form-control" type="text" id="category-desc" th:field="*{description}">
+                                        <input class="form-control" type="text" id="category-desc" required
+                                               th:field="*{description}">
                                     </div>
                                 </div>
                                 <div class="card-footer text-right">
