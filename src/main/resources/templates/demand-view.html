@@ -84,12 +84,12 @@
                         <p class="sh4" th:text="${demand.region}">天津</p>
                         <div class="text-black-50">分类</div>
                         <p class="sh4" th:text="${category.name}">教育</p>
-                        <a class="text-primary" th:href="@{/bid/view/{id}(id=${demand.id})}">查看竞标<i class="mi mi-ChevronRight"></i></a><br/>
-                        <a class="text-primary" th:if="${session.user.id == demand.customerId}"
-                           th:href="@{/demand/edit/{id}(id=${demand.id})}">修改需求信息<i
-                                class="mi mi-ChevronRight"></i></a><br/>
-                        <a class="text-primary" th:if="${session.user.id == demand.customerId}"
-                           th:href="@{/demand/delete/{id}(id=${demand.id})}">删除此需求信息</a>
+                        <a class="btn btn-outline-primary btn-block" th:href="@{/bid/view/{id}(id=${demand.id})}">查看竞标</a>
+                        <a class="btn btn-outline-primary btn-block" th:if="${session.user.id == demand.customerId}"
+                           th:href="@{/demand/edit/{id}(id=${demand.id})}">修改需求信息</a>
+                        <button class="btn btn-outline-danger btn-block" th:if="${session.user.id == demand.customerId}"
+                                onclick="showConfirm('确定要删除此需求吗？', this.getAttribute('data-url'));"
+                                data-th-attr="data-url=@{/demand/delete/{id}(id=${demand.id})}">删除需求</button>
                     </div>
                 </div>
             </div> <!-- /Right column -->

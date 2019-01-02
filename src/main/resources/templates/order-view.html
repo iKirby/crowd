@@ -72,8 +72,9 @@
                         </th:block>
                         <a class="btn btn-outline-primary btn-block" th:href="@{/demand/view/{id}(id=${demand.id})}">查看需求</a>
                         <th:block th:if="${isCustomer}">
-                            <a class="btn btn-outline-danger btn-block" th:href="@{/order/delete/{id}(id=${order.id})}"
-                               th:if="${order.status == 'UNPAID'}">删除订单</a>
+                            <button class="btn btn-outline-danger btn-block" th:if="${order.status == 'UNPAID'}"
+                                    onclick="showConfirm('确定要取消并删除此订单吗？', this.getAttribute('data-url'));"
+                                    data-th-attr="data-url=@{/order/delete/{id}(id=${order.id})}">取消订单</button>
                             <a class="btn btn-outline-success btn-block" th:href="@{/order/pay/{id}(id=${order.id})}"
                                th:if="${order.status == 'UNPAID'}">付款</a>
                             <a class="btn btn-outline-success btn-block" th:href="@{/order/accept/{id}(id=${order.id}, action='pass')}"
