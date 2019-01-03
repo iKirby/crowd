@@ -57,13 +57,15 @@ public class OrderController {
     }
 
     @PostMapping("/order/new")
-    public String confirmOrder(HttpSession session, Order order) {
+    public String confirmOrder(HttpServletResponse response, HttpSession session, Order order) {
         User user = (User) session.getAttribute("user");
         order.setCustomerId(user.getId());
         order.setOrderTime(new Date());
         order.setStatus(OrderStatus.UNPAID.name());
         orderService.place(order);
         demandService.updateStatus(order.getDemandId(), DemandStatus.CONTRACTED.name());
+        CookieUtil.addMessage(response, "user",
+                new Message(Message.TYPE_SUCCESS, "订单已经创建"), "/");
         return "redirect:/order/view/" + order.getId();
     }
 
@@ -139,13 +141,15 @@ public class OrderController {
     }
 
     @GetMapping("/order/delete/{id}")
-    public String deleteOrder(HttpSession session, @PathVariable("id") Integer id) {
+    public String deleteOrder(HttpServletResponse response, HttpSession session, @PathVariable("id") Integer id) {
         Order order = orderService.findById(id);
         if (order == null) throw new NotFoundException("找不到请求的订单信息");
         User user = (User) session.getAttribute("user");
         if (user.getId().equals(order.getCustomerId()) && order.getStatus().equals(OrderStatus.UNPAID.name())) {
             orderService.delete(id);
             demandService.updateStatus(order.getDemandId(), DemandStatus.PASS.name());
+            CookieUtil.addMessage(response, "user",
+                    new Message(Message.TYPE_SUCCESS, "订单已经删除"), "/");
             return "redirect:/order/my/customer";
         } else {
             throw new NotAcceptableException("请求非法，无法删除订单");
@@ -153,12 +157,14 @@ public class OrderController {
     }
 
     @GetMapping("/order/pay/{id}")
-    public String payOrder(HttpSession session, @PathVariable("id") Integer id) {
+    public String payOrder(HttpServletResponse response, HttpSession session, @PathVariable("id") Integer id) {
         Order order = orderService.findById(id);
         if (order == null) throw new NotFoundException("找不到请求的订单信息");
         User user = (User) session.getAttribute("user");
         if (user.getId().equals(order.getCustomerId()) && order.getStatus().equals(OrderStatus.UNPAID.name())) {
             orderService.updateStatus(id, OrderStatus.PAID.name());
+            CookieUtil.addMessage(response, "user",
+                    new Message(Message.TYPE_SUCCESS, "支付成功"), "/");
             return "redirect:/order/view/" + id;
         } else {
             throw new NotAcceptableException("请求非法，无法处理支付");
