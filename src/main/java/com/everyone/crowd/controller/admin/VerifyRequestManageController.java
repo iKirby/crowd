@@ -83,7 +83,7 @@ public class VerifyRequestManageController {
         if (request.getType().equals("DEVELOPER")) {
             model.addAttribute("profile", devProfileService.findById(request.getUserId()));
         } else {
-            model.addAttribute("profile", devProfileService.findById(request.getUserId()));
+            model.addAttribute("profile", customerProfileService.findById(request.getUserId()));
         }
 
         return "admin/verify-view";

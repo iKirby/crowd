@@ -37,7 +37,7 @@ public interface CustomerProfileMapper {
     int updateLevel(@Param("user_id") Integer user_id);
 
     @Update("UPDATE t_customerprofiles SET cert = #{cert} WHERE user_id = #{userId}")
-    int updateCert(@Param("userId") Integer userId, @Param("verify") String cert);
+    int updateCert(@Param("userId") Integer userId, @Param("cert") String cert);
 
     @Select("SELECT COUNT(user_id) FROM t_customerprofiles")
     int countAll();

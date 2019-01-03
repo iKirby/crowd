@@ -4,7 +4,6 @@ import com.everyone.crowd.dao.sqlprovider.DevProfileSQLProvider;
 import com.everyone.crowd.entity.DevProfile;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -38,7 +37,7 @@ public interface DevProfileMapper {
     int updateLevel(@Param("user_id") Integer user_id);
 
     @Update("UPDATE t_devprofiles SET cert = #{cert} WHERE user_id = #{userId}")
-    int updateCert(@Param("userId") Integer userId, @Param("verify") String cert);
+    int updateCert(@Param("userId") Integer userId, @Param("cert") String cert);
 
     @Select("SELECT COUNT(user_id) FROM t_devprofiles")
     int countAll();
