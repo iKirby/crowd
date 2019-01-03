@@ -10,7 +10,7 @@
         <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
         <div class="my-3 my-md-5">
             <form class="container" method="post" enctype="multipart/form-data"
-                  th:action="@{/admin/{user}/edit(user=${user})}" th:object="${profile}">
+                  th:action="@{/admin/user/{type}/edit(type=${user})}" th:object="${profile}">
                 <div class="page-header">
                     <h1 class="page-title" th:text="${title}">编辑资料</h1>
                 </div>
@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <a href="#" class="btn btn-secondary" th:href="@{/admin/user/{user}(user=${user})}">返回列表</a>
+                                <a href="#" class="btn btn-secondary" th:href="@{/admin/user/{type}(type=${user})}">返回列表</a>
                                 <input type="submit" class="btn btn-primary" value="保存">
                             </div>
                         </div>
