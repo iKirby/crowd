@@ -2,10 +2,12 @@ package com.everyone.crowd.controller.admin;
 
 import com.everyone.crowd.entity.CustomerProfile;
 import com.everyone.crowd.entity.DevProfile;
+import com.everyone.crowd.entity.Message;
 import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.entity.status.ProfileStatus;
 import com.everyone.crowd.service.CustomerProfileService;
 import com.everyone.crowd.service.DevProfileService;
+import com.everyone.crowd.util.CookieUtil;
 import com.everyone.crowd.util.FileUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -115,19 +118,23 @@ public class ProfileManageController {
     }
 
     @GetMapping("/admin/user/customerprofile/delete/{userId}")
-    public String deleteCustomerProfile(@PathVariable("userId") Integer userId) {
+    public String deleteCustomerProfile(HttpServletResponse response, @PathVariable("userId") Integer userId) {
         customerProfileService.delete(userId);
+        CookieUtil.addMessage(response, "admin",
+                new Message(Message.TYPE_SUCCESS, "资料已经删除"), "/admin");
         return "redirect:/admin/user/customerprofile";
     }
 
     @GetMapping("/admin/user/developerprofile/delete/{userId}")
-    public String deleteDeveloperProfile(@PathVariable("userId") Integer userId) {
+    public String deleteDeveloperProfile(HttpServletResponse response, @PathVariable("userId") Integer userId) {
         devProfileService.delete(userId);
+        CookieUtil.addMessage(response, "admin",
+                new Message(Message.TYPE_SUCCESS, "资料已经删除"), "/admin");
         return "redirect:/admin/user/developerprofile";
     }
 
     @PostMapping("/admin/user/customerprofile/edit")
-    public String editCustomerProfile(CustomerProfile customerProfile) {
+    public String editCustomerProfile(HttpServletResponse response, CustomerProfile customerProfile) {
         CustomerProfile current = customerProfileService.findById(customerProfile.getUserId());
         if (customerProfile.getPhoto() == null) {
             customerProfile.setPhoto(current.getPhoto());
@@ -135,11 +142,13 @@ public class ProfileManageController {
             FileUtil.deleteFile(uploadPath, current.getPhoto());
         }
         customerProfileService.update(customerProfile);
+        CookieUtil.addMessage(response, "admin",
+                new Message(Message.TYPE_SUCCESS, "更改已经保存"), "/admin");
         return "redirect:/admin/user/customerprofile";
     }
 
     @PostMapping("/admin/user/developerprofile/edit")
-    public String editDeveloperProfile(DevProfile devProfile) {
+    public String editDeveloperProfile(HttpServletResponse response, DevProfile devProfile) {
         DevProfile current = devProfileService.findById(devProfile.getUserId());
         if (devProfile.getPhoto() == null) {
             devProfile.setPhoto(current.getPhoto());
@@ -147,6 +156,8 @@ public class ProfileManageController {
             FileUtil.deleteFile(uploadPath, current.getPhoto());
         }
         devProfileService.update(devProfile);
+        CookieUtil.addMessage(response, "admin",
+                new Message(Message.TYPE_SUCCESS, "更改已经保存"), "/admin");
         return "redirect:/admin/user/developerprofile";
     }
 
