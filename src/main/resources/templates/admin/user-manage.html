@@ -44,7 +44,7 @@
                                         <th>电子邮箱</th>
                                         <th>余额</th>
                                         <th class="w-1"></th>
-                                        <th class="w-1"></th>
+                                        <!--<th class="w-1"></th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -59,19 +59,19 @@
                                                 <i class="fe fe-edit"></i>
                                             </a>
                                         </td>
-                                        <td>
-                                            <div class="item-action dropdown">
-                                                <a href="javascript:void(0)" data-toggle="dropdown" class="icon"
-                                                   aria-expanded="false"><i class="fe fe-trash"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-right"
-                                                     x-placement="bottom-end"
-                                                     style="position: absolute; transform: translate3d(15px, 20px, 0px); top: 0; left: 0; will-change: transform;">
-                                                    <a th:href="@{/admin/user/delete/{id}(id=${user.id})}"
-                                                       class="dropdown-item">
-                                                        <i class="dropdown-icon fe fe-trash"></i> 删除</a>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        <!--<td>-->
+                                            <!--<div class="item-action dropdown">-->
+                                                <!--<a href="javascript:void(0)" data-toggle="dropdown" class="icon"-->
+                                                   <!--aria-expanded="false"><i class="fe fe-trash"></i></a>-->
+                                                <!--<div class="dropdown-menu dropdown-menu-right"-->
+                                                     <!--x-placement="bottom-end"-->
+                                                     <!--style="position: absolute; transform: translate3d(15px, 20px, 0px); top: 0; left: 0; will-change: transform;">-->
+                                                    <!--<a th:href="@{/admin/user/delete/{id}(id=${user.id})}"-->
+                                                       <!--class="dropdown-item">-->
+                                                        <!--<i class="dropdown-icon fe fe-trash"></i> 删除</a>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</td>-->
                                     </tr>
                                     </tbody>
                                 </table>
