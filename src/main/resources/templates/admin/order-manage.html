@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('订单管理')">
+    <meta charset="UTF-8">
+    <title>订单管理</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">
+                        订单管理
+                    </h1>
+                </div>
+                <div class="row row-cards row-deck">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    全部订单
+                                </h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table card-table table-vcenter text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>需求名称</th>
+                                        <th>需求方</th>
+                                        <th>开发者</th>
+                                        <th>价格</th>
+                                        <th>下单时间</th>
+                                        <th>完成时间</th>
+                                        <th>状态</th>
+                                        <th class="w-1"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="order : ${orders.content}">
+                                        <td><a class="text-inherit" th:href="@{/admin/order/view/{id}(id=${order.id})}"
+                                               th:text="${demandMap.get(order.demandId)}">title</a></td>
+                                        <td th:text="${customerProfileMap.get(order.customerId)}"></td>
+                                        <td th:text="${devProfileMap.get(order.devId)}"></td>
+                                        <td th:text="${order.price}"></td>
+                                        <td th:text="${#dates.format(order.orderTime, 'yyyy-MM-dd HH:mm')}"></td>
+                                        <td th:text="${#dates.format(order.completeTime, 'yyyy-MM-dd HH:mm')}"></td>
+                                        <td th:text="${statusMap.get(order.status)}"></td>
+                                        <td>
+                                            <div class="item-action dropdown">
+                                                <a href="javascript:void(0)" data-toggle="dropdown" class="icon"
+                                                   aria-expanded="false"><i class="fe fe-trash"></i></a>
+                                                <div class="dropdown-menu dropdown-menu-right"
+                                                     x-placement="bottom-end"
+                                                     style="position: absolute; transform: translate3d(15px, 20px, 0px); top: 0; left: 0; will-change: transform;">
+                                                    <a th:href="@{/admin/order/delete/{id}(id=${order.id})}"
+                                                       class="dropdown-item">
+                                                        <i class="dropdown-icon fe fe-trash"></i> 删除</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{'/admin/order?page=' + ${orders.currentPage - 1}}"
+                                   th:if="${!orders.isFirst()}">&laquo; 上一页</a>
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{'/admin/order?page=' + ${orders.currentPage + 1}}"
+                                   th:if="${!orders.isLast()}">下一页 &raquo;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" th:replace="admin/fragments/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

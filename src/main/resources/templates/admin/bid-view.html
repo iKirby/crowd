@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('竞标信息')">
+    <meta charset="UTF-8">
+    <title>竞标信息</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">竞标信息</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="form-label">需求名称</label>
+                                    <p th:text="${demandMap.get(bid.demandId)}"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">开发者</label>
+                                    <p th:text="${devProfileMap.get(bid.devId)}"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">价格</label>
+                                    <p th:text="${bid.price}"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">附加信息</label>
+                                    <p th:text="${bid.msg}"></p>
+                                </div>
+                                <div class="form-group" th:if="${bid.attachment != null}">
+                                    <label class="form-label">附件</label>
+                                    <a th:href="@{/uploads/{attachment}(attachment=${bid.attachment})}">下载附件</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card">
+                            <div class="card-header">更多操作</div>
+                            <div class="card-body">
+                                <a class="btn btn-outline-danger btn-block"
+                                   th:href="@{/admin/bid/delete/{id}(id=${bid.id})}">删除竞标</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="admin/fragments/footer :: footerFragment"></footer>
+</body>
+</html>

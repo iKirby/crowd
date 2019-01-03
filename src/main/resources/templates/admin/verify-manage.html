@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('认证审核')">
+    <meta charset="UTF-8">
+    <title>认证审核</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">
+                        认证审核
+                    </h1>
+                </div>
+                <div class="row row-cards row-deck">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <th:block th:if="${!processed}">
+                                    <h3 class="card-title">
+                                        未处理请求
+                                    </h3>
+                                    <div class="card-options">
+                                        <a class="btn btn-sm btn-primary"
+                                           th:href="@{/admin/user/verify(processed=true)}">已处理</a>
+                                    </div>
+                                </th:block>
+                                <th:block th:if="${processed}">
+                                    <h3 class="card-title">
+                                        已处理请求
+                                    </h3>
+                                    <div class="card-options">
+                                        <a class="btn btn-sm btn-primary"
+                                           th:href="@{/admin/user/verify(processed=false)}">未处理</a>
+                                    </div>
+                                </th:block>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table card-table table-vcenter text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>认证名</th>
+                                        <th>真实姓名</th>
+                                        <th>认证类型</th>
+                                        <th class="w-1"></th>
+                                        <th class="w-1"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="verifyRequest : ${verifyRequests.content}">
+                                        <td th:if="${verifyRequest.type == 'DEVELOPER'}">
+                                            <a class="text-inherit" th:href="@{/admin/user/verify/view/{id}(id=${verifyRequest.id})}"
+                                               th:text="${devIdNameMap.get(verifyRequest.userId)}">verifyName</a></td>
+                                        <td th:if="${verifyRequest.type == 'CUSTOMER'}">
+                                            <a class="text-inherit" th:href="@{/admin/user/verify/view/{id}(id=${verifyRequest.id})}"
+                                               th:text="${customerIdNameMap.get(verifyRequest.userId)}">verifyName</a></td>
+                                        <td><a class="text-inherit" th:text="${verifyRequest.getRealName()}">realName</a></td>
+                                        <td><a class="text-inherit"
+                                               th:text="${verifyRequest.type == 'DEVELOPER' ? '开发者' : '需求方'}">type</a></td>
+                                        <td>
+                                            <a class="icon" th:href="@{/admin/verify/view/{id}(id=${verifyRequest.id})}">
+                                                <i class="fe fe-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="item-action dropdown">
+                                                <a href="javascript:void(0)" data-toggle="dropdown" class="icon"
+                                                   aria-expanded="false"><i class="fe fe-trash"></i></a>
+                                                <div class="dropdown-menu dropdown-menu-right"
+                                                     x-placement="bottom-end"
+                                                     style="position: absolute; transform: translate3d(15px, 20px, 0px); top: 0; left: 0; will-change: transform;">
+                                                    <a th:href="@{/admin/user/verify/delete/{id}(id=${verifyRequest.id})}"
+                                                       class="dropdown-item">
+                                                        <i class="dropdown-icon fe fe-trash"></i> 删除</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/user/verify(page=${verifyRequests.currentPage - 1}, processed=${processed})}"
+                                   th:if="${!verifyRequests.isFirst()}">&laquo; 上一页</a>
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/user/verify(page=${verifyRequests.currentPage + 1}, processed=${processed})}"
+                                   th:if="${!verifyRequests.isLast()}">下一页 &raquo;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" th:replace="admin/fragments/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

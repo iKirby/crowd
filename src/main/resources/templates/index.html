@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment(${title})">
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div id="mainCarousel" class="carousel slide" data-ride="carousel" th:if="${carouselTitle}">
+        <div class="carousel-inner">
+            <div class="carousel-item" th:each="carouselLabel, it : ${carouselTitle}" th:classappend="${it.index == 0 ? 'active' : ''}">
+                <a target="_blank" th:href="${carouselLink.get(it.index)}">
+                    <img class="d-block w-100" src="" alt="First slide" th:src="${carouselImg.get(it.index)}">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5 class="font-weight-bold" th:text="${carouselLabel}">First slide label</h5>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#mainCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#mainCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="welcome-bar" th:if="${session.user == null}">
+        <div class="container">
+            <span class="font-weight-bold">欢迎来到 CROWD 众包平台</span>。在这里，我们开创式地为人才与雇主搭建起双边市场，通过资源整合，实现人才与雇主精准无缝对接。
+            <br><a th:href="@{'/user/login?action=register'}" class="d-inline-block">立即注册 &raquo;</a>
+        </div>
+    </div>
+
+    <div class="container container-main">
+        <!-- Example row of columns -->
+        <h2 class="h2" th:if="${isSearch}">搜索结果</h2>
+        <div class="row slide-up-fade-in">
+            <!-- Left column -->
+            <div class="col-md-8">
+                <div class="form-group" th:if="${!isSearch}">
+                    <a class="btn" role="button" th:href="@{/}"
+                       th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
+                    <th:block th:each="category : ${categoryMap}">
+                        <a href="#" class="btn" role="button" th:text="${category.value}"
+                           th:href="@{/(category=${category.key})}"
+                           th:classappend="${categoryId == category.key ? 'btn-info' : 'btn-outline-info'}">分类</a>
+                    </th:block>
+                </div>
+                <hr>
+                <div class="alert alert-info" th:if="${demands.content.isEmpty()}">没有找到任何需求</div>
+                <div class="card-list">
+                    <div class="card mb-3" th:each="demand : ${demands.content}">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span class="badge badge-info" th:text="${categoryMap.get(demand.categoryId)}">教育</span>
+                                <a th:href="@{/demand/view/{id}(id=${demand.id})}" th:text="${demand.title}">XXX</a>
+                            </h5>
+                            <div class=" card-text">
+                                <div class="card-text-item">
+                                    期限: <span
+                                        th:text="${#dates.format(demand.startDate,'yyyy-MM-dd')} + '~' + ${#dates.format(demand.endDate,'yyyy-MM-dd')}"></span>
+                                </div>
+                                <div class="card-text-item">
+                                    地区: <span th:text="${demand.region}"></span>
+                                </div>
+                                <div class="card-text-item">
+                                    发布日期: <span
+                                        th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}"></span>
+                                    <span class="text-danger float-right list-price h5" th:text="'￥' + ${demand.price}">5600.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- pagination -->
+                <nav aria-label="Page navigation" th:if="${demands.totalPage > 1}">
+                    <ul class="pagination" th:if="${categoryId == 0}">
+                        <li class="page-item" th:if="${!demands.isFirst()}">
+                            <a class="page-link" href="#" aria-label="Previous"
+                               th:href="@{/(page=${demands.currentPage - 1})}">
+                                <span aria-hidden="true">
+                                    <i class="mi mi-ChevronLeft"></i> Prev
+                                </span>
+                                <span class="sr-only">Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
+                            th:classappend="${demands.currentPage == i ? 'active' : ''}">
+                            <a class="page-link" th:href="@{/(page=${i})}" th:text="${i}">1</a>
+                        </li>
+                        <li class="page-item" th:if="${!demands.isLast()}">
+                            <a class="page-link" href="#" aria-label="Next"
+                               th:href="@{/(page=${demands.currentPage + 1})}">
+                                <span aria-hidden="true">Next
+                                    <i class="mi mi-ChevronRight"></i>
+                                </span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="pagination" th:if="${categoryId != 0}">
+                        <li class="page-item" th:if="${!demands.isFirst()}">
+                            <a class="page-link" href="#" aria-label="Previous" th:href="@{/(category=${categoryId}, page=${demands.currentPage - 1})}">
+                                <span aria-hidden="true">
+                                    <i class="mi mi-ChevronLeft"></i> Prev
+                                </span>
+                                <span class="sr-only">Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
+                            th:classappend="${demands.currentPage == i ? 'active' : ''}">
+                            <a class="page-link" th:href="@{/(category=${categoryId}, page=${i})}" th:text="${i}">1</a>
+                        </li>
+                        <li class="page-item" th:if="${!demands.isLast()}">
+                            <a class="page-link" href="#" aria-label="Next" th:href="@{/(category=${categoryId}, page=${demands.currentPage + 1})}">
+                                <span aria-hidden="true">Next
+                                    <i class="mi mi-ChevronRight"></i>
+                                </span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div> <!-- /Left column -->
+
+            <!-- Right column -->
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        搜索需求
+                        <a href="#" class="text-primary float-right" th:href="@{/demand/search}">高级</a>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/demand/search}">
+                            <div class="form-group">
+                                <input placeholder="输入关键词并按下 Enter ..." type="text" id="inputSearch"
+                                       class="form-control" name="keyword" th:value="${keyword}">
+                            </div>
+                            <input type="submit" class="btn btn-primary" value="搜索">
+                        </form>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">公告</div>
+                    <div class="card-body">
+                        <ul class="card-ul">
+                            <li th:each="announcement : ${announcements.content}">
+                                <a th:href="@{/announcements/{id}(id=${announcement.id})}"
+                                   th:text="'&nbsp;'+ ${announcement.title} + '&nbsp;'">1</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div> <!-- /Right column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

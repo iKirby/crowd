@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('需求管理')">
+    <meta charset="UTF-8">
+    <title>需求管理</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">
+                        需求管理
+                    </h1>
+                </div>
+                <div class="row row-cards row-deck">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title" th:text="${cardTitle}">
+                                    全部需求
+                                </h3>
+                                <div class="card-options">
+                                    <form th:action="@{/admin/demand}">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control form-control-sm"
+                                                   placeholder="搜索&hellip;" name="keyword" th:value="${keyword}">
+                                            <span class="input-group-btn ml-2">
+                                                <button class="btn btn-sm btn-default" type="submit">
+                                                    <span class="fe fe-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table card-table table-vcenter text-nowrap">
+                                    <thead>
+                                    <tr>
+                                        <th>标题</th>
+                                        <th>发布时间</th>
+                                        <th>发布者</th>
+                                        <th>分类</th>
+                                        <th>状态</th>
+                                        <th class="w-1"></th>
+                                        <th class="w-1"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="demand : ${demands.content}">
+                                        <td>
+                                            <a class="text-inherit" th:href="@{/admin/demand/edit/{id}(id=${demand.id})}"
+                                               th:text="${demand.title}">title</a></td>
+                                        <td th:text="${#dates.format(demand.publishTime, 'yyyy-MM-dd HH:mm')}"></td>
+                                        <td th:text="${customerMap.get(demand.customerId)}"></td>
+                                        <td th:text="${categoryMap.get(demand.categoryId)}"></td>
+                                        <td th:text="${statusMap.get(demand.status)}"></td>
+                                        <td>
+                                            <a class="icon" th:href="@{/admin/demand/edit/{id}(id=${demand.id})}">
+                                                <i class="fe fe-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="item-action dropdown">
+                                                <a href="javascript:void(0)" data-toggle="dropdown" class="icon"
+                                                   aria-expanded="false"><i class="fe fe-trash"></i></a>
+                                                <div class="dropdown-menu dropdown-menu-right"
+                                                     x-placement="bottom-end"
+                                                     style="position: absolute; transform: translate3d(15px, 20px, 0px); top: 0; left: 0; will-change: transform;">
+                                                    <a th:href="@{/admin/demand/delete/{id}(id=${demand.id})}"
+                                                       class="dropdown-item">
+                                                        <i class="dropdown-icon fe fe-trash"></i> 删除</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer" th:if="${keyword == null}">
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/demand(page=${demands.currentPage - 1})}"
+                                   th:if="${!demands.isFirst()}">&laquo; 上一页</a>
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/demand(page=${demands.currentPage + 1})}"
+                                   th:if="${!demands.isLast()}">下一页 &raquo;</a>
+                            </div>
+                            <div class="card-footer" th:if="${keyword}">
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/demand(keyword=${keyword}, page=${demands.currentPage - 1})}"
+                                   th:if="${!demands.isFirst()}">&laquo; 上一页</a>
+                                <a href="#" class="btn btn-sm btn-secondary"
+                                   th:href="@{/admin/demand(keyword=${keyword}, page=${demands.currentPage + 1})}"
+                                   th:if="${!demands.isLast()}">下一页 &raquo;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" th:replace="admin/fragments/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('两步验证')">
+    <meta charset="UTF-8">
+    <title>两步验证</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <h2 class="h2">两步验证</h2>
+        <div class="row slide-up-fade-in">
+            <!-- Left column -->
+            <div class="col-md-8">
+                <div class="alert alert-info">
+                    您的账户启用了两步验证，请输入您的两步验证验证码以完成登录。
+                </div>
+                <form method="post" th:action="@{/user/2fa}">
+                    <input type="hidden" name="from" th:value="${from}">
+                    <div class="form-group">
+                        <input type="number" name="twoFactorCode" placeholder="输入数字验证码" class="form-control">
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="提交">
+                </form>
+            </div> <!-- /Left column -->
+
+            <!-- Right column -->
+            <div class="col-md-4">
+            </div> <!-- /Right column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

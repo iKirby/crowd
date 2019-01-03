@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('我的需求')">
+    <meta charset="UTF-8">
+    <title>我的需求</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <!-- Example row of columns -->
+        <h2 class="h2">我的需求</h2>
+        <div class="row slide-up-fade-in">
+            <!-- Left column -->
+            <div class="col-md-8">
+                <div class="form-group">
+                    <a class="btn" role="button" th:href="@{/demand/my}"
+                       th:classappend="${categoryId == 0 ? 'btn-info' : 'btn-outline-info'}">全部</a>
+                    <th:block th:each="category : ${categoryMap}">
+                        <a href="#" class="btn" role="button" th:text="${category.value}"
+                           th:href="@{/demand/my(category=${category.key})}"
+                           th:classappend="${categoryId == category.key ? 'btn-info' : 'btn-outline-info'}">分类</a>
+                    </th:block>
+                </div>
+                <hr>
+                <div class="alert alert-info" th:if="${demands.content.isEmpty()}">没有找到任何需求</div>
+                <div class="card-list">
+                    <div class="card mb-3" th:each="demand : ${demands.content}">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span class="badge badge-info" th:text="${categoryMap.get(demand.categoryId)}">教育</span>
+                                <a th:href="@{/demand/view/{id}(id=${demand.id})}" th:text="${demand.title}">XXX</a>
+                                <span class="text-danger float-right list-price" th:text="${statusMap.get(demand.status)}">审核中</span>
+                            </h5>
+                            <div class=" card-text">
+                                <div class="card-text-item">
+                                    期限: <span
+                                        th:text="${#dates.format(demand.startDate,'yyyy-MM-dd')} + '~' + ${#dates.format(demand.endDate,'yyyy-MM-dd')}"></span>
+                                </div>
+                                <div class="card-text-item">
+                                    地区: <span th:text="${demand.region}"></span>
+                                </div>
+                                <div class="card-text-item">
+                                    发布日期:
+                                    <span th:text="${#dates.format(demand.publishTime,'yyyy-MM-dd HH:mm')}"></span>
+                                    <span class="text-danger float-right list-price h5" th:text="'￥' + ${demand.price}">5600.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav aria-label="Page navigation" th:if="${demands.totalPage > 1}">
+                    <ul class="pagination" th:if="${categoryId == 0}">
+                        <li class="page-item" th:if="${!demands.isFirst()}">
+                            <a class="page-link" href="#" aria-label="Previous"
+                               th:href="@{/demand/my(page=${demands.currentPage - 1})}">
+                                <span aria-hidden="true">
+                                    <i class="mi mi-ChevronLeft"></i> Prev
+                                </span>
+                                <span class="sr-only">Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
+                            th:classappend="${demands.currentPage == i ? 'active' : ''}">
+                            <a class="page-link" th:href="@{/demand/my(page=${i})}" th:text="${i}">1</a>
+                        </li>
+                        <li class="page-item" th:if="${!demands.isLast()}">
+                            <a class="page-link" href="#" aria-label="Next"
+                               th:href="@{/demand/my(page=${demands.currentPage + 1})}">
+                                <span aria-hidden="true">Next
+                                    <i class="mi mi-ChevronRight"></i>
+                                </span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="pagination" th:if="${categoryId != 0}">
+                        <li class="page-item" th:if="${!demands.isFirst()}">
+                            <a class="page-link" href="#" aria-label="Previous" th:href="@{/demand/my(category=${categoryId}, page=${demands.currentPage - 1})}">
+                                <span aria-hidden="true">
+                                    <i class="mi mi-ChevronLeft"></i> Prev
+                                </span>
+                                <span class="sr-only">Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
+                            th:classappend="${demands.currentPage == i ? 'active' : ''}">
+                            <a class="page-link" th:href="@{/demand/my(category=${categoryId}, page=${i})}" th:text="${i}">1</a>
+                        </li>
+                        <li class="page-item" th:if="${!demands.isLast()}">
+                            <a class="page-link" href="#" aria-label="Next" th:href="@{/demand/my(category=${categoryId}, page=${demands.currentPage + 1})}">
+                                <span aria-hidden="true">Next
+                                    <i class="mi mi-ChevronRight"></i>
+                                </span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div> <!-- /Left column -->
+
+            <!-- Right column -->
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        发布需求
+                    </div>
+                    <div class="card-body">
+                        <a href="#" class="btn btn-outline-default" th:href="@{/demand/new}">发布需求</a>
+                    </div>
+                </div>
+            </div> <!-- /Right column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

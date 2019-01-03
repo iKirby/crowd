@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('个人设置')">
+    <meta charset="UTF-8">
+    <title>个人设置</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">个人设置</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="post" th:action="@{/admin/profile}">
+                                    <input type="hidden" name="action" value="changeEmail">
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">电子邮箱</label>
+                                        <div class="input-group">
+                                            <input placeholder="电子邮箱" type="email" name="email" id="email" class="form-control" required
+                                                   th:value="${session.admin.email}">
+                                            <div class="input-group-append">
+                                                <button class="btn btn-primary" type="submit">修改</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <hr>
+                                <form method="post" th:action="@{/admin/profile}">
+                                    <input type="hidden" name="action" value="changePassword">
+                                    <div class="form-group">
+                                        <label class="form-label" for="password">当前密码</label>
+                                        <input class="form-control" type="password" name="password" id="password" placeholder="当前密码" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="new-password">新密码</label>
+                                        <input class="form-control" type="password" name="newPassword" id="new-password" placeholder="新密码" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="confirm-password">确认密码</label>
+                                        <input class="form-control" type="password" name="confirmPassword" id="confirm-password" placeholder="确认密码" required>
+                                    </div>
+                                    <input class="btn btn-primary" type="submit" value="修改密码">
+                                </form>
+                                <hr>
+                                <div class="form-group">
+                                    <label class="form-label">两步验证</label>
+                                    <th:block th:if="${session.admin.twoFactor == null}">
+                                        <div class="alert alert-info">
+                                            使用身份验证器应用扫描下方的二维码或输入代码添加账户，然后提交应用中生成的验证码以启用两步验证。启用后，在登录时将要求您输入两步验证代码。
+                                        </div>
+                                        <img src="" alt="两步验证二维码" th:src="@{/get/qr(content=${twoFactorTotpURL})}">
+                                        <p>
+                                            KEY: <code th:text="${twoFactorKey}">2faKey</code>
+                                        </p>
+                                        <form method="post" th:action="@{/admin/profile}">
+                                            <input type="hidden" name="action" value="enable2FA">
+                                            <input type="hidden" name="twoFactorKey" th:value="${twoFactorKey}">
+                                            <div class="form-group">
+                                                <input class="form-control" type="number" name="twoFactorCode" placeholder="输入两步验证验证码" required>
+                                            </div>
+                                            <input type="submit" class="btn btn-primary" value="启用两步验证">
+                                        </form>
+                                    </th:block>
+                                    <th:block th:if="${session.admin.twoFactor != null}">
+                                        <div class="alert alert-info">您已启用两步验证，在下方输入两步验证代码可以将其停用。停用两步验证将会降低您账户的安全性。
+                                        </div>
+                                        <form method="post" th:action="@{/admin/profile}">
+                                            <input type="hidden" name="action" value="disable2FA">
+                                            <div class="form-group">
+                                                <input class="form-control" type="number" name="twoFactorCode" placeholder="输入两步验证验证码" required>
+                                            </div>
+                                            <input type="submit" class="btn btn-primary" value="停用两步验证">
+                                        </form>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <!--<div class="card">-->
+
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" th:replace="admin/fragments/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

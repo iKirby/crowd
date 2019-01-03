@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('邮箱验证')">
+    <meta charset="UTF-8">
+    <title>邮箱验证</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <h2 class="h2">邮箱验证</h2>
+        <div class="row slide-up-fade-in">
+            <!-- Left column -->
+            <div class="col-md-8">
+                <p th:text="${message}"></p>
+                <a class="btn btn-primary" th:href="@{/user/profile}">继续</a>
+            </div> <!-- /Left column -->
+
+            <!-- Right column -->
+            <div class="col-md-4">
+            </div> <!-- /Right column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('订单信息')">
+    <meta charset="UTF-8">
+    <title>订单信息</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <div class="container">
+                <div class="page-header">
+                    <h1 class="page-title">订单信息</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="form-label">需求名称</label>
+                                    <p th:text="${demandMap.get(order.demandId)}"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">开发者</label>
+                                    <p th:text="${devProfileMap.get(order.devId)}"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">需求方</label>
+                                    <p th:text="${customerProfileMap.get(order.customerId)}"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">价格</label>
+                                    <p th:text="${'￥' + order.price}"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">下单时间</label>
+                                    <p th:text="${#dates.format(order.getOrderTime(), 'yyyy-MM-dd HH:mm')}"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">完成时间</label>
+                                    <p th:text="${#dates.format(order.completeTime, 'yyyy-MM-dd HH:mm')}"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">状态</label>
+                                    <p th:text="${statusMap.get(order.status)}"></p>
+                                </div>
+                                <div class="form-group" th:if="${comment.devComment != null}">
+                                    <label class="form-label">开发者评价</label>
+                                    <p th:text="${comment.devComment}"></p>
+                                </div>
+                                <div class="form-group" th:if="${comment.customerComment != null}">
+                                    <label class="form-label">需求方评价</label>
+                                    <p th:text="${comment.customerComment}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card">
+                            <div class="card-header">更多操作</div>
+                            <div class="card-body">
+                                <a class="btn btn-outline-primary btn-block"
+                                   th:href="@{/admin/demand/edit/{id}(id=${order.demandId})}">查看需求</a>
+                                <a class="btn btn-outline-danger btn-block"
+                                   th:href="@{/admin/order/delete/{id}(id=${order.id})}">删除订单</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="admin/fragments/footer :: footerFragment"></footer>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('参与竞标')">
+    <meta charset="UTF-8">
+    <title>参与竞标</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <!-- Example row of columns -->
+        <div class="text-black-50">参与竞标</div>
+        <h2 class="h2" th:text="${demand.title}">XXX 网络教学平台</h2>
+        <div class="row slide-up-fade-in">
+            <!-- Left column -->
+            <div class="col-md-8">
+                <div class="alert alert-info" th:if="${demand.status != 'PASS'}">
+                    此需求未开放竞标。
+                </div>
+                <div class="alert alert-warning" th:if="${demand.status == 'PASS'}">
+                    参与竞标后，您在开发者资料中填写的<span class="font-weight-bold">电子邮箱地址</span>将可以被需求方查看。
+                </div>
+                <div class="shadow-sm p-3 mb-5 bg-white" th:if="${demand.status == 'PASS'}">
+                    <form method="post" enctype="multipart/form-data" th:action="@{/bid/join}" th:object="${bid}">
+                        <input type="hidden" th:field="*{demandId}">
+                        <div class="form-group">
+                            <label for="bid-price">竞标价格</label>
+                            <input placeholder="输入您可以接受的价格" type="number" id="bid-price" class="form-control" required
+                                   th:field="*{price}">
+                        </div>
+                        <div class="form-group">
+                            <label for="attach-message">附加信息</label>
+                            <textarea placeholder="附加信息" id="attach-message" class="form-control" rows="5"
+                                      required th:field="*{msg}"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-photo">提交有利于您在竞标中被选中的附件（可选）</label>
+                            <input type="file" id="customer-photo" class="form-control" name="attachment">
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="参与竞标">
+                    </form>
+                </div>
+            </div> <!-- /Left column -->
+
+            <!-- Right column -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">需求简介</div>
+                    <div class="card-body">
+                        <div class="text-black-50">发布者</div>
+                        <p class="sh4" th:text="${customer.name}">CUSTOMER1</p>
+                        <div class="text-black-50">预期价格</div>
+                        <p class="sh4" th:text="${'￥' + demand.price}">￥5600.00</p>
+                        <div class="text-black-50">分类</div>
+                        <p class="sh4" th:text="${category.name}">教育</p>
+                        <a class="btn btn-outline-primary btn-block" th:href="@{/demand/view/{id}(id=${demand.id})}">查看详情</a>
+                    </div>
+                </div>
+            </div> <!-- /Right column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

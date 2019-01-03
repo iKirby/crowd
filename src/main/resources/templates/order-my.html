@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment(${title})">
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <!-- Example row of columns -->
+        <h2 class="h2" th:text="${title}">我的订单</h2>
+        <div class="row slide-up-fade-in">
+            <!-- Left column -->
+            <div class="col-md-8">
+                <div class="form-group">
+                    <a class="btn" role="button" th:href="@{{requestURI}(requestURI=${#request.requestURI})}"
+                       th:classappend="${(status == null || status == '') ? 'btn-info' : 'btn-outline-info'}">全部</a>
+                    <th:block th:each="orderStatus : ${orderStatusMap}">
+                        <a href="#" class="btn" role="button" th:text="${orderStatus.value}"
+                           th:href="@{{requestURI}(requestURI=${#request.requestURI}, status=${orderStatus.key})}"
+                           th:classappend="${status == orderStatus.key ? 'btn-info' : 'btn-outline-info'}">状态</a>
+                    </th:block>
+                </div>
+                <hr>
+                <div class="alert alert-info" th:if="${orders.content.isEmpty()}">没有找到任何订单</div>
+                <div class="card-list">
+                    <div class="card mb-3" th:each="order : ${orders.content}">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <span class="badge badge-info" th:text="${orderStatusMap.get(order.status)}">未支付</span>
+                                <a th:href="@{/order/view/{id}(id=${order.id})}" th:text="${'订单 ' + order.id}">订单 5</a>
+                                <span class="text-danger float-right list-price" th:text="${'￥' + order.price}">价格</span>
+                            </h5>
+                            <div class=" card-text">
+                                <div class="card-text-item">
+                                    订单时间: <span th:text="${#dates.format(order.orderTime,'yyyy-MM-dd')}"></span>
+                                </div>
+                                <div class="card-text-item" th:if="${customerIdNameMap != null}">
+                                    需求方: <span th:text="${customerIdNameMap.get(order.customerId)}"></span>
+                                </div>
+                                <div class="card-text-item" th:if="${devIdNameMap != null}">
+                                    开发者: <span th:text="${devIdNameMap.get(order.devId)}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav aria-label="Page navigation" th:if="${orders.totalPage > 1}">
+                    <ul class="pagination" th:if="${status == null || status == ''}">
+                        <li class="page-item" th:if="${!orders.isFirst()}">
+                            <a class="page-link" href="#" aria-label="Previous"
+                               th:href="@{{requestURI}(requestURI=${#request.requestURI}, page=${orders.currentPage - 1})}">
+                                <span aria-hidden="true">
+                                    <i class="mi mi-ChevronLeft"></i> Prev
+                                </span>
+                                <span class="sr-only">Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, orders.getTotalPage())}"
+                            th:classappend="${orders.currentPage == i ? 'active' : ''}">
+                            <a class="page-link" th:href="@{{requestURI}(requestURI=${#request.requestURI}, page=${i})}" th:text="${i}">1</a>
+                        </li>
+                        <li class="page-item" th:if="${!orders.isLast()}">
+                            <a class="page-link" href="#" aria-label="Next"
+                               th:href="@{{requestURI}(requestURI=${#request.requestURI}, page=${orders.currentPage + 1})}">
+                                <span aria-hidden="true">Next
+                                    <i class="mi mi-ChevronRight"></i>
+                                </span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="pagination" th:if="${status != null && status != ''}">
+                        <li class="page-item" th:if="${!orders.isFirst()}">
+                            <a class="page-link" href="#" aria-label="Previous"
+                               th:href="@{{requestURI}(requestURI=${#request.requestURI}, status=${status}, page=${orders.currentPage - 1})}">
+                                <span aria-hidden="true">
+                                    <i class="mi mi-ChevronLeft"></i> Prev
+                                </span>
+                                <span class="sr-only">Prev</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, orders.getTotalPage())}"
+                            th:classappend="${orders.currentPage == i ? 'active' : ''}">
+                            <a class="page-link" th:href="@{{requestURI}(requestURI=${#request.requestURI}, status=${status}, page=${i})}"
+                               th:text="${i}">1</a>
+                        </li>
+                        <li class="page-item" th:if="${!orders.isLast()}">
+                            <a class="page-link" href="#" aria-label="Next"
+                               th:href="@{{requestURI}(requestURI=${#request.requestURI}, status=${status}, page=${orders.currentPage + 1})}">
+                                <span aria-hidden="true">Next
+                                    <i class="mi mi-ChevronRight"></i>
+                                </span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div> <!-- /Left column -->
+
+            <!-- Right column -->
+            <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        提示
+                    </div>
+                    <div class="card-body">
+                        对订单有疑问？
+                        <a href="#" class="text-primary" th:href="@{/feedback/new}">发送反馈</a>
+                    </div>
+                </div>
+            </div> <!-- /Right column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

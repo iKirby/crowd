@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('发送反馈')">
+    <meta charset="UTF-8">
+    <title>发送反馈</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <!-- Example row of columns -->
+        <h2 class="h2">发送反馈</h2>
+        <div class="row slide-up-fade-in">
+            <div class="col-md-8">
+                <div class="shadow-sm p-3 mb-3 bg-white">
+                    <form method="post" th:action="@{/feedback/new}" th:object="${feedback}">
+                        <div class="form-group">
+                            <label for="page-url">页面链接</label>
+                            <input placeholder="要发送反馈的页面的链接（可选）" type="text" id="page-url" class="form-control"
+                                   th:field="*{url}">
+                        </div>
+                        <div class="form-group">
+                            <label for="feedback-title">反馈标题</label>
+                            <input placeholder="简要描述您的反馈" type="text" id="feedback-title" class="form-control" required
+                                   th:field="*{title}">
+                        </div>
+                        <div class="form-group">
+                            <label for="feedback-content">反馈内容</label>
+                            <textarea placeholder="输入您要反馈的具体内容" id="feedback-content" class="form-control" required
+                                      rows="10" th:field="*{content}"></textarea>
+                        </div>
+                        <input id="submit" class="btn btn-primary" type="submit" value="发送反馈">
+                    </form>
+                </div>
+            </div>
+            <!-- Right column -->
+            <div class="col-md-4">
+                <!--Card-->
+                <div class="card">
+                    <div class="card-header">提示</div>
+                    <div class="card-body">
+                        请尽量描述清楚反馈内容以便于管理人员处理
+                    </div>
+                </div>
+                <!--/.Card-->
+            </div> <!-- /Right column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

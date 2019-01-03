@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('登录/注册')">
+    <meta charset="UTF-8">
+    <title>登录/注册</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <div class="row slide-up-fade-in">
+            <!-- Left column -->
+            <div class="col-md-8">
+                <ul class="nav nav-tabs fluent-tabs" id="loginTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="login-tab" data-toggle="tab" href="#login" role="tab"
+                           aria-controls="login" aria-selected="true"
+                           th:classappend="${(action != 'register' && action != 'resetPassword') ? 'active' : ''}">登录</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab"
+                           aria-controls="register" aria-selected="false"
+                           th:classappend="${action == 'register' ? 'active' : ''}">注册</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="reset-password-tab" data-toggle="tab" href="#reset-password" role="tab"
+                           aria-controls="reset-password" aria-selected="false"
+                           th:classappend="${action == 'resetPassword' ? 'active' : ''}">重置密码</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="loginTabContent">
+                    <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab"
+                         th:classappend="${(action != 'register' && action != 'resetPassword') ? 'show active' : ''}">
+                        <form method="post" th:action="@{/user/login}" th:object="${userLogin}">
+                            <input type="hidden" name="from" th:value="${from}">
+                            <div class="form-group">
+                                <label for="username">用户名</label>
+                                <input placeholder="用户名" type="text" id="username" class="form-control" required th:field="*{username}">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">密码</label>
+                                <input placeholder="密码" type="password" id="password" class="form-control" required th:field="*{password}">
+                            </div>
+                            <div class="form-group">
+                                <input class="form-check-input" type="checkbox" id="remember-check" name="remember">
+                                <label class="form-check-label" for="remember-check">
+                                    记住登录状态
+                                </label>
+                            </div>
+                            <input id="btn-login" class="btn btn-primary" type="submit" value="登录">
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab"
+                         th:classappend="${action == 'register' ? 'show active' : ''}">
+                        <form method="post" th:action="@{/user/register}" th:object="${userRegister}">
+                            <div class="form-group">
+                                <label for="username-reg">用户名</label>
+                                <input placeholder="用户名" type="text" id="username-reg" class="form-control" required th:field="*{username}">
+                            </div>
+                            <div class="form-group">
+                                <label for="email-reg">电子邮箱</label>
+                                <input placeholder="电子邮箱" type="email" id="email-reg" class="form-control" required th:field="*{email}">
+                            </div>
+                            <div class="form-group">
+                                <label for="password-reg">密码</label>
+                                <input placeholder="密码" type="password" id="password-reg" class="form-control" required th:field="*{password}">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password-reg">确认密码</label>
+                                <input placeholder="密码" type="password" id="confirm-password-reg" name="confirmPassword" class="form-control" required>
+                            </div>
+                            <input id="btn-register" class="btn btn-primary" type="submit" value="注册">
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="reset-password" role="tabpanel" aria-labelledby="forgot-password-tab"
+                         th:classappend="${action == 'resetPassword' ? 'show active' : ''}">
+                        <form method="post" th:action="@{/user/resetPassword}">
+                            <div class="form-group">
+                                <label for="username-reset-password">用户名</label>
+                                <input placeholder="用户名" type="text" id="username-reset-password" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email-reset-password">电子邮箱</label>
+                                <input placeholder="电子邮箱" type="email" id="email-reset-password" name="email" class="form-control" required>
+                            </div>
+                            <input id="btn-reset-password" class="btn btn-primary" type="submit" value="重置密码">
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- /Left column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

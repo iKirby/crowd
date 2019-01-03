@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('竞标列表')">
+    <meta charset="UTF-8">
+    <title>竞标列表</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <!-- Example row of columns -->
+        <div class="text-secondary">竞标列表</div>
+        <h2 class="h2" th:text="${demand.title}">XXX 网络教学平台</h2>
+        <div class="row slide-up-fade-in">
+            <!-- Left column -->
+            <div class="col-md-8">
+                <div class="alert alert-info" th:if="${demand.status != 'PASS'}">
+                    此需求未开放竞标。
+                </div>
+                <div class="alert alert-info" th:if="${demand.status == 'PASS'}">
+                    此需求还在竞标阶段。
+                    <a href="#" class="alert-link float-right" th:href="@{/bid/join/{id}(id=${demand.id})}"
+                       th:if="${demand.customerId != session.user.id}">参与竞标</a>
+                </div>
+                <div class="card-list" th:each="bid : ${bids.content}">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a th:href="@{/bid/detail/{id}(id=${bid.id})}" th:text="${'￥' + bid.price}">￥5500.0</a>
+                            </h5>
+                            <p class="card-text" th:text="${'竞标人: ' + devIdNameMap.get(bid.devId)}">Username</p>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /Left column -->
+
+            <!-- Right column -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">需求简介</div>
+                    <div class="card-body">
+                        <div class="text-secondary">发布者</div>
+                        <p class="sh4" th:text="${customer.name}">CUSTOMER1</p>
+                        <div class="text-secondary">预期价格</div>
+                        <p class="sh4" th:text="${'￥' + demand.price}">￥5600.00</p>
+                        <div class="text-secondary">分类</div>
+                        <p class="sh4" th:text="${category.name}">教育</p>
+                        <a class="btn btn-outline-primary btn-block" th:href="@{/demand/view/{id}(id=${demand.id})}">查看详情</a>
+                    </div>
+                </div>
+            </div> <!-- /Right column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

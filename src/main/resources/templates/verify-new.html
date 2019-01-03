@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('申请认证')">
+    <meta charset="UTF-8">
+    <title>申请认证</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <!-- Example row of columns -->
+        <h2 class="h2">申请认证</h2>
+        <div class="row slide-up-fade-in">
+            <div class="col-md-8">
+                <div class="alert alert-info" th:if="${devProfile.status == 'PENDING'}">
+                    您已经申请了开发者认证，请等待审核。
+                </div>
+                <div class="alert alert-info" th:if="${customerProfile.status == 'PENDING'}">
+                    您已经申请了需求方认证，请等待审核。
+                </div>
+                <div class="alert alert-success" th:if="${devProfile.status == 'VERIFIED'}">
+                    您已经通过了开发者认证。
+                </div>
+                <div class="alert alert-success" th:if="${customerProfile.status == 'VERIFIED'}">
+                    您已经通过了开发者认证。
+                </div>
+                <th:block th:if="${devProfile.status != 'UNVERIFIED' && customerProfile.status != 'UNVERIFIED'
+                 && devProfile.status != 'FAILED' && customerProfile.status != 'FAILED'}">
+                    <p>目前您没有可以申请的认证。</p>
+                    <p>
+                        <a class="btn btn-primary" th:href="@{/user/profile}">返回个人中心</a>
+                    </p>
+                </th:block>
+                <div class="shadow-sm p-3 mb-3 bg-white"
+                     th:if="${devProfile.status == 'UNVERIFIED' || customerProfile.status == 'UNVERIFIED'
+                      || devProfile.status == 'FAILED' || customerProfile.status == 'FAILED'}">
+                    <form method="post" enctype="multipart/form-data" th:action="@{/user/profile/verify}" th:object="${verifyRequest}">
+                        <div class="form-group">
+                            <label for="verify-type">认证类型</label>
+                            <select id="verify-type" class="form-control" required th:field="*{type}">
+                                <option value="DEVELOPER" th:if="${devProfile.status == 'UNVERIFIED' || devProfile.status == 'FAILED'}">
+                                    开发者
+                                </option>
+                                <option value="CUSTOMER" th:if="${customerProfile.status == 'UNVERIFIED' || customerProfile.status == 'FAILED'}">
+                                    需求方
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="real-name">真实姓名</label>
+                            <input placeholder="真实姓名" type="text" id="real-name" class="form-control" required
+                                   th:field="*{realName}">
+                        </div>
+                        <div class="form-group">
+                            <label for="cert-type">证件类型</label>
+                            <select id="cert-type" class="form-control" required th:field="*{certType}">
+                                <option value="身份证">身份证</option>
+                                <option value="护照">护照</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cert-no">证件号码</label>
+                            <input placeholder="证件号码" type="text" id="cert-no" class="form-control" required th:field="*{certNo}">
+                        </div>
+                        <div class="form-group">
+                            <label for="msg">说明</label>
+                            <input placeholder="说明" type="text" id="msg" class="form-control" required th:field="*{msg}">
+                        </div>
+                        <div class="form-group">
+                            <label for="attachment">附件（可选）</label>
+                            <input type="file" id="attachment" class="form-control" name="attachment">
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="提交">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

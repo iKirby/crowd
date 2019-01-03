@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment(${title})">
+    <meta charset="UTF-8">
+    <title th:text="${title}">编辑资料</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <form class="container" method="post" enctype="multipart/form-data"
+                  th:action="@{/admin/user/{type}/edit(type=${user})}" th:object="${profile}">
+                <div class="page-header">
+                    <h1 class="page-title" th:text="${title}">编辑资料</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-name">名称</label>
+                                    <input placeholder="名称" type="text" id="profile-name" name="name"
+                                           class="form-control" required
+                                           th:field="*{name}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-email">电子邮箱</label>
+                                    <input placeholder="电子邮箱" type="email" id="profile-email" name="email"
+                                           class="form-control"
+                                           required
+                                           th:field="*{email}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-phone">电话</label>
+                                    <input placeholder="电话" type="tel" id="profile-phone" name="phone"
+                                           class="form-control" required
+                                           th:field="*{phone}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-photo">照片</label>
+                                    <input type="file" accept=".jpg,.png" id="profile-photo" class="form-control"
+                                           name="photo"
+                                           th:required="${profile.status == null}">
+                                    <img src="" class="avatar-placeholder d-inline-block mt-2" style="max-width: 150px" th:src="@{'/uploads/' + ${profile.photo}}" alt="userAvatar">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-bio">简介</label>
+                                    <input placeholder="简介" type="text" id="profile-bio" name="bio" class="form-control"
+                                           required
+                                           th:field="*{bio}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-alipay">支付宝账号</label>
+                                    <input placeholder="支付宝账号" type="text" id="profile-alipay" name="alipay"
+                                           class="form-control"
+                                           required
+                                           th:field="*{alipay}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-level">等级</label>
+                                    <input placeholder="等级" type="number" id="profile-level" name="level"
+                                           class="form-control"
+                                           required
+                                           th:field="*{level}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="profile-cert">认证</label>
+                                    <input placeholder="认证" type="text" id="profile-cert" name="cert"
+                                           class="form-control"
+                                           th:field="*{cert}">
+                                </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <a href="#" class="btn btn-secondary" th:href="@{/admin/user/{type}(type=${user})}">返回列表</a>
+                                <input type="submit" class="btn btn-primary" value="保存">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="demand-status">状态</label>
+                                            <select class="form-control" id="demand-status" name="status" required
+                                                    th:field="*{status}">
+                                                <option th:each="statusEntry : ${statusMap}"
+                                                        th:text="${statusEntry.value}" th:value="${statusEntry.key}">分类
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" th:field="*{userId}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer class="footer" th:replace="admin/fragments/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

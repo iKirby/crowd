@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">电子邮箱验证邮件模板</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>
+    您好, <strong th:text="${username}">模板</strong>！
+</p>
+<p>
+    您在 <strong>CROWD 众包平台</strong> 修改了您账户中的电子邮箱。为了确认邮箱有效，请点按下方的链接完成验证。<br>
+    <a th:href="${link}" href="#" target="_blank">立即验证</a>
+</p>
+<p>
+    如果上面的链接无法点击，您也可以复制下方的链接，使用浏览器打开以验证电子邮箱。<br>
+    <code th:text="${link}"></code>
+</p>
+<p>
+    <em>CROWD 众包平台</em>
+</p>
+</body>
+</html>

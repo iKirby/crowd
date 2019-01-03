@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('两步验证')">
+    <meta charset="UTF-8">
+    <title>两步验证</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-single">
+        <div class="container">
+            <div class="row">
+                <div class="col col-login mx-auto">
+                    <form class="card" method="post" th:action="@{/admin/2fa}">
+                        <div class="card-body p-6">
+                            <div class="card-title">两步验证</div>
+                            <div class="alert alert-danger" th:if="${message}" th:text="${message}"></div>
+                            <input type="hidden" name="from" th:value="${from}">
+                            <div class="form-group">
+                                <label class="form-label" for="two-factor-code">验证码</label>
+                                <input type="text" class="form-control" id="two-factor-code" name="twoFactorCode"
+                                       placeholder="输入两步验证验证码" required>
+                            </div>
+                            <div class="form-footer">
+                                <button type="submit" class="btn btn-primary btn-block">登录</button>
+                                <a class="btn btn-secondary btn-block" th:href="@{/admin/logout}">取消</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

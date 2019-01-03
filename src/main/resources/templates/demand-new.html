@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: headFragment('发布需求')">
+    <meta charset="UTF-8">
+    <title>提交需求</title>
+</head>
+<body>
+<nav th:replace="fragments/header :: navFragment"></nav>
+
+<main role="main">
+    <div class="container container-main">
+        <!-- Example row of columns -->
+        <h2 class="h2">发布需求</h2>
+        <div class="row slide-up-fade-in">
+            <div class="col-md-8">
+                <div class="alert alert-info">需求提交后，还需要通过审核才可以显示在列表中。</div>
+                <div class="shadow-sm p-3 mb-3 bg-white">
+                    <form method="post" enctype="multipart/form-data" th:action="@{/demand/new}" th:object="${demand}">
+                        <div class="form-group">
+                            <label for="demand-title">标题</label>
+                            <input placeholder="标题" type="text" id="demand-title" class="form-control" required
+                                   th:field="*{title}">
+                        </div>
+                        <div class="form-group">
+                            <label for="demand-category">分类</label>
+                            <select id="demand-category" class="form-control" required th:field="*{categoryId}">
+                                <option th:each="category : ${categories}" th:text="${category.name}" th:value="${category.id}">分类</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="demand-price">价格</label>
+                            <input placeholder="价格" type="number" id="demand-price" class="form-control" required
+                                   th:field="*{price}">
+                        </div>
+                        <div class="form-group">
+                            <label for="demand-region">地区</label>
+                            <input placeholder="地区" type="text" id="demand-region" class="form-control" required
+                                   th:field="*{region}">
+                        </div>
+                        <div class="form-group">
+                            <label for="demand-detail">介绍</label>
+                            <textarea placeholder="介绍" type="text" id="demand-detail" class="form-control"
+                                      th:field="*{detail}"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="demand-starttime">项目开始日期</label>
+                            <input placeholder="项目开始时间" type="date" id="demand-starttime" class="form-control" required
+                                   th:field="*{startDate}">
+                        </div>
+                        <div class="form-group">
+                            <label for="demand-endtime">项目结束日期</label>
+                            <input placeholder="项目结束时间" type="date" id="demand-endtime" class="form-control" required
+                                   th:field="*{endDate}">
+                        </div>
+                        <div class="form-group">
+                            <label for="demand-attachment">附件（需求说明文档等）</label>
+                            <input type="file" id="demand-attachment" name="attachment" class="form-control" required>
+                        </div>
+                        <input id="submit" class="btn btn-primary" type="submit" value="提交">
+                    </form>
+                </div>
+            </div>
+            <!-- Right column -->
+            <div class="col-md-4">
+                <!--Card-->
+                <div class="card">
+                    <div class="card-header">提示</div>
+                    <div class="card-body">
+                        请使用尽量简洁的文字介绍需求<br>
+                        定价合理才会有开发者参与竞标<br>
+                        附件建议上传需求文档等可以帮助描述此需求的内容<br>
+                        当超过项目起始时间后若仍无人竞标，将自动关闭对此需求的竞标功能
+                    </div>
+                </div>
+                <!--/.Card-->
+            </div> <!-- /Right column -->
+        </div>
+    </div> <!-- /container -->
+</main>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+</body>
+</html>

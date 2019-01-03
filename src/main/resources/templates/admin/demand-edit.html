@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/fragments/head :: headFragment('编辑需求')">
+    <meta charset="UTF-8">
+    <title>编辑需求</title>
+</head>
+<body class="">
+<div class="page">
+    <div class="page-main">
+        <div class="header" th:replace="admin/fragments/header :: headerFragment"></div>
+        <div class="my-3 my-md-5">
+            <form class="container" method="post" th:action="@{/admin/demand/edit}" th:object="${demand}">
+                <div class="page-header">
+                    <h1 class="page-title">编辑需求</h1>
+                </div>
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="form-label" for="demand-title">标题</label>
+                                    <input type="text" class="form-control" id="demand-title" placeholder="需求标题"
+                                           required th:field="*{title}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="demand-category">分类</label>
+                                    <select class="form-control" id="demand-category" required th:field="*{categoryId}">
+                                        <option th:each="category : ${categories}" th:text="${category.name}"
+                                                th:value="${category.id}">分类</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="demand-region">地区</label>
+                                    <input class="form-control" type="text" id="demand-region"
+                                           placeholder="地区" required th:field="*{region}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="demand-price">价格</label>
+                                    <input class="form-control" type="number" id="demand-price"
+                                           placeholder="价格" required th:field="*{price}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="demand-detail">简介</label>
+                                    <textarea class="form-control" rows="5" id="demand-detail" required
+                                              placeholder="需求简介" th:field="*{detail}"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="demand-startDate">起始日期</label>
+                                    <input class="form-control" type="date" id="demand-startDate" name="startDate"
+                                           placeholder="起始日期" required th:field="*{startDate}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="demand-startDate">结束日期</label>
+                                    <input class="form-control" type="date" id="demand-endDate" name="endDate"
+                                           placeholder="结束日期" required th:field="*{endDate}">
+                                </div>
+                                <div class="form-group">
+                                    <a th:href="@{/uploads/{attachment}(attachment=${demand.attachment})}">下载附件</a>
+                                </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <a href="#" class="btn btn-secondary" th:href="@{/admin/demand}">返回列表</a>
+                                <input type="submit" class="btn btn-primary" value="保存">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label" for="demand-time">发布日期</label>
+                                            <input type="datetime-local" class="form-control" id="demand-time"
+                                                   th:field="*{publishTime}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="form-label" for="demand-status">状态</label>
+                                            <select class="form-control" id="demand-status" required th:field="*{status}">
+                                                <option th:each="statusEntry : ${statusMap}"
+                                                        th:text="${statusEntry.value}" th:value="${statusEntry.key}">分类</option>
+                                            </select>
+                                        </div>
+                                        <input type="hidden" th:field="*{id}">
+                                        <input type="hidden" th:field="*{customerId}">
+                                        <input type="hidden" th:field="*{attachment}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <footer class="footer" th:replace="admin/fragments/footer :: footerFragment"></footer>
+</div>
+</body>
+</html>

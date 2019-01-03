@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Footer fragment</title>
+</head>
+<body>
+<footer th:fragment="footerFragment" class="page-footer font-small">
+    <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-modal-title" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirm-modal-title">操作确认</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="关闭">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="confirm-modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <a href="#" class="btn btn-primary" role="button" id="confirm-modal-btn">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer Links -->
+    <div class="container text-center pt-2 pb-2">
+        <ul class="list-inline m-0" id="footer-link-list">
+            <!--<li class="list-inline-item m-0"><a th:href="@{/about}">关于</a></li>-->
+            <li class="list-inline-item m-0"><a target="_blank" th:href="@{/feedback/new}">反馈</a></li>
+        </ul>
+    </div>
+    <!-- Footer Links -->
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018
+        <a href="#">CROWD platform</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+</body>
+</html>

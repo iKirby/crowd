@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">激活邮件模板</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<p>
+    您好, <strong th:text="${username}">模板</strong>！
+</p>
+<p>
+    您已经在 <strong>CROWD 众包平台</strong> 成功注册，只需要激活您的账户就可以使用了。点按下方的链接以进行激活操作。<br>
+    <a th:href="${link}" href="#" target="_blank">立即激活</a>
+</p>
+<p>
+    如果上面的链接无法点击，您也可以复制下方的链接，使用浏览器打开以激活账户。<br>
+    <code th:text="${link}"></code>
+</p>
+<p>
+    <em>CROWD 众包平台</em>
+</p>
+</body>
+</html>
