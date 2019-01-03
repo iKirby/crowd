@@ -18,6 +18,7 @@ public interface CategoryMapper {
     int update(Category category);
 
     @Insert("INSERT INTO t_category(name, description) VALUES (#{name}, #{description})")
+    @Options(useGeneratedKeys = true)
     int insert(Category category);
 
     @Delete("DELETE FROM t_category WHERE id = #{id}")
