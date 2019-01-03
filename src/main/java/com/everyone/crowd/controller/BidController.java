@@ -6,6 +6,7 @@ import com.everyone.crowd.entity.exception.NotAcceptableException;
 import com.everyone.crowd.entity.exception.NotFoundException;
 import com.everyone.crowd.entity.status.DemandStatus;
 import com.everyone.crowd.service.*;
+import com.everyone.crowd.util.CookieUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,11 +62,12 @@ public class BidController {
     }
 
     @PostMapping("/bid/join")
-    public String joinBid(Bid bid, HttpSession session) {
+    public String joinBid(HttpServletResponse response, Bid bid, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (!user.isDeveloper()) throw new NotAcceptableException("您不是开发者，无法参与竞标");
         bid.setDevId(user.getId());
         bidService.participate(bid);
+        CookieUtil.addMessage(response, "user", new Message(Message.TYPE_SUCCESS, "参与竞标成功"), "/");
         return "redirect:/bid/view/" + bid.getDemandId();
     }
 

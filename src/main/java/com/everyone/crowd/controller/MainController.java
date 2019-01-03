@@ -16,6 +16,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -108,12 +109,14 @@ public class MainController {
     }
 
     @PostMapping("/demand/new")
-    public String newSetDemand(Demand demand, HttpSession session) {
+    public String newSetDemand(HttpServletResponse response, Demand demand, HttpSession session) {
         User user = (User) session.getAttribute("user");
         demand.setCustomerId(user.getId());
         demand.setPublishTime(new Date());
         demand.setStatus(DemandStatus.PENDING.name());
         demandService.insert(demand);
+        CookieUtil.addMessage(response, "user",
+                new Message(Message.TYPE_SUCCESS, "需求已经发布，请等待审核"), "/");
         return "redirect:/demand/view/" + demand.getId();
     }
 
@@ -129,7 +132,7 @@ public class MainController {
     }
 
     @PostMapping("/demand/edit")
-    public String editSetDemand(Demand demand, HttpSession session) {
+    public String editSetDemand(HttpServletResponse response, Demand demand, HttpSession session) {
         User user = (User) session.getAttribute("user");
         demand.setCustomerId(user.getId());
         Demand current = demandService.findById(demand.getId());
@@ -142,18 +145,22 @@ public class MainController {
         demand.setStatus(current.getStatus());
         demand.setPublishTime(current.getPublishTime());
         demandService.update(demand);
+        CookieUtil.addMessage(response, "user",
+                new Message(Message.TYPE_SUCCESS, "更改已经保存"), "/");
         return "redirect:/demand/view/" + demand.getId();
     }
 
     @GetMapping("/demand/delete/{id}")
-    public String deleteDemand(HttpSession session, @PathVariable("id") Integer id) {
+    public String deleteDemand(HttpServletResponse response, HttpSession session, @PathVariable("id") Integer id) {
         Demand demand = demandService.findById(id);
         if (demand != null && demand.getCustomerId().equals(((User) session.getAttribute("user")).getId())) {
             demandService.delete(id);
+            CookieUtil.addMessage(response, "user",
+                    new Message(Message.TYPE_SUCCESS, "需求信息已经删除"), "/");
+            return "redirect:/demand/my";
         } else {
             throw new NotAcceptableException("非法请求，无法删除需求");
         }
-        return "redirect:/";
     }
 
     @GetMapping("/demand/my")

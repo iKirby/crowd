@@ -57,6 +57,8 @@ public class AdminController {
                 if (remember) {
                     addCookie(response, adminResult);
                 }
+                CookieUtil.addMessage(response, "admin",
+                        new Message(Message.TYPE_DEFAULT, "欢迎，" + adminResult.getUsername()), "/admin");
                 return "redirect:" + from;
             }
         }

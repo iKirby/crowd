@@ -1,10 +1,12 @@
 package com.everyone.crowd.controller.admin;
 
 import com.everyone.crowd.entity.Demand;
+import com.everyone.crowd.entity.Message;
 import com.everyone.crowd.entity.Page;
 import com.everyone.crowd.service.CategoryService;
 import com.everyone.crowd.service.CustomerProfileService;
 import com.everyone.crowd.service.DemandService;
+import com.everyone.crowd.util.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,14 +67,18 @@ public class DemandManageController {
     }
 
     @PostMapping("/admin/demand/edit")
-    public String editDemand(Demand demand) {
+    public String editDemand(HttpServletResponse response, Demand demand) {
         demandService.update(demand);
+        CookieUtil.addMessage(response, "admin",
+                new Message(Message.TYPE_SUCCESS, "更改已经保存"), "/admin");
         return "redirect:/admin/demand";
     }
 
     @GetMapping("/admin/demand/delete/{id}")
-    public String deleteDemand(@PathVariable("id") Integer id) {
+    public String deleteDemand(HttpServletResponse response, @PathVariable("id") Integer id) {
         demandService.delete(id);
+        CookieUtil.addMessage(response, "admin",
+                new Message(Message.TYPE_SUCCESS, "需求信息已经删除"), "/admin");
         return "redirect:/admin/demand";
     }
 }
