@@ -59,8 +59,7 @@
                                 <span class="sr-only">Prev</span>
                             </a>
                         </li>
-                        <li class="page-item" th:if="${orders.totalPage > 0}"
-                            th:each="i : ${#numbers.sequence(1, orders.getTotalPage())}"
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, orders.getTotalPage())}"
                             th:classappend="${orders.currentPage == i ? 'active' : ''}">
                             <a class="page-link" th:href="@{{requestURI}(requestURI=${#request.requestURI}, page=${i})}" th:text="${i}">1</a>
                         </li>
@@ -84,9 +83,10 @@
                                 <span class="sr-only">Prev</span>
                             </a>
                         </li>
-                        <li class="page-item" th:if="${orders.totalPage > 0}" th:each="i : ${#numbers.sequence(1, orders.getTotalPage())}"
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, orders.getTotalPage())}"
                             th:classappend="${orders.currentPage == i ? 'active' : ''}">
-                            <a class="page-link" th:href="@{{requestURI}(requestURI=${#request.requestURI}, status=${status}, page=${i})}" th:text="${i}">1</a>
+                            <a class="page-link" th:href="@{{requestURI}(requestURI=${#request.requestURI}, status=${status}, page=${i})}"
+                               th:text="${i}">1</a>
                         </li>
                         <li class="page-item" th:if="${!orders.isLast()}">
                             <a class="page-link" href="#" aria-label="Next"

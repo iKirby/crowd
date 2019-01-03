@@ -62,8 +62,7 @@
                                 <span class="sr-only">Prev</span>
                             </a>
                         </li>
-                        <li class="page-item" th:if="${demands.totalPage > 0}"
-                            th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
                             th:classappend="${demands.currentPage == i ? 'active' : ''}">
                             <a class="page-link" th:href="@{/demand/my(page=${i})}" th:text="${i}">1</a>
                         </li>
@@ -86,9 +85,9 @@
                                 <span class="sr-only">Prev</span>
                             </a>
                         </li>
-                        <li class="page-item" th:if="${demands.totalPage > 0}" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
+                        <li class="page-item" th:each="i : ${#numbers.sequence(1, demands.getTotalPage())}"
                             th:classappend="${demands.currentPage == i ? 'active' : ''}">
-                            <a class="page-link" th:href="@{/demand/my(category=${categoryId}, page=${i})}">1</a>
+                            <a class="page-link" th:href="@{/demand/my(category=${categoryId}, page=${i})}" th:text="${i}">1</a>
                         </li>
                         <li class="page-item" th:if="${!demands.isLast()}">
                             <a class="page-link" href="#" aria-label="Next" th:href="@{/demand/my(category=${categoryId}, page=${demands.currentPage + 1})}">

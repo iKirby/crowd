@@ -48,10 +48,10 @@ public interface DemandMapper {
     @Select("SELECT COUNT(id) FROM t_demands WHERE category_id = #{categoryId}")
     int countByCategoryId(@Param("categoryId") Integer categoryId);
 
-    @Select("SELECT COUNT(category_id) FROM t_demands WHERE category_id = #{categoryId} AND status = #{status}")
+    @Select("SELECT COUNT(id) FROM t_demands WHERE category_id = #{categoryId} AND status = #{status}")
     int countByCategoryIdAndStatus(@Param("categoryId") Integer categoryId, @Param("status") String status);
 
-    @Select("SELECT COUNT(category_id) FROM t_demands WHERE customer_id = #{customerId} AND category_id = #{categoryId}")
+    @Select("SELECT COUNT(id) FROM t_demands WHERE customer_id = #{customerId} AND category_id = #{categoryId}")
     int countByCustomerIdAndCategoryId(@Param("customerId") Integer customerId, @Param("categoryId") Integer categoryId);
 
     @Select("SELECT COUNT(id) FROM t_demands")
