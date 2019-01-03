@@ -39,7 +39,7 @@
                                                th:text="${feedback.title}">title</a></td>
                                         <td th:text="${feedback.reply != null ? '已回复' : '未回复'}"></td>
                                         <td>
-                                            <a class="icon" th:href="@{/admin/feedback/edit/{id}(id=${feedback.id})}">
+                                            <a class="icon" th:href="@{/admin/feedback/view/{id}(id=${feedback.id})}">
                                                 <i class="fe fe-edit"></i>
                                             </a>
                                         </td>
