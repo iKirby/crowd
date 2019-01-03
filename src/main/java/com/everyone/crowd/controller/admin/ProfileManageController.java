@@ -144,7 +144,7 @@ public class ProfileManageController {
         customerProfileService.update(customerProfile);
         CookieUtil.addMessage(response, "admin",
                 new Message(Message.TYPE_SUCCESS, "更改已经保存"), "/admin");
-        return "redirect:/admin/user/customerprofile";
+        return "redirect:/admin/user/customerprofile/edit/" + customerProfile.getUserId();
     }
 
     @PostMapping("/admin/user/developerprofile/edit")
@@ -158,7 +158,7 @@ public class ProfileManageController {
         devProfileService.update(devProfile);
         CookieUtil.addMessage(response, "admin",
                 new Message(Message.TYPE_SUCCESS, "更改已经保存"), "/admin");
-        return "redirect:/admin/user/developerprofile";
+        return "redirect:/admin/user/developerprofile/edit/" + devProfile.getUserId();
     }
 
 }
