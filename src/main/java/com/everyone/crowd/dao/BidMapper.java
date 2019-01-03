@@ -33,7 +33,7 @@ public interface BidMapper {
     @Delete("DELETE FROM t_bids WHERE id = #{id}")
     int delete(@Param("id") Integer id);
 
-    @Select("SELECT COUNT(*) FROM t_bids")
+    @Select("SELECT COUNT(id) FROM t_bids")
     int countAll();
 
 }

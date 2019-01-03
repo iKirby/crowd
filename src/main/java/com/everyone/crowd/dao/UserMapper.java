@@ -62,7 +62,7 @@ public interface UserMapper {
     @Select("SELECT * FROM t_users WHERE username LIKE '%${keyword}%' LIMIT #{offset}, #{size}")
     List<User> findByNameLike(@Param("keyword") String keyword, @Param("offset") int offset, @Param("size") int size);
 
-    @Select("SELECT COUNT(*) FROM t_users WHERE username LIKE '%${keyword}%'")
+    @Select("SELECT COUNT(id) FROM t_users WHERE username LIKE '%${keyword}%'")
     int countByNameLike(@Param("keyword") String keyword);
 
     @Select("SELECT * FROM t_users WHERE username = #{username} AND email = #{email}")
