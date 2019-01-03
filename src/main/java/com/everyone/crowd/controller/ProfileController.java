@@ -1,13 +1,11 @@
 package com.everyone.crowd.controller;
 
-import com.everyone.crowd.entity.CustomerProfile;
-import com.everyone.crowd.entity.DevProfile;
-import com.everyone.crowd.entity.User;
-import com.everyone.crowd.entity.VerifyRequest;
+import com.everyone.crowd.entity.*;
 import com.everyone.crowd.entity.status.ProfileStatus;
 import com.everyone.crowd.service.CustomerProfileService;
 import com.everyone.crowd.service.DevProfileService;
 import com.everyone.crowd.service.VerifyRequestService;
+import com.everyone.crowd.util.CookieUtil;
 import com.everyone.crowd.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -37,7 +36,7 @@ public class ProfileController {
     }
 
     @PostMapping("/user/profile/updateDev")
-    public String updateDevProfile(HttpSession session, DevProfile devProfile) {
+    public String updateDevProfile(HttpServletResponse response, HttpSession session, DevProfile devProfile) {
         User user = (User) session.getAttribute("user");
         devProfile.setUserId(user.getId());
         DevProfile current = devProfileService.findById(user.getId());
@@ -54,11 +53,13 @@ public class ProfileController {
             devProfile.setStatus(ProfileStatus.UNVERIFIED.name());
             devProfileService.insert(devProfile);
         }
+        CookieUtil.addMessage(response, "user",
+                new Message(Message.TYPE_SUCCESS, "开发者资料已经保存"), "/");
         return "redirect:/user/profile?page=dev";
     }
 
     @PostMapping("/user/profile/updateCustomer")
-    public String updateCustomerProfile(HttpSession session, CustomerProfile customerProfile) {
+    public String updateCustomerProfile(HttpServletResponse response, HttpSession session, CustomerProfile customerProfile) {
         User user = (User) session.getAttribute("user");
         customerProfile.setUserId(user.getId());
         CustomerProfile current = customerProfileService.findById(user.getId());
@@ -75,6 +76,8 @@ public class ProfileController {
             customerProfile.setStatus(ProfileStatus.UNVERIFIED.name());
             customerProfileService.insert(customerProfile);
         }
+        CookieUtil.addMessage(response, "user",
+                new Message(Message.TYPE_SUCCESS, "需求方资料已经保存"), "/");
         return "redirect:/user/profile?page=customer";
     }
 
@@ -96,7 +99,7 @@ public class ProfileController {
     }
 
     @PostMapping("/user/profile/verify")
-    public String verifySubmit(HttpSession session, VerifyRequest request) {
+    public String verifySubmit(HttpServletResponse response, HttpSession session, VerifyRequest request) {
         User user = (User) session.getAttribute("user");
         request.setUserId(user.getId());
         verifyRequestService.request(request);
@@ -108,6 +111,8 @@ public class ProfileController {
                 customerProfileService.updateStatus(user.getId(), ProfileStatus.PENDING.name());
                 break;
         }
+        CookieUtil.addMessage(response, "user",
+                new Message(Message.TYPE_SUCCESS, "认证请求已经保存"), "/");
         return "redirect:/user/profile/verify";
     }
 
