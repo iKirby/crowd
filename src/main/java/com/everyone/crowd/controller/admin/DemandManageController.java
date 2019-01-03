@@ -71,7 +71,7 @@ public class DemandManageController {
         demandService.update(demand);
         CookieUtil.addMessage(response, "admin",
                 new Message(Message.TYPE_SUCCESS, "更改已经保存"), "/admin");
-        return "redirect:/admin/demand";
+        return "redirect:/admin/demand/edit/" + demand.getId();
     }
 
     @GetMapping("/admin/demand/delete/{id}")
