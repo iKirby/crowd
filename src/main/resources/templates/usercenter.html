@@ -163,7 +163,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="dev-phone">电话</label>
-                                            <input placeholder="电话" type="tel" id="dev-phone" class="form-control" required
+                                            <input placeholder="电话" type="tel" id="dev-phone" class="form-control"
+                                                   pattern="[0-9]{11}" required
                                                    th:field="*{phone}">
                                         </div>
                                         <div class="form-group">
@@ -254,7 +255,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="customer-phone">电话</label>
-                                            <input placeholder="电话" type="tel" id="customer-phone" class="form-control" required
+                                            <input placeholder="电话" type="tel" id="customer-phone" class="form-control"
+                                                   pattern="[0-9]{11}" required
                                                    th:field="*{phone}">
                                         </div>
                                         <div class="form-group">
