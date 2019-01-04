@@ -34,7 +34,7 @@
                                 <div class="form-group">
                                     <label class="form-label" for="profile-phone">电话</label>
                                     <input placeholder="电话" type="tel" id="profile-phone" name="phone"
-                                           class="form-control" required
+                                           class="form-control" pattern="[0-9]{11}" required
                                            th:field="*{phone}">
                                 </div>
                                 <div class="form-group">
