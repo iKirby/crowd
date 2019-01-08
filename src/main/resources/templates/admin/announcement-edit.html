@@ -28,6 +28,18 @@
                                         <label class="form-label" for="announcement-content">公告内容</label>
                                         <textarea class="form-control" id="announcement-content" rows="5" required
                                                   th:field="*{content}"></textarea>
+                                        <script>
+                                            require(['simplemde'], function (SimpleMDE) {
+                                                new SimpleMDE({
+                                                    element: document.getElementById("announcement-content"),
+                                                    hideIcons: ["guide", "strikethrough", "link", "side-by-side", "fullscreen"],
+                                                    forceSync: true,
+                                                    spellChecker: false,
+                                                    status: false,
+                                                    promptURLs: true
+                                                });
+                                            });
+                                        </script>
                                     </div>
                                 </div>
                                 <div class="card-footer text-right">

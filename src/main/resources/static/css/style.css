@@ -194,6 +194,25 @@ code {
     background-color: #fff;
 }
 
+.editor-toolbar {
+    border-top: 1px solid #a9a9a9;
+    border-left: 1px solid #a9a9a9;
+    border-right: 1px solid #a9a9a9;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.CodeMirror {
+    height: 300px;
+    border: 1px solid #a9a9a9;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.md-render img {
+    max-width: 100%;
+}
+
 .slide-up-fade-in {
     animation: slide-up-fade-in ease .5s;
     animation-iteration-count: 1;

@@ -29,6 +29,16 @@
                             <label for="feedback-content">反馈内容</label>
                             <textarea placeholder="输入您要反馈的具体内容" id="feedback-content" class="form-control" required
                                       rows="10" th:field="*{content}"></textarea>
+                            <script>
+                                new SimpleMDE({
+                                    element: document.getElementById("feedback-content"),
+                                    hideIcons: ["guide", "strikethrough", "link", "side-by-side", "fullscreen"],
+                                    forceSync: true,
+                                    spellChecker: false,
+                                    status: false,
+                                    promptURLs: true
+                                });
+                            </script>
                         </div>
                         <input id="submit" class="btn btn-primary" type="submit" value="发送反馈">
                     </form>

@@ -25,12 +25,24 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">反馈内容</label>
-                                        <p th:text="${feedback.content}"></p>
+                                        <p th:utext="${feedback.renderReplyHtml()}"></p>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="reply">回复</label>
                                         <textarea class="form-control" id="reply" name="reply" rows="5"
                                                   th:text="${feedback.reply}"></textarea>
+                                        <script>
+                                            require(['simplemde'], function (SimpleMDE) {
+                                                new SimpleMDE({
+                                                    element: document.getElementById("reply"),
+                                                    hideIcons: ["guide", "strikethrough", "link", "side-by-side", "fullscreen"],
+                                                    forceSync: true,
+                                                    spellChecker: false,
+                                                    status: false,
+                                                    promptURLs: true
+                                                });
+                                            });
+                                        </script>
                                     </div>
                                 </div>
                                 <div class="card-footer text-right">

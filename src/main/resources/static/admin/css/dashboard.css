@@ -17116,3 +17116,22 @@ svg {
 #message-bar.danger a {
   color: #721c24;
 }
+
+.editor-toolbar {
+  border-top: 1px solid rgba(0, 40, 100, 0.12)!important;
+  border-left: 1px solid rgba(0, 40, 100, 0.12)!important;
+  border-right: 1px solid rgba(0, 40, 100, 0.12)!important;
+  border-top-left-radius: 3px!important;
+  border-top-right-radius: 3px!important;
+}
+
+.CodeMirror {
+  height: 300px!important;
+  border: 1px solid rgba(0, 40, 100, 0.12)!important;
+  border-bottom-left-radius: 3px!important;
+  border-bottom-right-radius: 3px!important;
+}
+
+.md-render img {
+  max-width: 100%;
+}

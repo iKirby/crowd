@@ -43,6 +43,18 @@
                                     <label class="form-label" for="demand-detail">简介</label>
                                     <textarea class="form-control" rows="5" id="demand-detail" required
                                               placeholder="需求简介" th:field="*{detail}"></textarea>
+                                    <script>
+                                        require(['simplemde'], function (SimpleMDE) {
+                                            new SimpleMDE({
+                                                element: document.getElementById("demand-detail"),
+                                                hideIcons: ["guide", "strikethrough", "link", "side-by-side", "fullscreen"],
+                                                forceSync: true,
+                                                spellChecker: false,
+                                                status: false,
+                                                promptURLs: true
+                                            });
+                                        });
+                                    </script>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="demand-startDate">起始日期</label>
