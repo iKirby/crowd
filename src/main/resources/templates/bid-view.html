@@ -13,7 +13,7 @@
         <!-- Example row of columns -->
         <div class="text-black-50">竞标详情</div>
         <h2 class="h2" th:text="${demand.title}" th:if="${demand != null}">XXX 网络教学平台</h2>
-        <div class="row slide-up-fade-in">
+        <div class="row">
             <!-- Left column -->
             <div class="col-md-8">
                 <th:block th:if="${bid != null}">
@@ -52,7 +52,7 @@
                         </div>
                         <!-- Card image -->
                         <div class="w-50 mx-auto position-relative">
-                            <img class="card-img-top avatar" th:src="@{/uploads/{photo}(photo=${devProfile.photo})}" alt="userAvatar">
+                            <img src="" class="card-img-top avatar" th:src="@{/uploads/{photo}(photo=${devProfile.photo})}" alt="userAvatar">
                         </div>
                     </div>
                     <!-- Card body -->

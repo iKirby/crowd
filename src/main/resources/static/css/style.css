@@ -190,6 +190,10 @@ code {
     color: #721c24;
 }
 
+.turbolinks-progress-bar {
+    background-color: #fff;
+}
+
 .slide-up-fade-in {
     animation: slide-up-fade-in ease .5s;
     animation-iteration-count: 1;

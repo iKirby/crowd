@@ -12,7 +12,7 @@
         <!-- Example row of columns -->
         <div class="text-black-50">反馈详情</div>
         <h2 class="h2" th:text="${feedback.title}">反馈</h2>
-        <div class="row slide-up-fade-in">
+        <div class="row">
             <div class="col-md-8">
                 <div class="alert alert-info" th:if="${feedback.reply == null}">请等待管理员处理并回复此反馈。</div>
                 <div class="shadow-sm p-3 mb-3 bg-white" th:if="${feedback.url != null && !feedback.url.isEmpty()}">
