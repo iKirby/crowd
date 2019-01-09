@@ -1,14 +1,11 @@
 package com.everyone.crowd.filter;
 
-import org.springframework.core.annotation.Order;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Order(1)
 @WebFilter(filterName = "headerFilter", urlPatterns = "/*")
 public class HeaderFilter implements Filter {
     @Override
