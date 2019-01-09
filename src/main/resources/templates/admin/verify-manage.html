@@ -46,7 +46,7 @@
                                         <th>真实姓名</th>
                                         <th>认证类型</th>
                                         <th class="w-1"></th>
-                                        <th class="w-1"></th>
+                                        <th class="w-1" th:if="${processed}"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -61,11 +61,11 @@
                                         <td><a class="text-inherit"
                                                th:text="${verifyRequest.type == 'DEVELOPER' ? '开发者' : '需求方'}">type</a></td>
                                         <td>
-                                            <a class="icon" th:href="@{/admin/verify/view/{id}(id=${verifyRequest.id})}">
+                                            <a class="icon" th:href="@{/admin/user/verify/view/{id}(id=${verifyRequest.id})}">
                                                 <i class="fe fe-edit"></i>
                                             </a>
                                         </td>
-                                        <td>
+                                        <td th:if="${processed}">
                                             <div class="item-action dropdown">
                                                 <a href="javascript:void(0)" data-toggle="dropdown" class="icon"
                                                    aria-expanded="false"><i class="fe fe-trash"></i></a>
