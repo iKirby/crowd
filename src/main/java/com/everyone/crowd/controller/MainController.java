@@ -120,7 +120,9 @@ public class MainController {
         Demand demand = demandService.findById(id);
         if (demand == null) throw new NotFoundException("找不到请求的需求信息");
         User user = (User) session.getAttribute("user");
-        if (!demand.getCustomerId().equals(user.getId())) throw new NotAcceptableException("您无法编辑此需求");
+        if (!demand.getCustomerId().equals(user.getId()) || demand.getStatus().equals(DemandStatus.CONTRACTED.name())) {
+            throw new NotAcceptableException("您无法编辑此需求");
+        }
         model.addAttribute("demand", demand);
         model.addAttribute("categories", categoryService.findAll());
         return "demand-update";
@@ -131,7 +133,9 @@ public class MainController {
         User user = (User) session.getAttribute("user");
         demand.setCustomerId(user.getId());
         Demand current = demandService.findById(demand.getId());
-        if (!current.getCustomerId().equals(user.getId())) throw new NotAcceptableException("您无法编辑此需求");
+        if (!current.getCustomerId().equals(user.getId()) || current.getStatus().equals(DemandStatus.CONTRACTED.name())) {
+            throw new NotAcceptableException("您无法编辑此需求");
+        }
         if (demand.getAttachment() == null) {
             demand.setAttachment(current.getAttachment());
         } else {
@@ -148,7 +152,8 @@ public class MainController {
     @GetMapping("/demand/delete/{id}")
     public String deleteDemand(HttpServletResponse response, HttpSession session, @PathVariable("id") Integer id) {
         Demand demand = demandService.findById(id);
-        if (demand != null && demand.getCustomerId().equals(((User) session.getAttribute("user")).getId())) {
+        if (demand != null && !demand.getStatus().equals(DemandStatus.CONTRACTED.name()) &&
+                demand.getCustomerId().equals(((User) session.getAttribute("user")).getId())) {
             demandService.delete(id);
             CookieUtil.addMessage(response, "user",
                     new Message(Message.TYPE_SUCCESS, "需求信息已经删除"), "/");
