@@ -214,6 +214,12 @@ code {
     max-width: 100%;
 }
 
+blockquote {
+    color: #3e4246;
+    border-left: 4px solid #71797f;
+    padding-left: 1em;
+}
+
 .slide-up-fade-in {
     animation: slide-up-fade-in ease .5s;
     animation-iteration-count: 1;
