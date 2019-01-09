@@ -151,7 +151,7 @@
                     <div class="card-body">
                         <ul class="card-ul">
                             <li th:each="announcement : ${announcements.content}">
-                                <a th:href="@{/announcements/{id}(id=${announcement.id})}"
+                                <a th:href="@{/announcement/{id}(id=${announcement.id})}"
                                    th:text="${announcement.title}">1</a>
                             </li>
                         </ul>

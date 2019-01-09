@@ -205,7 +205,7 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/announcements/{id}")
+    @GetMapping("/announcement/{id}")
     public String announcementPage(Model model, @PathVariable("id") Integer id) {
         Announcement announcement = announcementService.findById(id);
         if (announcement == null) throw new NotFoundException("找不到请求的公告信息");
