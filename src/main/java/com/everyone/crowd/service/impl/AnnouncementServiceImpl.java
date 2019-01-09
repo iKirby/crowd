@@ -11,6 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -51,9 +52,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public Page<Announcement> findByTitle(String title, int pageSize, int page) {
-        int total = announcementMapper.countByTitle(title);
-        List<Announcement> content = announcementMapper.findByTitle(title, pageSize * (page - 1), pageSize);
+    public Page<Announcement> findAll(int pageSize, int page) {
+        int total = announcementMapper.count();
+        List<Announcement> content = announcementMapper.findAll(pageSize * (page - 1), pageSize);
         Page<Announcement> announcementPage = new Page<>();
         announcementPage.setContent(content);
         announcementPage.setCurrentPage(page);
@@ -63,9 +64,10 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     }
 
     @Override
-    public Page<Announcement> findAll(int pageSize, int page) {
-        int total = announcementMapper.count();
-        List<Announcement> content = announcementMapper.findAll(pageSize * (page - 1), pageSize);
+    public Page<Announcement> findAllTillNow(int pageSize, int page) {
+        Date now = new Date();
+        int total = announcementMapper.countTill(now);
+        List<Announcement> content = announcementMapper.findAllTill(pageSize * (page - 1), pageSize, now);
         Page<Announcement> announcementPage = new Page<>();
         announcementPage.setContent(content);
         announcementPage.setCurrentPage(page);

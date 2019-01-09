@@ -6,8 +6,10 @@ import lombok.Setter;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -15,6 +17,8 @@ import java.io.Serializable;
 public class Announcement implements Serializable {
     private Integer id;
     private String title;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date publishTime;
     private String content;
 
     public String renderContentHtml() {

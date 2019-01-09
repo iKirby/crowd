@@ -9,17 +9,17 @@ import com.everyone.crowd.util.CookieUtil;
 import com.everyone.crowd.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -36,11 +36,6 @@ public class MainController {
     private final CustomerProfileService customerProfileService;
     private final AnnouncementService announcementService;
     private final SettingsService settingsService;
-
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
-    }
 
     @Autowired
     public MainController(DemandService demandService, CategoryService categoryService,
@@ -71,7 +66,7 @@ public class MainController {
             model.addAttribute("demands", demandService.findByCategoryIdAndStatus(categoryId, DemandStatus.PASS.name(), 10, page));
         }
         model.addAttribute("isSearch", false);
-        model.addAttribute("announcements", announcementService.findAll(10, 1));
+        model.addAttribute("announcements", announcementService.findAllTillNow(10, 1));
         model.addAttribute("title", "需求大厅");
         model.addAttribute("keyword", "");
 
@@ -204,7 +199,7 @@ public class MainController {
                 DemandStatus.PASS.name(), 10, page));
         model.addAttribute("categoryMap", categoryService.getIdNameMap());
         model.addAttribute("isSearch", true);
-        model.addAttribute("announcements", announcementService.findAll(10, 1));
+        model.addAttribute("announcements", announcementService.findAllTillNow(10, 1));
         model.addAttribute("keyword", keyword == null ? "" : keyword);
         model.addAttribute("title", "搜索结果");
         return "index";
@@ -215,7 +210,7 @@ public class MainController {
         Announcement announcement = announcementService.findById(id);
         if (announcement == null) throw new NotFoundException("找不到请求的公告信息");
         model.addAttribute("announcement", announcement);
-        model.addAttribute("announcements", announcementService.findAll(10, 1));
+        model.addAttribute("announcements", announcementService.findAllTillNow(10, 1));
         return "announcement";
     }
 }

@@ -13,10 +13,10 @@
                 <div class="page-header">
                     <h1 class="page-title" th:text="${title}"></h1>
                 </div>
-                <div class="row">
-                    <div class="col-lg-9">
-                        <div class="card">
-                            <form method="post" th:action="@{/admin/announcement}" th:object="${announcement}">
+                <form method="post" th:action="@{/admin/announcement}" th:object="${announcement}">
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="card">
                                 <input type="hidden" name="id" th:value="${announcement.id}" th:if="${announcement.id != null}">
                                 <div class="card-body">
                                     <div class="form-group">
@@ -46,19 +46,24 @@
                                     <a href="#" class="btn btn-secondary" th:href="@{/admin/announcement}">返回列表</a>
                                     <input type="submit" class="btn btn-primary" value="保存">
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="card" th:if="${announcement.id != null}">
-                            <div class="card-header">更多操作</div>
-                            <div class="card-body">
-                                <a class="btn btn-outline-danger btn-block"
-                                   th:href="@{/admin/announcement/delete/{id}(id=${announcement.id})}">删除公告</a>
+                        <div class="col-lg-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label class="form-label" for="announcement-time">发布日期</label>
+                                        <input type="datetime-local" class="form-control" id="announcement-time"
+                                               th:field="*{publishTime}">
+                                    </div>
+                                    <a class="btn btn-outline-danger btn-block"
+                                       th:href="@{/admin/announcement/delete/{id}(id=${announcement.id})}"
+                                       th:if="${announcement.id != null}">删除公告</a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

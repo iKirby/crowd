@@ -3,6 +3,8 @@ package com.everyone.crowd.service;
 import com.everyone.crowd.entity.Announcement;
 import com.everyone.crowd.entity.Page;
 
+import java.util.Date;
+
 public interface AnnouncementService {
     void insert(Announcement announcement);
 
@@ -12,7 +14,7 @@ public interface AnnouncementService {
 
     Announcement findById(Integer id);
 
-    Page<Announcement> findByTitle(String title, int pageSize, int page);
-
     Page<Announcement> findAll(int pageSize, int page);
+
+    Page<Announcement> findAllTillNow(int pageSize, int page);
 }

@@ -11,26 +11,33 @@
     <div class="container container-main">
         <!-- Example row of columns -->
         <div class="text-black-50">公告详情</div>
-        <h2 class="h2" th:text="${announcement.title}">XXX 网络教学平台</h2>
+        <h2 class="h2" th:text="${announcement.title}">公告标题</h2>
         <div class="row">
             <!-- Left column -->
             <div class="col-md-8">
                 <div class="shadow-sm p-3 mb-3 bg-white">
                     <div class="sh4 md-render" th:utext="${announcement.renderContentHtml()}">
-                        网络教学平台作为传统教学的有效辅助手段...
+                        公告内容
                     </div>
                 </div>
             </div> <!-- /Left column -->
 
             <!-- Right column -->
             <div class="col-md-4">
+                <div class="card mb-3">
+                    <div class="card-header">更多信息</div>
+                    <div class="card-body">
+                        <div class="text-black-50">发布时间</div>
+                        <p class="sh4" th:text="${#dates.format(announcement.publishTime, 'yyyy-MM-dd HH:mm')}"></p>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-header">公告</div>
                     <div class="card-body">
                         <ul class="card-ul">
                             <li th:each="announcement : ${announcements.content}">
                                 <a th:href="@{/announcements/{id}(id=${announcement.id})}"
-                                   th:text="'&nbsp;' + ${announcement.title} + '&nbsp;'">1</a>
+                                   th:text="${announcement.title}">1</a>
                             </li>
                         </ul>
                     </div>

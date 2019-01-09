@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 
 @Controller
 public class AnnouncementManageController {
@@ -43,6 +44,9 @@ public class AnnouncementManageController {
 
     @PostMapping("/admin/announcement")
     public String updateAnnouncement(HttpServletResponse response, Announcement announcement) {
+        if (announcement.getPublishTime() == null) {
+            announcement.setPublishTime(new Date());
+        }
         if (announcement.getId() == null) {
             announcementService.insert(announcement);
         } else {
