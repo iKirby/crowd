@@ -73,15 +73,6 @@ code {
     color: #fff !important;
 }
 
-.card-ul li a:hover {
-    color: #005cbf !important;
-    background-color: rgba(0, 0, 0, .03);
-    border-radius: 3px;
-    border-style: solid;
-    border-color: rgba(0, 0, 0, .03);
-    border-width: 1px;
-}
-
 .card-ul li {
     margin-left: 15px;
     list-style-type: disc !important;
@@ -91,6 +82,16 @@ code {
 .card-ul li a {
     color: black !important;
     text-decoration: none !important;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 0 4px;
+    display: block;
+}
+
+.card-ul li a:hover {
+    color: #005cbf !important;
+    background-color: rgba(0, 0, 0, .03);
+    border-color: rgba(0, 0, 0, .03);
 }
 
 .text-darkgray {

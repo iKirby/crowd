@@ -152,7 +152,7 @@
                         <ul class="card-ul">
                             <li th:each="announcement : ${announcements.content}">
                                 <a th:href="@{/announcements/{id}(id=${announcement.id})}"
-                                   th:text="'&nbsp;'+ ${announcement.title} + '&nbsp;'">1</a>
+                                   th:text="${announcement.title}">1</a>
                             </li>
                         </ul>
                     </div>
