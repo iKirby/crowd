@@ -17135,3 +17135,7 @@ svg {
 .md-render img {
   max-width: 100%;
 }
+
+.turbolinks-progress-bar {
+  background-color: #467fcf;
+}
