@@ -163,7 +163,6 @@ public class UserController {
             if (confirmPassword.equals(user.getPassword())) {
                 userService.register(user);
                 mailService.sendActivateEmail(user.getEmail(), user.getUsername(), user.getActivateCode());
-                model.addAttribute("result", "ok");
                 CookieUtil.addMessage(response, "user",
                         new Message(Message.TYPE_SUCCESS, "注册成功，请查收账户激活邮件"), "/");
                 user = new User();
