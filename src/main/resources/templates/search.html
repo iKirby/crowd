@@ -33,11 +33,13 @@
                         </div>
                         价格区间
                         <div class="input-group">
-                            <input placeholder="价格从" type="number" name="lowPrice" class="form-control">
+                            <input placeholder="价格从" type="text" name="lowPrice" class="form-control"
+                                   pattern="\d+(\.\d{2})?" title="请输入有效的价格，例如 1.00">
                             <div class="input-group-append input-group-prepend">
                                 <span class="input-group-text">到</span>
                             </div>
-                            <input placeholder="价格到" type="number" name="highPrice" class="form-control">
+                            <input placeholder="价格到" type="text" name="highPrice" class="form-control"
+                                   pattern="\d+(\.\d{2})?" title="请输入有效的价格，例如 1.00">
                         </div>
                         起始日期
                         <div class="input-group">

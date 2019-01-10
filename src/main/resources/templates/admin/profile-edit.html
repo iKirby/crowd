@@ -27,14 +27,15 @@
                                 <div class="form-group">
                                     <label class="form-label" for="profile-email">电子邮箱</label>
                                     <input placeholder="电子邮箱" type="email" id="profile-email" name="email"
-                                           class="form-control"
-                                           required
+                                           class="form-control" required
+                                           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="请输入有效的电子邮箱"
                                            th:field="*{email}">
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="profile-phone">电话</label>
                                     <input placeholder="电话" type="tel" id="profile-phone" name="phone"
-                                           class="form-control" pattern="[0-9]{11}" required
+                                           class="form-control" required
+                                           pattern="[0-9]{11}" title="请输入 11 位手机号码"
                                            th:field="*{phone}">
                                 </div>
                                 <div class="form-group">
@@ -59,9 +60,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label" for="profile-level">等级</label>
-                                    <input placeholder="等级" type="number" id="profile-level" name="level"
-                                           class="form-control"
-                                           required
+                                    <input placeholder="等级" type="text" id="profile-level" name="level"
+                                           class="form-control" required
+                                           pattern="\d+" title="请输入一个整数"
                                            th:field="*{level}">
                                 </div>
                                 <div class="form-group">

@@ -40,7 +40,9 @@
                             </div>
                             <div class="form-group">
                                 <label for="password">密码</label>
-                                <input placeholder="密码" type="password" id="password" class="form-control" required th:field="*{password}">
+                                <input placeholder="密码" type="password" id="password" class="form-control" required
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密码至少 8 位，至少包含一个大写字母和一个小写字母"
+                                       th:field="*{password}">
                             </div>
                             <div class="form-group">
                                 <input class="form-check-input" type="checkbox" id="remember-check" name="remember">
@@ -60,15 +62,21 @@
                             </div>
                             <div class="form-group">
                                 <label for="email-reg">电子邮箱</label>
-                                <input placeholder="电子邮箱" type="email" id="email-reg" class="form-control" required th:field="*{email}">
+                                <input placeholder="电子邮箱" type="email" id="email-reg" class="form-control" required
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="请输入有效的电子邮箱"
+                                       th:field="*{email}">
                             </div>
                             <div class="form-group">
                                 <label for="password-reg">密码</label>
-                                <input placeholder="密码" type="password" id="password-reg" class="form-control" required th:field="*{password}">
+                                <input placeholder="密码" type="password" id="password-reg" class="form-control"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密码至少 8 位，至少包含一个大写字母和一个小写字母"
+                                       required th:field="*{password}">
                             </div>
                             <div class="form-group">
                                 <label for="confirm-password-reg">确认密码</label>
-                                <input placeholder="密码" type="password" id="confirm-password-reg" name="confirmPassword" class="form-control" required>
+                                <input placeholder="密码" type="password" id="confirm-password-reg" name="confirmPassword" class="form-control"
+                                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密码至少 8 位，至少包含一个大写字母和一个小写字母"
+                                       required>
                             </div>
                             <input id="btn-register" class="btn btn-primary" type="submit" value="注册">
                         </form>
@@ -82,7 +90,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="email-reset-password">电子邮箱</label>
-                                <input placeholder="电子邮箱" type="email" id="email-reset-password" name="email" class="form-control" required>
+                                <input placeholder="电子邮箱" type="email" id="email-reset-password" name="email" class="form-control" required
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="请输入有效的电子邮箱">
                             </div>
                             <input id="btn-reset-password" class="btn btn-primary" type="submit" value="重置密码">
                         </form>

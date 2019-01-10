@@ -19,7 +19,8 @@
                 <form id="login-2fa" method="post" th:action="@{/user/2fa}">
                     <input type="hidden" name="from" th:value="${from}">
                     <div class="form-group">
-                        <input type="number" name="twoFactorCode" placeholder="输入数字验证码" class="form-control">
+                        <input type="text" name="twoFactorCode" placeholder="输入数字验证码" class="form-control" required
+                               pattern="[0-9]{6}" title="请输入 6 位数字验证码">
                     </div>
                     <input class="btn btn-primary" type="submit" value="提交">
                 </form>

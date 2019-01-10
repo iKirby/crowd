@@ -44,7 +44,8 @@
                                     <form method="post" th:action="@{/user/profile}">
                                         <input type="hidden" name="action" value="changeEmail">
                                         <div class="form-group">
-                                            <input placeholder="电子邮箱" type="email" name="email" class="form-control" required>
+                                            <input placeholder="电子邮箱" type="email" name="email" class="form-control" required
+                                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="请输入有效的电子邮箱">
                                         </div>
                                         <input class="btn btn-primary" type="submit" value="保存">
                                     </form>
@@ -56,17 +57,20 @@
                                         <div class="form-group">
                                             <label for="password">当前密码</label>
                                             <input placeholder="当前密码" type="password" id="password" name="password" class="form-control"
+                                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密码至少 8 位，至少包含一个大写字母和一个小写字母"
                                                    required>
                                         </div>
                                         <div class="form-group">
                                             <label for="new-password">新密码</label>
                                             <input placeholder="新密码" type="password" id="new-password" name="newPassword" class="form-control"
+                                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密码至少 8 位，至少包含一个大写字母和一个小写字母"
                                                    required>
                                         </div>
                                         <div class="form-group">
                                             <label for="new-password">确认密码</label>
-                                            <input placeholder="确认密码" type="password" id="confirm-password" name="confirmPassword"
-                                                   class="form-control" required>
+                                            <input placeholder="确认密码" type="password" id="confirm-password" name="confirmPassword" class="form-control"
+                                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密码至少 8 位，至少包含一个大写字母和一个小写字母"
+                                                   required>
                                         </div>
                                         <input class="btn btn-primary" type="submit" value="保存">
                                     </form>
@@ -86,7 +90,8 @@
                                             <input type="hidden" name="twoFactorKey" th:value="${twoFactorKey}">
                                             <div class="form-group">
                                                 <label for="2fa-code">两步验证代码</label>
-                                                <input placeholder="输入由身份验证器生成的验证码" type="number" id="2fa-code" name="twoFactorCode"
+                                                <input placeholder="输入由身份验证器生成的验证码" type="text" id="2fa-code" name="twoFactorCode"
+                                                       pattern="[0-9]{6}" title="请输入 6 位数字验证码"
                                                        class="form-control" required>
                                             </div>
                                             <input class="btn btn-primary" type="submit" value="启用两步验证">
@@ -101,7 +106,8 @@
                                             <input type="hidden" name="action" value="disable2FA">
                                             <div class="form-group">
                                                 <label for="2fa-code-disable">两步验证代码</label>
-                                                <input placeholder="输入由身份验证器生成的验证码" type="number" id="2fa-code-disable" name="twoFactorCode"
+                                                <input placeholder="输入由身份验证器生成的验证码" type="text" id="2fa-code-disable" name="twoFactorCode"
+                                                       pattern="[0-9]{6}" title="请输入 6 位数字验证码"
                                                        class="form-control" required>
                                             </div>
                                             <input class="btn btn-primary" type="submit" value="停用两步验证">
@@ -159,12 +165,13 @@
                                         <div class="form-group">
                                             <label for="dev-email">电子邮箱</label>
                                             <input placeholder="电子邮箱" type="email" id="dev-email" class="form-control" required
+                                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="请输入有效的电子邮箱"
                                                    th:field="*{email}">
                                         </div>
                                         <div class="form-group">
                                             <label for="dev-phone">电话</label>
-                                            <input placeholder="电话" type="tel" id="dev-phone" class="form-control"
-                                                   pattern="[0-9]{11}" required
+                                            <input placeholder="电话" type="tel" id="dev-phone" class="form-control" required
+                                                   pattern="[0-9]{11}" title="请输入 11 位手机号码"
                                                    th:field="*{phone}">
                                         </div>
                                         <div class="form-group">
@@ -251,12 +258,13 @@
                                         <div class="form-group">
                                             <label for="customer-email">电子邮箱</label>
                                             <input placeholder="电子邮箱" type="email" id="customer-email" class="form-control" required
+                                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="请输入有效的电子邮箱"
                                                    th:field="*{email}">
                                         </div>
                                         <div class="form-group">
                                             <label for="customer-phone">电话</label>
-                                            <input placeholder="电话" type="tel" id="customer-phone" class="form-control"
-                                                   pattern="[0-9]{11}" required
+                                            <input placeholder="电话" type="tel" id="customer-phone" class="form-control" required
+                                                   pattern="[0-9]{11}" title="请输入 11 位手机号码"
                                                    th:field="*{phone}">
                                         </div>
                                         <div class="form-group">

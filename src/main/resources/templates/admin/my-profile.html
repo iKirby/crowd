@@ -23,6 +23,7 @@
                                         <label class="form-label" for="email">电子邮箱</label>
                                         <div class="input-group">
                                             <input placeholder="电子邮箱" type="email" name="email" id="email" class="form-control" required
+                                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="请输入有效的电子邮箱"
                                                    th:value="${session.admin.email}">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary" type="submit">修改</button>
@@ -35,15 +36,21 @@
                                     <input type="hidden" name="action" value="changePassword">
                                     <div class="form-group">
                                         <label class="form-label" for="password">当前密码</label>
-                                        <input class="form-control" type="password" name="password" id="password" placeholder="当前密码" required>
+                                        <input class="form-control" type="password" name="password" id="password" placeholder="当前密码"
+                                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密码至少 8 位，至少包含一个大写字母和一个小写字母"
+                                               required>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="new-password">新密码</label>
-                                        <input class="form-control" type="password" name="newPassword" id="new-password" placeholder="新密码" required>
+                                        <input class="form-control" type="password" name="newPassword" id="new-password" placeholder="新密码"
+                                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密码至少 8 位，至少包含一个大写字母和一个小写字母"
+                                               required>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label" for="confirm-password">确认密码</label>
-                                        <input class="form-control" type="password" name="confirmPassword" id="confirm-password" placeholder="确认密码" required>
+                                        <input class="form-control" type="password" name="confirmPassword" id="confirm-password" placeholder="确认密码"
+                                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="密码至少 8 位，至少包含一个大写字母和一个小写字母"
+                                               required>
                                     </div>
                                     <input class="btn btn-primary" type="submit" value="修改密码">
                                 </form>
@@ -62,7 +69,8 @@
                                             <input type="hidden" name="action" value="enable2FA">
                                             <input type="hidden" name="twoFactorKey" th:value="${twoFactorKey}">
                                             <div class="form-group">
-                                                <input class="form-control" type="number" name="twoFactorCode" placeholder="输入两步验证验证码" required>
+                                                <input class="form-control" type="text" name="twoFactorCode" placeholder="输入两步验证验证码" required
+                                                       pattern="[0-9]{6}" title="请输入 6 位数字验证码">
                                             </div>
                                             <input type="submit" class="btn btn-primary" value="启用两步验证">
                                         </form>
@@ -73,7 +81,8 @@
                                         <form method="post" th:action="@{/admin/profile}">
                                             <input type="hidden" name="action" value="disable2FA">
                                             <div class="form-group">
-                                                <input class="form-control" type="number" name="twoFactorCode" placeholder="输入两步验证验证码" required>
+                                                <input class="form-control" type="text" name="twoFactorCode" placeholder="输入两步验证验证码" required
+                                                       pattern="[0-9]{6}" title="请输入 6 位数字验证码">
                                             </div>
                                             <input type="submit" class="btn btn-primary" value="停用两步验证">
                                         </form>

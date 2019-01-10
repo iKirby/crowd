@@ -26,7 +26,8 @@
                         <input type="hidden" th:field="*{demandId}">
                         <div class="form-group">
                             <label for="bid-price">竞标价格</label>
-                            <input placeholder="输入您可以接受的价格" type="number" id="bid-price" class="form-control" required
+                            <input placeholder="输入您可以接受的价格" type="text" id="bid-price" class="form-control" required
+                                   pattern="\d+(\.\d{2})?" title="请输入有效的价格，例如 1.00"
                                    th:field="*{price}">
                         </div>
                         <div class="form-group">

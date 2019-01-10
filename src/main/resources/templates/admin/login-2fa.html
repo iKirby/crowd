@@ -17,8 +17,9 @@
                             <input type="hidden" name="from" th:value="${from}">
                             <div class="form-group">
                                 <label class="form-label" for="two-factor-code">验证码</label>
-                                <input type="number" class="form-control" id="two-factor-code" name="twoFactorCode"
-                                       placeholder="输入两步验证验证码" required>
+                                <input type="text" class="form-control" id="two-factor-code" name="twoFactorCode"
+                                       placeholder="输入两步验证验证码" required
+                                       pattern="[0-9]{6}" title="请输入 6 位数字验证码">
                             </div>
                             <div class="form-footer">
                                 <button type="submit" class="btn btn-primary btn-block">登录</button>

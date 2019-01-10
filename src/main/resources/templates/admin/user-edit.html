@@ -23,6 +23,7 @@
                                         <label class="form-label" for="email">电子邮箱</label>
                                         <div class="input-group">
                                             <input placeholder="电子邮箱" type="email" name="email" id="email" class="form-control"
+                                                   pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="请输入有效的电子邮箱"
                                                    required th:value="${user.email}">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary" type="submit">修改</button>
