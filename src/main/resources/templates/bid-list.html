@@ -27,7 +27,9 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <a th:href="@{/bid/detail/{id}(id=${bid.id})}" th:text="${'￥' + bid.price}">￥5500.0</a>
+                                <a th:if="${demand.customerId == session.user.id}"
+                                   th:href="@{/bid/detail/{id}(id=${bid.id})}" th:text="${'￥' + bid.price}">￥5500.0</a>
+                                <span th:if="${demand.customerId != session.user.id}" th:text="${'￥' + bid.price}"></span>
                             </h5>
                             <p class="card-text" th:text="${'竞标人: ' + devIdNameMap.get(bid.devId)}">Username</p>
                         </div>
