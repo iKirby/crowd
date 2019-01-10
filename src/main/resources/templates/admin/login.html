@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row">
                 <div class="col col-login mx-auto">
-                    <form class="card" method="post" th:action="@{/admin/login}" th:object="${adminLogin}">
+                    <form id="login-login" class="card" method="post" th:action="@{/admin/login}" th:object="${adminLogin}">
                         <div class="card-body p-6">
                             <div class="card-title">登录</div>
                             <div class="alert alert-danger" th:if="${message}" th:text="${message}"></div>

@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row">
                 <div class="col col-login mx-auto">
-                    <form class="card" method="post" th:action="@{/admin/2fa}">
+                    <form id="login-2fa" class="card" method="post" th:action="@{/admin/2fa}">
                         <div class="card-body p-6">
                             <div class="card-title">两步验证</div>
                             <div class="alert alert-danger" th:if="${message}" th:text="${message}"></div>

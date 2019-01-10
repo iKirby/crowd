@@ -27,7 +27,7 @@ function showMessageBar($, Cookies) {
 }
 
 function bindForm($) {
-    $("form").submit(function (e) {
+    $("form:not([id^=login-])").submit(function (e) {
         e.preventDefault();
         if ($(this).attr("method") === "post") {
             Turbolinks.controller.adapter.progressBar.setValue(0);

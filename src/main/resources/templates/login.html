@@ -32,7 +32,7 @@
                 <div class="tab-content" id="loginTabContent">
                     <div class="tab-pane fade" id="login" role="tabpanel" aria-labelledby="login-tab"
                          th:classappend="${(action != 'register' && action != 'resetPassword') ? 'show active' : ''}">
-                        <form method="post" th:action="@{/user/login}" th:object="${userLogin}">
+                        <form id="login-login" method="post" th:action="@{/user/login}" th:object="${userLogin}">
                             <input type="hidden" name="from" th:value="${from}">
                             <div class="form-group">
                                 <label for="username">用户名</label>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab"
                          th:classappend="${action == 'register' ? 'show active' : ''}">
-                        <form method="post" th:action="@{/user/register}" th:object="${userRegister}">
+                        <form id="login-register" method="post" th:action="@{/user/register}" th:object="${userRegister}">
                             <div class="form-group">
                                 <label for="username-reg">用户名</label>
                                 <input placeholder="用户名" type="text" id="username-reg" class="form-control" required th:field="*{username}">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="tab-pane fade" id="reset-password" role="tabpanel" aria-labelledby="forgot-password-tab"
                          th:classappend="${action == 'resetPassword' ? 'show active' : ''}">
-                        <form method="post" th:action="@{/user/resetPassword}">
+                        <form id="login-resetPassword" method="post" th:action="@{/user/resetPassword}">
                             <div class="form-group">
                                 <label for="username-reset-password">用户名</label>
                                 <input placeholder="用户名" type="text" id="username-reset-password" name="username" class="form-control" required>
