@@ -53,10 +53,16 @@
                         </div>
                     </div>
                     <div class="col-lg-3">
-                        <div class="card" th:if="${verifyRequest.processed}">
+                        <div class="card">
                             <div class="card-header">更多操作</div>
                             <div class="card-body">
-                                <a class="btn btn-outline-danger btn-block"
+                                <a class="btn btn-outline-primary btn-block" th:if="${verifyRequest.type == 'DEVELOPER'}"
+                                   th:href="@{/admin/user/developerprofile/edit/{id}(id=${profile.userId})}">开发者资料</a>
+                                <a class="btn btn-outline-primary btn-block" th:if="${verifyRequest.type == 'CUSTOMER'}"
+                                   th:href="@{/admin/user/customerprofile/edit/{id}(id=${profile.userId})}">需求方资料</a>
+                                <a class="btn btn-outline-primary btn-block"
+                                   th:href="@{/admin/user/edit/{id}(id=${profile.userId})}">用户信息</a>
+                                <a class="btn btn-outline-danger btn-block" th:if="${verifyRequest.processed}"
                                    th:href="@{/admin/user/verify/delete/{id}(id=${verifyRequest.id})}">删除认证请求</a>
                             </div>
                         </div>
